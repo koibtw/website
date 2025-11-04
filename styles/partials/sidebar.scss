@@ -11,7 +11,7 @@ nav {
   padding: 1rem;
 }
 
-.sidebar-top a {
+.sidebar-link {
   line-height: 1.5;
 }
 
@@ -27,6 +27,14 @@ nav {
   .sidebar-bottom {
     padding-top: 0.5rem;
   }
+}
+
+.webring {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 #select-theme {

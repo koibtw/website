@@ -18,6 +18,12 @@
   </div>
 
   <div class="sidebar-bottom">
+    <div class="webring">
+      <a href="https://ctp-webr.ing/adamperkowski/previous">&lt;-</a>
+      <a href="https://ctp-webr.ing/">webring</a>
+      <a href="https://ctp-webr.ing/adamperkowski/next">-&gt;</a>
+    </div>
+
     <select id="select-theme" aria-label="select theme">
       <option>catppuccin</option>
       <option>mimi</option>

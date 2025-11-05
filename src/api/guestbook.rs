@@ -23,6 +23,8 @@ pub async fn add_handler(
     let name = data.name.trim();
     let message = data.message.trim();
 
+    println!("got new guestbook entry from {}:\n{}\n", name, message);
+
     validate_input(name).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
     validate_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
 

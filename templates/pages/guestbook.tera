@@ -32,7 +32,17 @@
     messageInput.addEventListener('input', validateForm);
 
     fetch('/api/guestbook')
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          if (response.status === 429) {
+            alert('too many requests, refresh after 10 seconds');
+          } else {
+            response.text().then(text => alert(text));
+          }
+        }
+      })
       .then(data => {
         data.forEach(entry => {
           createGuestbookEntryElement(entry.name, entry.message);
@@ -61,7 +71,11 @@
         if (response.ok) {
           createGuestbookEntryElement(name, message);
         } else {
-          response.text().then(text => alert(text));
+          if (response.status === 429) {
+            alert('too many requests, refresh after 10 seconds');
+          } else {
+            response.text().then(text => alert(text));
+          }
         }
       }).catch(error => {
         alert(error);

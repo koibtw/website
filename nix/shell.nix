@@ -32,5 +32,6 @@ pkgs.mkShell {
 
     export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
     echo "expecting rootless dockerd at $DOCKER_HOST"
+    echo "remember to start it with dockerd-rootless"
   '';
 }

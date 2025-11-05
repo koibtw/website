@@ -16,7 +16,10 @@ rustPlatform.buildRustPackage {
 
   cargoLock.lockFile = ../Cargo.lock;
 
-  nativeBuildInputs = [ just dart-sass ];
+  nativeBuildInputs = [
+    just
+    dart-sass
+  ];
 
   dontUseJustInstall = true;
   dontUseJustBuild = true;

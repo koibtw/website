@@ -1,0 +1,65 @@
+use super::validate_input;
+use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
+use serde::{Deserialize, Serialize};
+use sqlx::{PgPool, prelude::FromRow};
+
+#[derive(Deserialize)]
+pub struct Entry {
+    name: String,
+    message: String,
+}
+
+#[derive(Serialize, FromRow)]
+struct GuestbookEntry {
+    id: i32,
+    name: String,
+    message: String,
+}
+
+pub async fn add_handler(
+    State(pool): State<PgPool>,
+    Json(data): Json<Entry>,
+) -> Result<impl IntoResponse, impl IntoResponse> {
+    let name = data.name.trim();
+    let message = data.message.trim();
+
+    validate_input(name).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
+    validate_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
+
+    if name.is_empty() || name.len() > 50 {
+        return Err((
+            StatusCode::BAD_REQUEST,
+            "name has to be between 1 and 50 chars".to_string(),
+        ));
+    }
+    if message.is_empty() || message.len() > 150 {
+        return Err((
+            StatusCode::BAD_REQUEST,
+            "message has to be between 1 and 150 chars".to_string(),
+        ));
+    }
+
+    match sqlx::query_as::<_, GuestbookEntry>(
+        "INSERT INTO guestbook (name, message) VALUES ($1, $2) RETURNING id, name, message",
+    )
+    .bind(name)
+    .bind(message)
+    .fetch_one(&pool)
+    .await
+    {
+        Ok(entry) => Ok((StatusCode::CREATED, Json(entry))),
+        Err(e) => Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string())),
+    }
+}
+
+pub async fn get_all_handler(
+    State(pool): State<PgPool>,
+) -> Result<impl IntoResponse, impl IntoResponse> {
+    match sqlx::query_as::<_, GuestbookEntry>("SELECT id, name, message FROM guestbook")
+        .fetch_all(&pool)
+        .await
+    {
+        Ok(entries) => Ok((StatusCode::OK, Json(entries))),
+        Err(e) => Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string())),
+    }
+}

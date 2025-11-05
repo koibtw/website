@@ -14,6 +14,8 @@ let
       rust-analyzer
       rustfmt
       libwebp
+      docker
+      postgresql
     ]
     ++ (mainPkg.nativeBuildInputs or [ ])
     ++ (mainPkg.buildInputs or [ ]);
@@ -27,5 +29,8 @@ pkgs.mkShell {
     echo -n "${toString (map (pkg: "• ${pkg.name}\n") pkgInputs)}"
 
     echo "-----------------------------------"
+
+    export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
+    echo "expecting rootless dockerd at $DOCKER_HOST"
   '';
 }

@@ -1,0 +1,59 @@
+.guestbook-form {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 2rem;
+}
+
+.guestbook-form-name, .guestbook-form-message {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+#guestbook-name {
+  width: 100%;
+}
+
+#guestbook-message {
+  width: 100%;
+  resize: vertical;
+  min-height: fit-content;
+}
+
+#guestbook-submit {
+  width: 40%;
+  margin-top: auto;
+}
+
+#guestbook-entries {
+  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: var(--border-dashed);
+  grid-template-columns: 1fr 1fr;
+  display: grid;
+  gap: 1rem;
+}
+
+@media (max-width: 854px) {
+  #guestbook-submit {
+    width: 100%;
+  }
+
+  #guestbook-entries {
+    grid-template-columns: 1fr;
+  }
+}
+
+.guestbook-entry {
+  border: 2px solid var(--bg-alt);
+  padding: 0.5rem;
+}
+
+.guestbook-entry-name {
+  margin-bottom: 0.25rem;
+}
+
+.guestbook-entry-message {
+  margin-bottom: 0;
+}

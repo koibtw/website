@@ -9,7 +9,7 @@
   <p>
     email: <a class="target-blank" href="mailto:me@adamperkowski.dev">me@adamperkowski.dev</a>
     <br>
-    github: <a class="target-blank" href="https://github.com/adamperkowski">@adamperkowski</a>
+    github: <a class="target-blank" href="{{ git_url }}">@adamperkowski</a>
     <br>
     matrix: <a class="target-blank" href="https://matrix.to/#/@xx0a_q:matrix.org">@xx0a_q:matrix.org</a>
     <br>

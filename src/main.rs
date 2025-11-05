@@ -1,25 +1,28 @@
 use axum::{
-    http::{self, header, StatusCode},
+    Router,
+    http::{self, StatusCode, header},
     response::{Html, IntoResponse, Response},
     routing::get,
-    Router,
 };
 use tower_http::services::ServeDir;
 
+mod api;
 mod constants;
 mod data;
 mod metadata;
 mod templates;
 
+use api::guestbook::{add_handler, get_all_handler};
 use metadata::{ChangeFreq, RobotsTXT, Sitemap, Uri};
 use tera::Context;
 
 #[shuttle_runtime::main]
-async fn axum() -> shuttle_axum::ShuttleAxum {
-    Ok(build_routes().into())
+async fn axum(#[shuttle_shared_db::Postgres] pool: sqlx::PgPool) -> shuttle_axum::ShuttleAxum {
+    sqlx::migrate!().run(&pool).await.unwrap();
+    Ok(build_routes(pool).into())
 }
 
-fn build_routes() -> Router {
+fn build_routes(pool: sqlx::PgPool) -> Router {
     let uris = &[
         Uri::new("/", "home", true, Some(ChangeFreq::Monthly), Some(1.0)),
         Uri::new(
@@ -27,7 +30,7 @@ fn build_routes() -> Router {
             "donate",
             true,
             Some(ChangeFreq::Yearly),
-            Some(0.8),
+            Some(0.6),
         ),
         Uri::new(
             "/contact",
@@ -35,6 +38,13 @@ fn build_routes() -> Router {
             true,
             Some(ChangeFreq::Yearly),
             Some(0.8),
+        ),
+        Uri::new(
+            "/guestbook",
+            "guestbook",
+            true,
+            Some(ChangeFreq::Weekly),
+            Some(0.6),
         ),
         Uri::new(
             "/projects",
@@ -47,6 +57,10 @@ fn build_routes() -> Router {
 
     let sitemap = Sitemap::from_uris(uris).to_string();
     let robots = RobotsTXT::from_uris(uris).to_string();
+
+    let api_router: Router = Router::new()
+        .route("/guestbook", get(get_all_handler).post(add_handler))
+        .with_state(pool);
 
     let redirect_router: Router = Router::new()
         .route("/legal", get(|| redirect_temp(constants::LEGAL_URL)))
@@ -63,13 +77,15 @@ fn build_routes() -> Router {
             get(([(header::CONTENT_TYPE, "text/plain")], robots)),
         )
         .merge(redirect_router)
+        .nest("/api", api_router)
         .nest_service("/img", ServeDir::new("img"))
         .nest_service("/static", ServeDir::new("static"))
-        .route("/healthz", get("hello :3"))
+        .route("/healthz", get("alive :3"))
         .fallback(fallback_handler);
 
     let mut ctx = Context::new();
     ctx.insert("host", constants::HOST);
+    ctx.insert("git_url", constants::GIT_URL);
     ctx.insert("badges", &data::BADGES);
     ctx.insert("uris", uris);
 

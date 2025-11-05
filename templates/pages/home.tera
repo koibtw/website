@@ -12,7 +12,7 @@
     <br>
     you know what's even cooler though?
     <br>
-    that its source code is available publically in a <a class="target-blank" href="https://github.com/adamperkowski/website">github repo</a>
+    that its source code is available publically in a <a class="target-blank" href="{{ git_url }}/website">github repo</a>
     <span class="inline-img"><img src="/img/gifs/smilies/shocked.gif" alt="shocked smiley"></span>
   </p>
   <p>
@@ -26,6 +26,7 @@
   <p>
     yeah so have fun going through my site (even though it's still kinda WIP)
     <br>
+    don't forget to leave a message in the <a href="/guestbook">guestbook</a>!!
     and umm have a great day? or something
   </p>
 

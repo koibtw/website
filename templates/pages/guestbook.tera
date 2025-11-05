@@ -1,0 +1,95 @@
+{% extends "base.tera" %}
+
+{% block title %}{% set title = "guestbook" %}{% endblock %}
+{% block description %}{% set description = "leave a message on my site!" %}{% endblock %}
+
+{% block main %}
+<div class="guestbook-form">
+  <div class="guestbook-form-name">
+    <label for="guestbook-name">name <span class="accent">*</span></label>
+    <input id="guestbook-name" type="text" placeholder="your name" required maxlength="50">
+    <button id="guestbook-submit" class="button accent" disabled onclick="submitGuestbookEntry()">submit</button>
+  </div>
+  <div class="guestbook-form-message">
+    <label for="guestbook-message">message <span class="accent">*</span></label>
+    <textarea id="guestbook-message" placeholder="your message" required maxlength="150" rows="4"></textarea>
+  </div>
+</div>
+
+<div id="guestbook-entries">
+</div>
+
+<script>
+  var nameInput, messageInput, submitButton, guestbookEntriesDiv;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    nameInput = document.getElementById('guestbook-name');
+    messageInput = document.getElementById('guestbook-message');
+    submitButton = document.getElementById('guestbook-submit');
+    guestbookEntriesDiv = document.getElementById('guestbook-entries');
+
+    nameInput.addEventListener('input', validateForm);
+    messageInput.addEventListener('input', validateForm);
+
+    fetch('/api/guestbook')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(entry => {
+          createGuestbookEntryElement(entry.name, entry.message);
+        });
+      });
+  });
+
+  function validateForm() {
+    const isNameValid = nameInput.value.trim().length > 0;
+    const isMessageValid = messageInput.value.trim().length > 0;
+    submitButton.disabled = !(isNameValid && isMessageValid);
+  }
+
+  function submitGuestbookEntry() {
+    const name = nameInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (name && message) {
+      fetch('/api/guestbook', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, message })
+      }).then(response => {
+        if (response.ok) {
+          createGuestbookEntryElement(name, message);
+        } else {
+          response.text().then(text => alert(text));
+        }
+      }).catch(error => {
+        alert(error);
+      });
+    }
+  }
+
+  function createGuestbookEntryElement(name, message) {
+    const entryDiv = document.createElement('div');
+    entryDiv.className = 'guestbook-entry';
+
+    const nameP = document.createElement('p');
+    const nameStrong = document.createElement('strong');
+    nameStrong.textContent = name;
+    nameP.className = 'guestbook-entry-name';
+    nameP.appendChild(nameStrong);
+    entryDiv.appendChild(nameP);
+
+    const messageP = document.createElement('p');
+    messageP.className = 'guestbook-entry-message';
+    messageP.textContent = message;
+    entryDiv.appendChild(messageP);
+
+    guestbookEntriesDiv.prepend(entryDiv);
+
+    nameInput.value = '';
+    messageInput.value = '';
+    validateForm();
+  }
+</script>
+{% endblock %}

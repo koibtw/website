@@ -40,14 +40,8 @@ nav {
 #select-theme {
   width: 100%;
 
-  color: var(--fg);
-  background-color: var(--bg);
-
   border-top: var(--border-dashed);
   padding-top: 0.5rem;
-
-  outline: none;
-  appearance:none;
 }
 
 #select-theme option {

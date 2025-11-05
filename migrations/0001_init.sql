@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS guestbook (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    message VARCHAR(150) NOT NULL
+);

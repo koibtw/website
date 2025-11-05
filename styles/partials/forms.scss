@@ -1,0 +1,39 @@
+select {
+  color: var(--fg);
+  background-color: var(--bg);
+  appearance:none;
+  outline: none;
+}
+
+input, textarea {
+  border: 2px solid var(--bg-alt);
+  color: var(--fg);
+  padding: 0.5em;
+  box-sizing: border-box;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--fg-alt);
+}
+
+label {
+  line-height: 1.5rem;
+}
+
+button {
+  background-color: var(--bg-alt);
+  color: var(--fg);
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: var(--bg-alt);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+*::placeholder {
+  color: var(--fg-alt);
+}

@@ -1,7 +1,9 @@
 appledust.gif: https://www.lejlart.com/flist/ad_skullsprinkles.gif
 ari.png: https://ari.lt/static/badges/badge.png
 fulvern.gif: https://fulvern.neocities.org/Images/FulvernButton.gif
+kolpix.gif: https://kolpix.nekoweb.org/resources/button.gif
 lilithdev.gif: https://lilithdev.neocities.org/buttons/lilithdevbtn.gif
 # oyaswmi.gif
 # system72.gif
+sebaguardian.gif: https://sebaguardian.github.io/img/ralpali.gif
 tnixc.webp: https://enochlau.com/88x31.webp

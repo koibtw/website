@@ -20,9 +20,24 @@ pub const FRIENDS: &[Badge] = &[
         href: Some("https://system72.dev"),
     },
     Badge {
+        src: "/img/badges/sebaguardian.gif",
+        alt: "sebaguardian",
+        href: Some("https://sebaguardian.github.io"),
+    },
+    Badge {
+        src: "/img/badges/ari.png",
+        alt: "ari-web",
+        href: Some("https://ari.lt"),
+    },
+    Badge {
         src: "/img/badges/tnixc.webp",
         alt: "tnixc (enoch's site)",
         href: Some("https://enochlau.com"),
+    },
+    Badge {
+        src: "/img/badges/kolpix.gif",
+        alt: "kolpix",
+        href: Some("https://kolpix.nekoweb.org"),
     },
 ];
 
@@ -36,11 +51,6 @@ pub const COOL_SITES: &[Badge] = &[
         src: "/img/badges/oyaswmi.gif",
         alt: "oyaswmi",
         href: Some("https://oyaswmi.net"),
-    },
-    Badge {
-        src: "/img/badges/ari.png",
-        alt: "ari-web",
-        href: Some("https://ari.lt"),
     },
     Badge {
         src: "/img/badges/appledust.gif",

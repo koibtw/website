@@ -4,6 +4,11 @@
 {% block description %}{% set description = "cute 88x31 buttons" %}{% endblock %}
 
 {% block main %}
+  <p>
+    if you want your badge here, just <a href="{{ main_host }}/contact">let me know</a> :p<br>
+    would also be nice if you put mine on your site!
+  </p>
+
   <p style="margin-bottom: 0.5rem;">friends :3</p>
   {% for badge in friend_badges %}
     {% include "partials/badge.tera" %}
@@ -22,7 +27,7 @@
   {% set badge = mimi_badge %}
   {% include "partials/badge.tera" %}
 
-  <pre class="no-margin-bottom"><code>&lt;a href="{{ main_host }}"&gt;</code>
+  <pre><code>&lt;a href="{{ main_host }}"&gt;</code>
 <code>  &lt;img</code>
 <code>    src="{{ main_host }}/img/badges/mimi-the-car.gif"</code>
 <code>    alt="mimi the car (adam's site)"</code>

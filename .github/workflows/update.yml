@@ -1,0 +1,36 @@
+name: update
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  badges:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: run update script
+        run: bash ./update-badges.sh
+
+      - name: check for changes
+        run: |
+          if [[ -z $(git status --porcelain) ]]; then
+            exit 0
+          fi
+
+      - name: open pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: 'chore: update badges'
+          committer: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
+          author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
+          branch: 'chore/update-badges'
+          title: 'chore: update badges'
+          reviewers: adamperkowski
+          assignees: adamperkowski

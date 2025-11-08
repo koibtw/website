@@ -1,0 +1,7 @@
+appledust.gif: https://www.lejlart.com/flist/ad_skullsprinkles.gif
+ari.png: https://ari.lt/static/badges/badge.png
+fulvern.gif: https://fulvern.neocities.org/Images/FulvernButton.gif
+lilithdev.gif: https://lilithdev.neocities.org/buttons/lilithdevbtn.gif
+# oyaswmi.gif
+# system72.gif
+tnixc.webp: https://enochlau.com/88x31.webp

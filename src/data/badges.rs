@@ -13,11 +13,18 @@ pub const MIMI_BADGE: Badge = Badge {
     href: Some(crate::constants::HOST),
 };
 
-pub const FRIENDS: &[Badge] = &[Badge {
-    src: "/img/badges/system72.gif",
-    alt: "system72",
-    href: Some("https://system72.dev"),
-}];
+pub const FRIENDS: &[Badge] = &[
+    Badge {
+        src: "/img/badges/system72.gif",
+        alt: "system72",
+        href: Some("https://system72.dev"),
+    },
+    Badge {
+        src: "/img/badges/tnixc.webp",
+        alt: "tnixc (enoch's site)",
+        href: Some("https://enochlau.com"),
+    },
+];
 
 pub const COOL_SITES: &[Badge] = &[
     Badge {

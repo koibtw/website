@@ -98,6 +98,10 @@ pre::selection {
   color: var(--fg);
 }
 
+.fg-alt {
+  color: var(--fg-alt);
+}
+
 .accent {
   color: var(--accent);
 }

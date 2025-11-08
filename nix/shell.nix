@@ -16,6 +16,8 @@ let
       libwebp
       docker
       postgresql
+      shellcheck
+      shfmt
     ]
     ++ (mainPkg.nativeBuildInputs or [ ])
     ++ (mainPkg.buildInputs or [ ]);

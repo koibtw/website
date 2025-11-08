@@ -1,0 +1,21 @@
+#! /usr/bin/env bash
+# this script updates files in img/badges
+
+set -euo pipefail
+
+readarray -t SOURCES <img/badges/sources.txt
+
+for src in "${SOURCES[@]}"; do
+  if [[ "$src" =~ ^#.* ]]  || [[ -z "$src" ]]; then
+    echo "skipping $src"
+    continue
+  fi
+
+  filename="${src%%:*}"
+  url="${src#*: }"
+
+  echo "updating $filename from $url"
+  curl -sL "$url" -o "img/badges/$filename" || echo "failed to download $url"
+done
+
+echo "badges updated"

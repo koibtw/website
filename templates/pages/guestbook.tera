@@ -45,7 +45,7 @@
       })
       .then(data => {
         data.forEach(entry => {
-          createGuestbookEntryElement(entry.name, entry.message);
+          createGuestbookEntryElement(entry.name, entry.message, entry.created_at);
         });
       });
   });
@@ -69,7 +69,7 @@
         body: JSON.stringify({ name, message })
       }).then(response => {
         if (response.ok) {
-          createGuestbookEntryElement(name, message);
+          createGuestbookEntryElement(name, message, new Date().toISOString());
         } else {
           if (response.status === 429) {
             alert('too many requests, refresh after 10 seconds');
@@ -83,16 +83,26 @@
     }
   }
 
-  function createGuestbookEntryElement(name, message) {
+  function createGuestbookEntryElement(name, message, createdAt) {
     const entryDiv = document.createElement('div');
     entryDiv.className = 'guestbook-entry';
 
+    const nameDiv = document.createElement('div');
+    nameDiv.style.display = 'flex';
+    nameDiv.style.flexDirection = 'row';
+    nameDiv.style.justifyContent = 'space-between';
+    nameDiv.style.width = '100%';
+    entryDiv.appendChild(nameDiv);
+
     const nameP = document.createElement('p');
-    const nameStrong = document.createElement('strong');
-    nameStrong.textContent = name;
     nameP.className = 'guestbook-entry-name';
-    nameP.appendChild(nameStrong);
-    entryDiv.appendChild(nameP);
+    nameP.textContent = name;
+    nameDiv.appendChild(nameP);
+
+    const dateP = document.createElement('p');
+    dateP.className = 'fg-alt no-margin-bottom';
+    dateP.textContent = createdAt.split('T')[0];
+    nameDiv.appendChild(dateP);
 
     const messageP = document.createElement('p');
     messageP.className = 'guestbook-entry-message';

@@ -35,13 +35,15 @@
   gap: 1rem;
 }
 
+@media (max-width: 1310px) {
+  #guestbook-entries {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 854px) {
   #guestbook-submit {
     width: 100%;
-  }
-
-  #guestbook-entries {
-    grid-template-columns: 1fr;
   }
 }
 
@@ -52,6 +54,7 @@
 
 .guestbook-entry-name {
   margin-bottom: 0.25rem;
+  font-weight: bold;
 }
 
 .guestbook-entry-message {

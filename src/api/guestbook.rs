@@ -1,7 +1,7 @@
 use super::validate_input;
-use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
+use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
 use serde::{Deserialize, Serialize};
-use sqlx::{PgPool, prelude::FromRow};
+use sqlx::{prelude::FromRow, types::chrono, PgPool};
 
 #[derive(Deserialize)]
 pub struct Entry {
@@ -14,6 +14,7 @@ struct GuestbookEntry {
     id: i32,
     name: String,
     message: String,
+    created_at: chrono::NaiveDateTime,
 }
 
 pub async fn add_handler(
@@ -23,7 +24,7 @@ pub async fn add_handler(
     let name = data.name.trim();
     let message = data.message.trim();
 
-    println!("got new guestbook entry from {}:\n{}\n", name, message);
+    println!("got new guestbook entry from {}:\n{}", name, message);
 
     validate_input(name).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
     validate_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
@@ -42,7 +43,7 @@ pub async fn add_handler(
     }
 
     match sqlx::query_as::<_, GuestbookEntry>(
-        "INSERT INTO guestbook (name, message) VALUES ($1, $2) RETURNING id, name, message",
+        "INSERT INTO guestbook (name, message) VALUES ($1, $2) RETURNING *",
     )
     .bind(name)
     .bind(message)
@@ -57,7 +58,7 @@ pub async fn add_handler(
 pub async fn get_all_handler(
     State(pool): State<PgPool>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
-    match sqlx::query_as::<_, GuestbookEntry>("SELECT id, name, message FROM guestbook")
+    match sqlx::query_as::<_, GuestbookEntry>("SELECT * FROM guestbook")
         .fetch_all(&pool)
         .await
     {

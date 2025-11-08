@@ -1,12 +1,13 @@
 p {
   line-height: 1.5rem;
   margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-wrap: balance;
 }
 
 h1, h2, h3, h4, h5, h6 {
   @extend p;
+  margin-bottom: 1.5rem;
   font-weight: bold;
 }
 
@@ -63,15 +64,34 @@ a.active {
   height: 2rem;
 }
 
+.spacer {
+  display: block;
+  height: 1rem;
+  width: 100%;
+}
+
 pre:has(code) {
   background-color: var(--bg-alt);
   border: solid 2px color-mix(in srgb, var(--bg-alt), white 15%);
-  text-wrap: wrap;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-wrap: revert;
+  overflow-x: auto;
 }
 
 p > code {
   background-color: var(--bg-alt);
   border: solid 2px color-mix(in srgb, var(--bg-alt), white 15%);
+}
+
+code {
+  text-wrap: none;
+}
+
+code::selection,
+pre::selection {
+  background-color: var(--bg);
+  color: var(--fg);
 }
 
 .accent {

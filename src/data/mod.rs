@@ -1,3 +1,1 @@
-mod badges;
-
-pub use badges::BADGES;
+pub mod badges;

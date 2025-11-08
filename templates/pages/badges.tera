@@ -1,0 +1,25 @@
+{% extends "base.tera" %}
+
+{% block title %}{% set title = "badges" %}{% endblock %}
+{% block description %}{% set description = "cute 88x31 buttons" %}{% endblock %}
+
+{% block main %}
+  <p style="margin-bottom: 0.5rem;">friends :3</p>
+  {% for badge in friend_badges %}
+    {% include "partials/badge.tera" %}
+  {% endfor %}
+
+  <span class="spacer"></span>
+
+  <p style="margin-bottom: 0.5rem;">my badge</p>
+  {% set badge = mimi_badge %}
+  {% include "partials/badge.tera" %}
+
+  <pre class="no-margin-bottom"><code>&lt;a href="{{ main_host }}"&gt;</code>
+<code>  &lt;img</code>
+<code>    src="{{ main_host }}/img/badges/mimi-the-car.gif"</code>
+<code>    alt="mimi the car (adam's site)"</code>
+<code>    width="88"</code>
+<code>    height="31"/&gt;</code>
+<code>&lt;/a&gt;</code></pre>
+{% endblock %}

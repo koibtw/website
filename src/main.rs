@@ -1,8 +1,8 @@
 use axum::{
-    Router,
-    http::{self, StatusCode, header},
+    http::{self, header, StatusCode},
     response::{Html, IntoResponse, Response},
     routing::get,
+    Router,
 };
 use tower_http::services::ServeDir;
 
@@ -13,8 +13,11 @@ mod metadata;
 mod templates;
 
 use api::guestbook::{add_handler, get_all_handler};
+use data::badges::MIMI_BADGE;
 use metadata::{ChangeFreq, RobotsTXT, Sitemap, Uri};
 use tera::Context;
+
+use crate::data::badges::FRIENDS;
 
 #[shuttle_runtime::main]
 async fn axum(#[shuttle_shared_db::Postgres] pool: sqlx::PgPool) -> shuttle_axum::ShuttleAxum {
@@ -53,6 +56,13 @@ fn build_routes(pool: sqlx::PgPool) -> Router {
             Some(ChangeFreq::Monthly),
             Some(0.8),
         ),
+        Uri::new(
+            "/badges",
+            "badges",
+            true,
+            Some(ChangeFreq::Monthly),
+            Some(0.6),
+        ),
     ];
 
     let sitemap = Sitemap::from_uris(uris).to_string();
@@ -85,8 +95,9 @@ fn build_routes(pool: sqlx::PgPool) -> Router {
 
     let mut ctx = Context::new();
     ctx.insert("host", constants::HOST);
+    ctx.insert("main_host", constants::MAIN_HOST);
     ctx.insert("git_url", constants::GIT_URL);
-    ctx.insert("badges", &data::BADGES);
+    ctx.insert("mimi_badge", &MIMI_BADGE);
     ctx.insert("uris", uris);
 
     for uri in uris {
@@ -94,6 +105,11 @@ fn build_routes(pool: sqlx::PgPool) -> Router {
             "canonical",
             format!("{}{}", constants::HOST, uri.uri).trim_end_matches('/'),
         );
+
+        if uri.template == "badges" {
+            ctx.insert("friend_badges", &FRIENDS);
+        }
+
         router = router.route(uri.uri, get(render(uri.template, &ctx)));
     }
 

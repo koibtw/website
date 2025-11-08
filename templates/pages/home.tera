@@ -30,7 +30,6 @@
     and umm have a great day? or something
   </p>
 
-  {% for badge in badges %}
-    {% include "partials/badge.tera" %}
-  {% endfor %}
+  {% set badge = mimi_badge %}
+  {% include "partials/badge.tera" %}
 {% endblock %}

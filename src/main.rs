@@ -17,7 +17,7 @@ use data::badges::MIMI_BADGE;
 use metadata::{ChangeFreq, RobotsTXT, Sitemap, Uri};
 use tera::Context;
 
-use crate::data::badges::FRIENDS;
+use crate::data::badges::{COOL_SITES,FRIENDS};
 
 #[shuttle_runtime::main]
 async fn axum(#[shuttle_shared_db::Postgres] pool: sqlx::PgPool) -> shuttle_axum::ShuttleAxum {
@@ -108,6 +108,7 @@ fn build_routes(pool: sqlx::PgPool) -> Router {
 
         if uri.template == "badges" {
             ctx.insert("friend_badges", &FRIENDS);
+            ctx.insert("cool_sites_badges", &COOL_SITES);
         }
 
         router = router.route(uri.uri, get(render(uri.template, &ctx)));

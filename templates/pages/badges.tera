@@ -11,6 +11,13 @@
 
   <span class="spacer"></span>
 
+  <p style="margin-bottom: 0.5rem;">cool sites</p>
+  {% for badge in cool_sites_badges %}
+    {% include "partials/badge.tera" %}
+  {% endfor %}
+
+  <span class="spacer"></span>
+
   <p style="margin-bottom: 0.5rem;">my badge</p>
   {% set badge = mimi_badge %}
   {% include "partials/badge.tera" %}

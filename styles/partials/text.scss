@@ -37,6 +37,10 @@ a:hover {
   text-decoration: underline var(--bg-alt) 2px;
 }
 
+a:has(img):hover {
+  text-decoration: none;
+}
+
 a.active {
   background-color: var(--bg-alt);
 }

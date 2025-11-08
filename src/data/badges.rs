@@ -18,3 +18,31 @@ pub const FRIENDS: &[Badge] = &[Badge {
     alt: "system72",
     href: Some("https://system72.dev"),
 }];
+
+pub const COOL_SITES: &[Badge] = &[
+    Badge {
+        src: "/img/badges/lilithdev.gif",
+        alt: "lilith",
+        href: Some("https://lilithdev.neocities.org"),
+    },
+    Badge {
+        src: "/img/badges/oyaswmi.gif",
+        alt: "oyaswmi",
+        href: Some("https://oyaswmi.net"),
+    },
+    Badge {
+        src: "/img/badges/ari.png",
+        alt: "ari-web",
+        href: Some("https://ari.lt"),
+    },
+    Badge {
+        src: "/img/badges/appledust.gif",
+        alt: "appledust (lejla's site)",
+        href: Some("https://lejlart.com/apple.html"),
+    },
+    Badge {
+        src: "/img/badges/fulvern.gif",
+        alt: "fulvern",
+        href: Some("https://fulvern.neocities.org"),
+    },
+];

@@ -19,8 +19,13 @@
 
   <div class="sidebar-bottom">
     <div class="webring">
+      <a href="https://nixwebr.ing/prev/adamperkowski">&lt;-</a>
+      <a href="https://nixwebr.ing">nix</a>
+      <a href="https://nixwebr.ing/next/adamperkowski">-&gt;</a>
+    </div>
+    <div class="webring">
       <a href="https://ctp-webr.ing/adamperkowski/previous">&lt;-</a>
-      <a href="https://ctp-webr.ing/">webring</a>
+      <a href="https://ctp-webr.ing">catppuccin</a>
       <a href="https://ctp-webr.ing/adamperkowski/next">-&gt;</a>
     </div>
 

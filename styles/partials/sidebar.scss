@@ -34,7 +34,6 @@ nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
 }
 
 #select-theme {
@@ -42,6 +41,7 @@ nav {
 
   border-top: var(--border-dashed);
   padding-top: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 #select-theme option {

@@ -4,22 +4,28 @@
 {% block description %}{% set description = "cute 88x31 buttons" %}{% endblock %}
 
 {% block main %}
+  <img src="{{ main_host }}/img/gifs/zelda-link.gif" alt="link from zelda" width="234" height="156" class="main-absolute mobile-hide" style="right: 0; top: 0;">
+
   <p>
     if you want your badge here, just <a href="{{ main_host }}/contact">let me know</a> :p<br>
     would also be nice if you put mine on your site!
   </p>
 
   <p style="margin-bottom: 0.5rem;">friends :3</p>
-  {% for badge in friend_badges %}
-    {% include "partials/badge.tera" %}
-  {% endfor %}
+  <div class="badge-grid">
+    {% for badge in friend_badges %}
+      {% include "partials/badge.tera" %}
+    {% endfor %}
+  </div>
 
   <span class="spacer"></span>
 
   <p style="margin-bottom: 0.5rem;">cool sites</p>
-  {% for badge in cool_sites_badges %}
-    {% include "partials/badge.tera" %}
-  {% endfor %}
+  <div class="badge-grid">
+    {% for badge in cool_sites_badges %}
+      {% include "partials/badge.tera" %}
+    {% endfor %}
+  </div>
 
   <span class="spacer"></span>
 

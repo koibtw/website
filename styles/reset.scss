@@ -25,3 +25,9 @@ select:hover {
 .no-margin-bottom {
   margin-bottom: 0 !important;
 }
+
+@media (max-width: 854px) {
+  .mobile-hide {
+    display: none !important;
+  }
+}

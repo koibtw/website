@@ -43,6 +43,11 @@ pub const FRIENDS: &[Badge] = &[
 
 pub const COOL_SITES: &[Badge] = &[
     Badge {
+        src: "/img/badges/espy.gif",
+        alt: "espy.world",
+        href: Some("https://espy.world"),
+    },
+    Badge {
         src: "/img/badges/lilithdev.gif",
         alt: "lilith",
         href: Some("https://lilithdev.neocities.org"),

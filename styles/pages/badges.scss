@@ -1,0 +1,7 @@
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
+  max-width: calc(88px * 5 + 0.5rem * 4);
+  align-items: flex-start;
+  gap: 0.5rem;
+}

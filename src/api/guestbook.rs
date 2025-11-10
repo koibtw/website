@@ -87,7 +87,7 @@ pub async fn add_handler(
 pub async fn get_all_handler(
     State(pool): State<PgPool>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
-    match sqlx::query_as::<_, GuestbookEntry>("SELECT * FROM guestbook")
+    match sqlx::query_as::<_, GuestbookEntry>("SELECT * FROM guestbook ORDER BY id ASC")
         .fetch_all(&pool)
         .await
     {

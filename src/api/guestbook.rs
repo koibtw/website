@@ -6,6 +6,7 @@ use sqlx::{prelude::FromRow, types::chrono, PgPool};
 #[derive(Deserialize)]
 pub struct Entry {
     name: String,
+    website: Option<String>,
     message: String,
 }
 
@@ -13,6 +14,7 @@ pub struct Entry {
 struct GuestbookEntry {
     id: i32,
     name: String,
+    website: Option<String>,
     message: String,
     created_at: chrono::NaiveDateTime,
 }
@@ -22,17 +24,43 @@ pub async fn add_handler(
     Json(data): Json<Entry>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     let name = data.name.trim();
+    let website = data.website.unwrap_or_default().trim().to_string();
     let message = data.message.trim();
 
-    println!("got new guestbook entry from {}:\n{}", name, message);
+    println!(
+        "got new guestbook entry from {}{}:\n{}",
+        name,
+        if website.is_empty() {
+            "".to_string()
+        } else {
+            format!(" ({})", website)
+        },
+        message
+    );
 
     validate_input(name).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
+    validate_input(&website).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
     validate_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
 
-    if name.is_empty() || name.len() > 50 {
+    if !website.is_empty() {
+        if !website.starts_with("https://") || !website.contains('.') {
+            return Err((
+                StatusCode::BAD_REQUEST,
+                "website has to be a valid URL starting with https://".to_string(),
+            ));
+        }
+    }
+
+    if name.is_empty() || name.len() > 20 {
         return Err((
             StatusCode::BAD_REQUEST,
             "name has to be between 1 and 50 chars".to_string(),
+        ));
+    }
+    if !website.is_empty() && website.len() > 100 {
+        return Err((
+            StatusCode::BAD_REQUEST,
+            "website has to be between 0 and 100 chars".to_string(),
         ));
     }
     if message.is_empty() || message.len() > 150 {
@@ -43,9 +71,10 @@ pub async fn add_handler(
     }
 
     match sqlx::query_as::<_, GuestbookEntry>(
-        "INSERT INTO guestbook (name, message) VALUES ($1, $2) RETURNING *",
+        "INSERT INTO guestbook (name, website, message) VALUES ($1, $2, $3) RETURNING *",
     )
     .bind(name)
+    .bind(website)
     .bind(message)
     .fetch_one(&pool)
     .await

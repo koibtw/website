@@ -7,14 +7,17 @@
 <div class="guestbook-form">
   <div class="guestbook-form-name">
     <label for="guestbook-name">name <span class="accent">*</span></label>
-    <input id="guestbook-name" type="text" placeholder="your name" required maxlength="50">
-    <button id="guestbook-submit" class="button accent" disabled onclick="submitGuestbookEntry()">submit</button>
+    <input id="guestbook-name" type="text" placeholder="your name" required maxlength="20">
+    <label for="guestbook-name">website</label>
+    <input id="guestbook-website" type="text" placeholder="https://example.com" maxlength="100">
   </div>
   <div class="guestbook-form-message">
     <label for="guestbook-message">message <span class="accent">*</span></label>
-    <textarea id="guestbook-message" placeholder="your message" required maxlength="150" rows="4"></textarea>
+    <textarea id="guestbook-message" placeholder="your message" required maxlength="150" rows="5"></textarea>
   </div>
 </div>
+
+<button id="guestbook-submit" class="button accent" disabled hidden onclick="submitGuestbookEntry()">submit</button>
 
 <div id="guestbook-entries">
 </div>
@@ -24,6 +27,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     nameInput = document.getElementById('guestbook-name');
+    websiteInput = document.getElementById('guestbook-website');
     messageInput = document.getElementById('guestbook-message');
     submitButton = document.getElementById('guestbook-submit');
     guestbookEntriesDiv = document.getElementById('guestbook-entries');
@@ -45,7 +49,7 @@
       })
       .then(data => {
         data.forEach(entry => {
-          createGuestbookEntryElement(entry.name, entry.message, entry.created_at);
+          createGuestbookEntryElement(entry.name, entry.website, entry.message, entry.created_at);
         });
       });
   });
@@ -53,11 +57,13 @@
   function validateForm() {
     const isNameValid = nameInput.value.trim().length > 0;
     const isMessageValid = messageInput.value.trim().length > 0;
+    submitButton.hidden = !(isNameValid || isMessageValid);
     submitButton.disabled = !(isNameValid && isMessageValid);
   }
 
   function submitGuestbookEntry() {
     const name = nameInput.value.trim();
+    const website = websiteInput.value.trim();
     const message = messageInput.value.trim();
 
     if (name && message) {
@@ -66,10 +72,10 @@
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name, message })
+        body: JSON.stringify({ name, website, message })
       }).then(response => {
         if (response.ok) {
-          createGuestbookEntryElement(name, message, new Date().toISOString());
+          createGuestbookEntryElement(name, website, message, new Date().toISOString());
         } else {
           if (response.status === 429) {
             alert('too many requests, refresh after 10 seconds');
@@ -83,7 +89,7 @@
     }
   }
 
-  function createGuestbookEntryElement(name, message, createdAt) {
+  function createGuestbookEntryElement(name, website, message, createdAt) {
     const entryDiv = document.createElement('div');
     entryDiv.className = 'guestbook-entry';
 
@@ -96,7 +102,17 @@
 
     const nameP = document.createElement('p');
     nameP.className = 'guestbook-entry-name';
-    nameP.textContent = name;
+
+    if (website) {
+      const nameLink = document.createElement('a');
+      nameLink.href = website;
+      nameLink.target = '_blank';
+      nameLink.textContent = name;
+      nameP.appendChild(nameLink);
+    } else {
+      nameP.textContent = name;
+    }
+
     nameDiv.appendChild(nameP);
 
     const dateP = document.createElement('p');
@@ -112,6 +128,7 @@
     guestbookEntriesDiv.prepend(entryDiv);
 
     nameInput.value = '';
+    websiteInput.value = '';
     messageInput.value = '';
     validateForm();
   }

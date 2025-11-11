@@ -82,6 +82,7 @@ html, body {
 
 @media (max-width: 854px) {
   html, body {
+    height: auto;
     flex-direction: column;
   }
 
@@ -91,8 +92,6 @@ html, body {
 
     border-right: none;
     border-bottom: var(--border-dashed);
-
-    margin-bottom: 1rem;
   }
 
   #content {
@@ -102,6 +101,9 @@ html, body {
   #main {
     width: 90%;
     max-height: 100%;
+
+    border: none;
+    border-bottom: var(--border-dashed);
   }
 
   #footer {

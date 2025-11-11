@@ -7,13 +7,13 @@
 <div class="guestbook-form">
   <div class="guestbook-form-name">
     <label for="guestbook-name">name <span class="accent">*</span></label>
-    <input id="guestbook-name" type="text" placeholder="your name" required maxlength="20">
+    <input id="guestbook-name" type="text" placeholder="evil larry" required maxlength="20">
     <label for="guestbook-name">website or social</label>
-    <input id="guestbook-website" type="text" placeholder="https://example.com" maxlength="100">
+    <input id="guestbook-website" type="text" placeholder="https://glorp.com" maxlength="100">
   </div>
   <div class="guestbook-form-message">
     <label for="guestbook-message">message <span class="accent">*</span></label>
-    <textarea id="guestbook-message" placeholder="your message" required maxlength="150" rows="5"></textarea>
+    <textarea id="guestbook-message" placeholder="zap zap zap zip zip zip gleep glorp" required maxlength="150" rows="5"></textarea>
   </div>
 </div>
 

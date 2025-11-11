@@ -5,3 +5,9 @@
 ::-webkit-scrollbar-thumb {
   background: var(--bg-alt);
 }
+
+@media (pointer:coarse) and (max-width: 854px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}

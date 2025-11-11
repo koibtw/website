@@ -43,7 +43,7 @@ pub async fn add_handler(
     validate_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
 
     if !website.is_empty() {
-        if !website.starts_with("https://") || !website.contains('.') {
+        if !website.starts_with("https://") || !website.contains('.') || website.contains(' ') {
             return Err((
                 StatusCode::BAD_REQUEST,
                 "website has to be a valid URL starting with https://".to_string(),

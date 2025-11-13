@@ -1,7 +1,7 @@
 use super::validate_input;
-use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
+use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 use serde::{Deserialize, Serialize};
-use sqlx::{prelude::FromRow, types::chrono, PgPool};
+use sqlx::{PgPool, prelude::FromRow, types::chrono};
 
 #[derive(Deserialize)]
 pub struct Entry {
@@ -42,13 +42,13 @@ pub async fn add_handler(
     validate_input(&website).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
     validate_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
 
-    if !website.is_empty() {
-        if !website.starts_with("https://") || !website.contains('.') || website.contains(' ') {
-            return Err((
-                StatusCode::BAD_REQUEST,
-                "website has to be a valid URL starting with https://".to_string(),
-            ));
-        }
+    if !website.is_empty()
+        && (!website.starts_with("https://") || !website.contains('.') || website.contains(' '))
+    {
+        return Err((
+            StatusCode::BAD_REQUEST,
+            "website has to be a valid URL starting with https://".to_string(),
+        ));
     }
 
     if name.is_empty() || name.len() > 20 {

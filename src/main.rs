@@ -1,8 +1,8 @@
 use axum::{
-    http::{self, header, StatusCode},
-    response::{Html, IntoResponse, Response},
-    routing::get,
     Router,
+    http::{self, StatusCode, header},
+    response::{Html, IntoResponse, Response},
+    routing::{get, post},
 };
 use tower_http::services::ServeDir;
 
@@ -12,16 +12,26 @@ mod data;
 mod metadata;
 mod templates;
 
-use api::guestbook::{add_handler, get_all_handler};
+use api::{guestbook, jellyfin};
 use data::badges::MIMI_BADGE;
 use metadata::{ChangeFreq, RobotsTXT, Sitemap, Uri};
 use tera::Context;
 
-use crate::data::badges::{COOL_SITES,FRIENDS};
+use crate::data::badges::{COOL_SITES, FRIENDS};
 
 #[shuttle_runtime::main]
-async fn axum(#[shuttle_shared_db::Postgres] pool: sqlx::PgPool) -> shuttle_axum::ShuttleAxum {
+async fn axum(
+    #[shuttle_shared_db::Postgres] pool: sqlx::PgPool,
+    #[shuttle_runtime::Secrets] secrets: shuttle_runtime::SecretStore,
+) -> shuttle_axum::ShuttleAxum {
     sqlx::migrate!().run(&pool).await.unwrap();
+
+    for var in constants::ENV_VARS {
+        unsafe {
+            std::env::set_var(var, secrets.get(var).unwrap());
+        }
+    }
+
     Ok(build_routes(pool).into())
 }
 
@@ -69,7 +79,13 @@ fn build_routes(pool: sqlx::PgPool) -> Router {
     let robots = RobotsTXT::from_uris(uris).to_string();
 
     let api_router: Router = Router::new()
-        .route("/guestbook", get(get_all_handler).post(add_handler))
+        .route(
+            "/guestbook",
+            get(guestbook::get_all_handler).post(guestbook::add_handler),
+        )
+        .route("/jellyfin/start", post(jellyfin::start_handler))
+        .route("/jellyfin/stop", post(jellyfin::stop_handler))
+        .route("/jellyfin", get(jellyfin::get_handler))
         .with_state(pool);
 
     let redirect_router: Router = Router::new()

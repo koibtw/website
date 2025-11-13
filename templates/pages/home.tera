@@ -29,6 +29,9 @@
     don't forget to leave a message in the <a href="/guestbook">guestbook</a>!!
     and umm have a great day? or something
   </p>
+  <p>
+    now listening to {% include "partials/music.tera" %}
+  </p>
 
   {% set badge = mimi_badge %}
   {% include "partials/badge.tera" %}

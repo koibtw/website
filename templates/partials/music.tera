@@ -1,0 +1,33 @@
+<span id="music">(loading...)</span>
+<script>
+  function fetchMusic() {
+    fetch('{{ host }}/api/jellyfin')
+      .then(response => response.json())
+      .then(data => {
+        const musicElement = document.getElementById('music');
+        if (data.length === 0) {
+          musicElement.innerHTML = 'nothing :despair:';
+          return;
+        }
+
+        const track = data[0];
+        const nameStrong = document.createElement('strong');
+        const artistStrong = document.createElement('strong');
+        nameStrong.textContent = track.name;
+        artistStrong.textContent = track.artist;
+
+        musicElement.innerHTML = '';
+        musicElement.appendChild(nameStrong);
+        musicElement.appendChild(document.createTextNode(' by '));
+        musicElement.appendChild(artistStrong);
+        if (track.album) musicElement.appendChild(document.createTextNode(` (${track.album})`));
+      })
+      .catch(error => {
+        console.error('error fetching music data:', error);
+        document.getElementById('music').innerHTML = 'error :c';
+      });
+  }
+
+  fetchMusic();
+  setInterval(fetchMusic, 60000);
+</script>

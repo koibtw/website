@@ -7,15 +7,17 @@
   <p>contact stuffs</p>
 
   <p>
-    email: <a class="target-blank" href="mailto:me@adamperkowski.dev">me@adamperkowski.dev</a>
+    github:&nbsp;&nbsp;<a class="target-blank" href="{{ git_url }}">@adamperkowski</a>
     <br>
-    github: <a class="target-blank" href="{{ git_url }}">@adamperkowski</a>
+    email:&nbsp;&nbsp;&nbsp;<a class="target-blank" href="mailto:me@adamperkowski.dev">me@adamperkowski.dev</a>
     <br>
-    matrix: <a class="target-blank" href="https://matrix.to/#/@adam:matrix.system72.dev">@adam:matrix.system72.dev</a>
+    matrix:&nbsp;&nbsp;<a class="target-blank" href="https://matrix.to/#/@adam:matrix.system72.dev">@adam:matrix.system72.dev</a>
     <br>
-    discord: <a class="target-blank" href="https://discord.com/users/1400922134355644458">@catpotatoburger</a>
+    discord:&nbsp;<a class="target-blank" href="https://discord.com/users/1400922134355644458">@catpotatoburger</a>
     <br>
-    bluesky: <a class="target-blank" href="https://bsky.app/profile/adamperkowski.dev">@adamperkowski.dev</a>
+    bluesky:&nbsp;<a class="target-blank" href="https://bsky.app/profile/adamperkowski.dev">@adamperkowski.dev</a>
+    <br>
+    last.fm:&nbsp;<a class="target-blank" href="https://last.fm/user/adamperkowski">adamperkowski</a>
   </p>
 
   <p>

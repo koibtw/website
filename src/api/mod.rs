@@ -1,3 +1,5 @@
+use rustrict::{Censor, Type};
+
 pub mod guestbook;
 pub mod jellyfin;
 
@@ -19,4 +21,18 @@ fn validate_input(input: &str) -> Result<(), String> {
     }
 
     Ok(())
+}
+
+// i really wish i wouldnt have to do this
+fn censor_input(input: &str) -> Result<String, String> {
+    let (censored, analysis) = Censor::from_str(input)
+        .with_censor_threshold(Type::OFFENSIVE & Type::MODERATE_OR_HIGHER)
+        .with_censor_replacement('#')
+        .censor_and_analyze();
+
+    if analysis.is(Type::MEAN & Type::SEVERE) {
+        return Err("thats too offensive bruh".to_string());
+    }
+
+    Ok(censored)
 }

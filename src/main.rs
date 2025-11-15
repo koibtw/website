@@ -1,8 +1,8 @@
 use axum::{
-    Router,
-    http::{self, StatusCode, header},
+    http::{self, header, StatusCode},
     response::{Html, IntoResponse, Response},
     routing::{get, post},
+    Router,
 };
 use tower_http::services::ServeDir;
 

@@ -75,7 +75,9 @@
         body: JSON.stringify({ name, website, message })
       }).then(response => {
         if (response.ok) {
-          createGuestbookEntryElement(name, website, message, new Date().toISOString());
+          response.json().then(data => {
+            createGuestbookEntryElement(data.name, data.website, data.message, data.created_at);
+          });
         } else {
           if (response.status === 429) {
             alert('too many requests, refresh after 10 seconds');

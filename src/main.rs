@@ -88,10 +88,13 @@ fn build_routes(pool: sqlx::PgPool) -> Router {
         .route("/jellyfin", get(jellyfin::get_handler))
         .with_state(pool);
 
-    let redirect_router: Router = Router::new()
-        .route("/legal", get(|| redirect_temp(constants::LEGAL_URL)))
-        .route("/favicon.ico", get(|| redirect("/img/favicon.ico")))
-        .route("/styles.css", get(|| redirect("/static/styles.css")));
+    let mut redirect_router: Router = Router::new();
+    for (uri, loc) in constants::INT_REDIRECTS.iter() {
+        redirect_router = redirect_router.route(uri, get(|| redirect(loc)));
+    }
+    for (uri, loc) in constants::EXT_REDIRECTS.iter() {
+        redirect_router = redirect_router.route(uri, get(|| redirect_temp(loc)));
+    }
 
     let mut router = Router::new()
         .route(

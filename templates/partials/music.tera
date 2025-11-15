@@ -20,7 +20,7 @@
         musicElement.appendChild(nameStrong);
         musicElement.appendChild(document.createTextNode(' by '));
         musicElement.appendChild(artistStrong);
-        if (track.album) musicElement.appendChild(document.createTextNode(` (${track.album})`));
+        if (track.album && track.album !== track.name) musicElement.appendChild(document.createTextNode(` (${track.album})`));
       })
       .catch(error => {
         console.error('error fetching music data:', error);

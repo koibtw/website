@@ -1,7 +1,9 @@
+use crate::api::censor_input;
+
 use super::validate_input;
-use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
+use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
 use serde::{Deserialize, Serialize};
-use sqlx::{PgPool, prelude::FromRow, types::chrono};
+use sqlx::{prelude::FromRow, types::chrono, PgPool};
 
 #[derive(Deserialize)]
 pub struct Entry {
@@ -70,12 +72,15 @@ pub async fn add_handler(
         ));
     }
 
+    let name_censored = censor_input(name).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
+    let message_censored = censor_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
+
     match sqlx::query_as::<_, GuestbookEntry>(
         "INSERT INTO guestbook (name, website, message) VALUES ($1, $2, $3) RETURNING *",
     )
-    .bind(name)
+    .bind(name_censored)
     .bind(website)
-    .bind(message)
+    .bind(message_censored)
     .fetch_one(&pool)
     .await
     {

@@ -12,6 +12,7 @@ authors = ["Adam Perkowski <me@adamperkowski.dev>"]
 axum = { version = "0.8.6", default-features = false }
 lazy_static = "1.5.0"
 rust-embed = "8.8.0"
+rustrict = { version = "0.7.36" }
 serde = { version = "1.0.228", default-features = false }
 shuttle-axum = "0.57.0"
 shuttle-runtime = "0.57.0"

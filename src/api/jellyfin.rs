@@ -1,11 +1,11 @@
 use axum::{
+    Json,
     extract::State,
     http::{HeaderMap, StatusCode},
     response::IntoResponse,
-    Json,
 };
 use serde::{Deserialize, Serialize};
-use sqlx::{prelude::FromRow, types::chrono, PgPool};
+use sqlx::{PgPool, prelude::FromRow, types::chrono};
 use std::time::Duration;
 
 #[derive(Deserialize)]

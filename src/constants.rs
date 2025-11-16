@@ -10,7 +10,7 @@ pub(crate) const MAIN_HOST: &str = "https://adamperkowski.dev";
 
 pub(crate) const GIT_URL: &str = "https://github.com/adamperkowski";
 
-pub(crate) const ENV_VARS: &[&str] = &["JELLYFIN_SECRET"];
+pub(crate) const ENV_VARS: &[&str] = &["JELLYFIN_SECRET", "NTFY_URL"];
 
 pub(crate) const INT_REDIRECTS: &[(&str, &str)] = &[
     ("/favicon.ico", "/static/favicon.ico"),

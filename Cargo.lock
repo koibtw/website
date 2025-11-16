@@ -3160,6 +3160,7 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "lazy_static",
+ "reqwest",
  "rust-embed",
  "rustrict",
  "serde",
@@ -3168,6 +3169,7 @@ dependencies = [
  "shuttle-shared-db",
  "sqlx",
  "tera",
+ "tokio",
  "tower-http",
 ]
 

@@ -1,9 +1,7 @@
-use crate::api::censor_input;
-
-use super::validate_input;
-use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
+use super::{censor_input, ntfy_send, validate_input};
+use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 use serde::{Deserialize, Serialize};
-use sqlx::{prelude::FromRow, types::chrono, PgPool};
+use sqlx::{PgPool, prelude::FromRow, types::chrono};
 
 #[derive(Deserialize)]
 pub struct Entry {
@@ -84,7 +82,19 @@ pub async fn add_handler(
     .fetch_one(&pool)
     .await
     {
-        Ok(entry) => Ok((StatusCode::CREATED, Json(entry))),
+        Ok(entry) => {
+            ntfy_send(
+                entry.name.clone(),
+                if let Some(website) = &entry.website {
+                    format!("{}\n{}", entry.message, website)
+                } else {
+                    entry.message.clone()
+                },
+            )
+            .await;
+
+            Ok((StatusCode::CREATED, Json(entry)))
+        }
         Err(e) => Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string())),
     }
 }

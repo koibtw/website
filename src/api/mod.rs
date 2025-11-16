@@ -36,3 +36,15 @@ fn censor_input(input: &str) -> Result<String, String> {
 
     Ok(censored)
 }
+
+async fn ntfy_send(title: String, message: String) {
+    tokio::spawn(async move {
+        let _ = reqwest::Client::new()
+            .post(std::env::var("NTFY_URL").unwrap())
+            .header("Title", title)
+            .body(message.to_string())
+            .send()
+            .await
+            .map_err(|e| println!("failed to send ntfy notification: {}", e));
+    });
+}

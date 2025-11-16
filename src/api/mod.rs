@@ -1,3 +1,4 @@
+use reqwest::header::{HeaderMap, HeaderValue};
 use rustrict::{Censor, Type};
 
 pub mod guestbook;
@@ -37,11 +38,17 @@ fn censor_input(input: &str) -> Result<String, String> {
     Ok(censored)
 }
 
-async fn ntfy_send(title: String, message: String) {
+async fn ntfy_send(title: String, message: String, click_url: Option<String>) {
     tokio::spawn(async move {
+        let mut headers = HeaderMap::new();
+        headers.insert("Title", HeaderValue::from_str(&title).unwrap());
+        if let Some(url) = click_url {
+            headers.insert("Click", HeaderValue::from_str(&url).unwrap());
+        }
+
         let _ = reqwest::Client::new()
             .post(std::env::var("NTFY_URL").unwrap())
-            .header("Title", title)
+            .headers(headers)
             .body(message.to_string())
             .send()
             .await

@@ -1,7 +1,9 @@
+use crate::constants;
+
 use super::{censor_input, ntfy_send, validate_input};
-use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
+use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
 use serde::{Deserialize, Serialize};
-use sqlx::{PgPool, prelude::FromRow, types::chrono};
+use sqlx::{prelude::FromRow, types::chrono, PgPool};
 
 #[derive(Deserialize)]
 pub struct Entry {
@@ -90,6 +92,7 @@ pub async fn add_handler(
                 } else {
                     entry.message.clone()
                 },
+                Some(format!("{}/guestbook#entry-{}", constants::HOST, entry.id)),
             )
             .await;
 

@@ -49,7 +49,7 @@
       })
       .then(data => {
         data.forEach(entry => {
-          createGuestbookEntryElement(entry.name, entry.website, entry.message, entry.created_at);
+          createGuestbookEntryElement(entry.id, entry.name, entry.website, entry.message, entry.created_at);
         });
       });
   });
@@ -76,7 +76,7 @@
       }).then(response => {
         if (response.ok) {
           response.json().then(data => {
-            createGuestbookEntryElement(data.name, data.website, data.message, data.created_at);
+            createGuestbookEntryElement(data.id, data.name, data.website, data.message, data.created_at);
           });
         } else {
           if (response.status === 429) {
@@ -91,9 +91,13 @@
     }
   }
 
-  function createGuestbookEntryElement(name, website, message, createdAt) {
+  function createGuestbookEntryElement(id, name, website, message, createdAt) {
     const entryDiv = document.createElement('div');
     entryDiv.className = 'guestbook-entry';
+
+    const anchor = document.createElement('anchor');
+    anchor.id = `entry-${id}`;
+    entryDiv.appendChild(anchor);
 
     const nameDiv = document.createElement('div');
     nameDiv.style.display = 'flex';

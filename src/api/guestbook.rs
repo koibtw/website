@@ -12,21 +12,19 @@ pub struct Entry {
 }
 
 fn display_entry(id: Option<i32>, name: &str, website: &str, message: &str) -> String {
-    format!(
-        "{}{}:\n{}{}",
-        name,
-        if website.is_empty() {
-            website
-        } else {
-            &format!(" ({})", website)
-        },
-        message,
-        if let Some(id) = id {
-            format!("\n{}/guestbook#entry-{}", constants::HOST, id)
-        } else {
-            "".to_string()
-        }
-    )
+    let site = if website.is_empty() {
+        "".to_string()
+    } else {
+        format!(" ({})", website)
+    };
+
+    let mut result = format!("{}{}:\n{}", name, site, message);
+
+    if let Some(id) = id {
+        result.push_str(&format!("\n{}/guestbook#entry-{}", constants::HOST, id));
+    }
+
+    result
 }
 
 #[derive(Serialize, FromRow)]

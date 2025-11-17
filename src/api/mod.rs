@@ -1,4 +1,5 @@
 use rustrict::{Censor, Type};
+use sqlx::types::chrono::Utc;
 
 pub mod guestbook;
 pub mod jellyfin;
@@ -38,19 +39,32 @@ fn censor_input(input: &str) -> Result<String, String> {
 }
 
 pub async fn send_notification(message: String) {
-    #[cfg(debug_assertions)]
-    {
-        println!("skipping notification:\n{}", message);
-        return;
-    }
-
     tokio::spawn(async move {
-        reqwest::Client::new()
-            .put(std::env::var("NOTIFICATION_URL").unwrap())
-            .body(serde_json::json!({ "msgtype": "m.text", "body": message }).to_string())
+        #[cfg(debug_assertions)]
+        {
+            println!("skipping notification:\n{}", message);
+            return;
+        }
+
+        let r = reqwest::Client::new()
+            .put(format!(
+                "{}/{}",
+                std::env::var("MATRIX_URL").unwrap(),
+                Utc::now().naive_utc()
+            ))
+            .json(&serde_json::json!({ "msgtype": "m.text", "body": message }))
+            .header(
+                "Authorization",
+                format!("Bearer {}", std::env::var("MATRIX_TOKEN").unwrap()),
+            )
             .send()
             .await
-            .map_err(|e| println!("failed to send notification: {}", e))
-            .ok();
+            .map_err(|e| eprintln!("failed to send notification: {}", e))
+            .unwrap();
+
+        if !r.status().is_success() {
+            eprintln!("notification request failed: {}", r.status());
+            eprintln!("{}", r.text().await.unwrap_or_default());
+        }
     });
 }

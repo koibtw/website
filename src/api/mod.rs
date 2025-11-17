@@ -38,6 +38,12 @@ fn censor_input(input: &str) -> Result<String, String> {
 }
 
 async fn send_notification(message: String) {
+    #[cfg(debug_assertions)]
+    {
+        println!("skipping notification:\n{}", message);
+        return;
+    }
+
     tokio::spawn(async move {
         reqwest::Client::new()
             .put(std::env::var("NOTIFICATION_URL").unwrap())

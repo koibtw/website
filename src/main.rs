@@ -32,7 +32,11 @@ async fn axum(
         }
     }
 
-    Ok(build_routes(pool).into())
+    let routes = build_routes(pool);
+
+    api::send_notification("server up".to_string()).await;
+
+    Ok(routes.into())
 }
 
 fn build_routes(pool: sqlx::PgPool) -> Router {

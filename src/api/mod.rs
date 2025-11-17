@@ -37,7 +37,7 @@ fn censor_input(input: &str) -> Result<String, String> {
     Ok(censored)
 }
 
-async fn send_notification(message: String) {
+pub async fn send_notification(message: String) {
     #[cfg(debug_assertions)]
     {
         println!("skipping notification:\n{}", message);

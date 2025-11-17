@@ -1,15 +1,32 @@
+use super::{censor_input, send_notification, validate_input};
 use crate::constants;
-
-use super::{censor_input, ntfy_send, validate_input};
-use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
+use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 use serde::{Deserialize, Serialize};
-use sqlx::{prelude::FromRow, types::chrono, PgPool};
+use sqlx::{PgPool, prelude::FromRow, types::chrono};
 
 #[derive(Deserialize)]
 pub struct Entry {
     name: String,
     website: Option<String>,
     message: String,
+}
+
+fn display_entry(id: Option<i32>, name: &str, website: &str, message: &str) -> String {
+    format!(
+        "{}{}:\n{}{}",
+        name,
+        if website.is_empty() {
+            website
+        } else {
+            &format!(" ({})", website)
+        },
+        message,
+        if let Some(id) = id {
+            format!("\n{}/guestbook#entry-{}", constants::HOST, id)
+        } else {
+            "".to_string()
+        }
+    )
 }
 
 #[derive(Serialize, FromRow)]
@@ -30,14 +47,8 @@ pub async fn add_handler(
     let message = data.message.trim();
 
     println!(
-        "got new guestbook entry from {}{}:\n{}",
-        name,
-        if website.is_empty() {
-            "".to_string()
-        } else {
-            format!(" ({})", website)
-        },
-        message
+        "got new guestbook entry from {}",
+        display_entry(None, name, &website, message)
     );
 
     validate_input(name).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
@@ -85,15 +96,12 @@ pub async fn add_handler(
     .await
     {
         Ok(entry) => {
-            ntfy_send(
-                entry.name.clone(),
-                if let Some(website) = &entry.website {
-                    format!("{}\n{}", entry.message, website)
-                } else {
-                    entry.message.clone()
-                },
-                Some(format!("{}/guestbook#entry-{}", constants::HOST, entry.id)),
-            )
+            send_notification(display_entry(
+                Some(entry.id),
+                &entry.name,
+                entry.website.as_deref().unwrap_or(""),
+                &entry.message,
+            ))
             .await;
 
             Ok((StatusCode::CREATED, Json(entry)))

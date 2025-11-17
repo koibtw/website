@@ -3164,6 +3164,7 @@ dependencies = [
  "rust-embed",
  "rustrict",
  "serde",
+ "serde_json",
  "shuttle-axum",
  "shuttle-runtime",
  "shuttle-shared-db",

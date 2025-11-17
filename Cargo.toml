@@ -15,6 +15,7 @@ reqwest = { version = "0.12.24", default-features = false }
 rust-embed = "8.8.0"
 rustrict = { version = "0.7.36" }
 serde = { version = "1.0.228", default-features = false }
+serde_json = { version = "1.0.145", default-features = false }
 shuttle-axum = "0.57.0"
 shuttle-runtime = "0.57.0"
 shuttle-shared-db = { version = "0.57.0", default-features = false, features = ["postgres", "sqlx"] }

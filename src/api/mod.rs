@@ -1,4 +1,3 @@
-use reqwest::header::{HeaderMap, HeaderValue};
 use rustrict::{Censor, Type};
 
 pub mod guestbook;
@@ -38,20 +37,20 @@ fn censor_input(input: &str) -> Result<String, String> {
     Ok(censored)
 }
 
-async fn ntfy_send(title: String, message: String, click_url: Option<String>) {
-    tokio::spawn(async move {
-        let mut headers = HeaderMap::new();
-        headers.insert("Title", HeaderValue::from_str(&title).unwrap());
-        if let Some(url) = click_url {
-            headers.insert("Click", HeaderValue::from_str(&url).unwrap());
-        }
+pub async fn send_notification(message: String) {
+    #[cfg(debug_assertions)]
+    {
+        println!("skipping notification:\n{}", message);
+        return;
+    }
 
-        let _ = reqwest::Client::new()
-            .post(std::env::var("NTFY_URL").unwrap())
-            .headers(headers)
-            .body(message.to_string())
+    tokio::spawn(async move {
+        reqwest::Client::new()
+            .put(std::env::var("NOTIFICATION_URL").unwrap())
+            .body(serde_json::json!({ "msgtype": "m.text", "body": message }).to_string())
             .send()
             .await
-            .map_err(|e| println!("failed to send ntfy notification: {}", e));
+            .map_err(|e| println!("failed to send notification: {}", e))
+            .ok();
     });
 }

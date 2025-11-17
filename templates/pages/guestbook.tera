@@ -64,7 +64,7 @@
   function submitGuestbookEntry() {
     const name = nameInput.value.trim();
     const website = websiteInput.value.trim();
-    const message = messageInput.value.trim();
+    const message = messageInput.value.trim().replace(/\n/g, ' ');
 
     if (name && message) {
       fetch('/api/guestbook', {

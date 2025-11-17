@@ -1,8 +1,8 @@
 use axum::{
-    Router,
-    http::{self, StatusCode, header},
+    http::{self, header, StatusCode},
     response::{Html, IntoResponse, Response},
     routing::{get, post},
+    Router,
 };
 use tower_http::services::ServeDir;
 
@@ -24,6 +24,14 @@ async fn axum(
     #[shuttle_shared_db::Postgres] pool: sqlx::PgPool,
     #[shuttle_runtime::Secrets] secrets: shuttle_runtime::SecretStore,
 ) -> shuttle_axum::ShuttleAxum {
+    std::panic::set_hook(Box::new(|info| {
+        let msg = format!("server panicked:\n{}", info);
+        eprintln!("{}", msg);
+        tokio::spawn(async move {
+            api::send_notification(msg).await;
+        });
+    }));
+
     sqlx::migrate!().run(&pool).await.unwrap();
 
     for var in constants::ENV_VARS {

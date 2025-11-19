@@ -21,8 +21,23 @@ pub const FRIENDS: &[Badge] = &[
     },
     Badge {
         src: "/img/badges/sebaguardian.gif",
-        alt: "sebaguardian",
+        alt: "sebaguardian's site",
         href: Some("https://sebaguardian.github.io"),
+    },
+    Badge {
+        src: "/img/badges/tasky.webp",
+        alt: "tasky",
+        href: Some("https://tasky.uwu.network"),
+    },
+    Badge {
+        src: "/img/badges/tired.moe.gif",
+        alt: "tired.moe",
+        href: Some("https://tired.moe"),
+    },
+    Badge {
+        src: "/img/badges/isabelroses.gif",
+        alt: "i am nix gf (isabel's site)",
+        href: Some("https://isabelroses.com"),
     },
     Badge {
         src: "/img/badges/ari.png",
@@ -30,13 +45,23 @@ pub const FRIENDS: &[Badge] = &[
         href: Some("https://ari.lt"),
     },
     Badge {
-        src: "/img/badges/tnixc.webp",
-        alt: "tnixc (enoch's site)",
-        href: Some("https://enochlau.com"),
+        src: "/img/badges/april.png",
+        alt: "april",
+        href: Some("https://aprl.pet"),
+    },
+    Badge {
+        src: "/img/badges/elissa.png",
+        alt: "elissa",
+        href: Some("https://elissa.moe"),
+    },
+    Badge {
+        src: "/img/badges/robin.gif",
+        alt: "robin",
+        href: Some("https://robinroses.xyz"),
     },
     Badge {
         src: "/img/badges/kolpix.gif",
-        alt: "kolpix",
+        alt: "kolpix' bakery",
         href: Some("https://kolpix.nekoweb.org"),
     },
 ];

@@ -3,6 +3,8 @@
 
 set -euo pipefail
 
+match=${1:-'*'}
+
 readarray -t SOURCES <img/badges/sources.txt
 
 for src in "${SOURCES[@]}"; do
@@ -13,6 +15,11 @@ for src in "${SOURCES[@]}"; do
 
   filename="${src%%:*}"
   url="${src#*: }"
+
+  if [[ ! $filename == "$match" && ! $match == '*' ]]; then
+    echo "skipping $filename"
+    continue
+  fi
 
   echo "updating $filename from $url"
   curl -sL "$url" -o "img/badges/$filename" || echo "failed to download $url"

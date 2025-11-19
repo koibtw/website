@@ -22,4 +22,8 @@ pub(crate) const EXT_REDIRECTS: &[(&str, &str)] = &[
         "/legal",
         "https://github.com/adamperkowski/website/blob/old/templates/pages/legal.tera",
     ),
+    (
+        "/api/nixdle",
+        "https://github.com/adamperkowski/nixdle"
+    )
 ];

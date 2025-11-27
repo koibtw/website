@@ -1,8 +1,8 @@
 use super::{censor_input, send_notification, validate_input};
 use crate::constants;
-use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
+use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
 use serde::{Deserialize, Serialize};
-use sqlx::{PgPool, prelude::FromRow, types::chrono};
+use sqlx::{prelude::FromRow, types::chrono, PgPool};
 
 #[derive(Deserialize)]
 pub struct Entry {
@@ -33,6 +33,7 @@ struct GuestbookEntry {
     name: String,
     website: Option<String>,
     message: String,
+    hidden: bool,
     created_at: chrono::NaiveDateTime,
 }
 
@@ -41,7 +42,7 @@ pub async fn add_handler(
     Json(data): Json<Entry>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     let name = data.name.trim();
-    let website = data.website.unwrap_or_default().trim().to_string();
+    let mut website = data.website.unwrap_or_default().trim().to_string();
     let message = data.message.trim();
 
     println!(
@@ -53,13 +54,22 @@ pub async fn add_handler(
     validate_input(&website).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
     validate_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
 
-    if !website.is_empty()
-        && (!website.starts_with("https://") || !website.contains('.') || website.contains(' '))
-    {
-        return Err((
-            StatusCode::BAD_REQUEST,
-            "website has to be a valid URL starting with https://".to_string(),
-        ));
+    if !website.is_empty() {
+        if !website.contains('.') || website.contains(' ') {
+            return Err((
+                StatusCode::BAD_REQUEST,
+                "website has to be a valid URL".to_string(),
+            ));
+        }
+
+        if !website.contains("://") {
+            website = format!("https://{}", website);
+        } else if !website.starts_with("http://") && !website.starts_with("https://") {
+            return Err((
+                StatusCode::BAD_REQUEST,
+                "website has to start with http:// or https://".to_string(),
+            ));
+        }
     }
 
     if name.is_empty() || name.len() > 20 {
@@ -85,7 +95,7 @@ pub async fn add_handler(
     let message_censored = censor_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
 
     match sqlx::query_as::<_, GuestbookEntry>(
-        "INSERT INTO guestbook (name, website, message) VALUES ($1, $2, $3) RETURNING *",
+        "INSERT INTO guestbook (name, website, message, hidden) VALUES ($1, $2, $3, true) RETURNING *",
     )
     .bind(name_censored)
     .bind(website)
@@ -111,9 +121,11 @@ pub async fn add_handler(
 pub async fn get_all_handler(
     State(pool): State<PgPool>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
-    match sqlx::query_as::<_, GuestbookEntry>("SELECT * FROM guestbook ORDER BY id ASC")
-        .fetch_all(&pool)
-        .await
+    match sqlx::query_as::<_, GuestbookEntry>(
+        "SELECT * FROM guestbook WHERE hidden = false ORDER BY id ASC",
+    )
+    .fetch_all(&pool)
+    .await
     {
         Ok(entries) => Ok((StatusCode::OK, Json(entries))),
         Err(e) => Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string())),

@@ -49,7 +49,7 @@
       })
       .then(data => {
         data.forEach(entry => {
-          createGuestbookEntryElement(entry.id, entry.name, entry.website, entry.message, entry.created_at);
+          createGuestbookEntryElement(entry.id, entry.name, entry.website, entry.message, entry.created_at, false);
         });
       });
   });
@@ -76,7 +76,7 @@
       }).then(response => {
         if (response.ok) {
           response.json().then(data => {
-            createGuestbookEntryElement(data.id, data.name, data.website, data.message, data.created_at);
+            createGuestbookEntryElement(data.id, data.name, data.website, data.message, data.created_at, true);
           });
         } else {
           if (response.status === 429) {
@@ -91,7 +91,7 @@
     }
   }
 
-  function createGuestbookEntryElement(id, name, website, message, createdAt) {
+  function createGuestbookEntryElement(id, name, website, message, createdAt, isNew) {
     const entryDiv = document.createElement('div');
     entryDiv.className = 'guestbook-entry';
 
@@ -108,6 +108,7 @@
 
     const nameP = document.createElement('p');
     nameP.className = 'guestbook-entry-name';
+    if (isNew) nameP.className += ' fg-alt';
 
     if (website) {
       const nameLink = document.createElement('a');
@@ -123,11 +124,13 @@
 
     const dateP = document.createElement('p');
     dateP.className = 'fg-alt no-margin-bottom';
-    dateP.textContent = createdAt.split('T')[0];
+    if (isNew) dateP.textContent = 'under review';
+    else dateP.textContent = createdAt.split('T')[0];
     nameDiv.appendChild(dateP);
 
     const messageP = document.createElement('p');
     messageP.className = 'guestbook-entry-message';
+    if (isNew) messageP.className += ' fg-alt';
     messageP.textContent = message;
     entryDiv.appendChild(messageP);
 

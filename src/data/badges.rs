@@ -45,6 +45,11 @@ pub const FRIENDS: &[Badge] = &[
         href: Some("https://ari.lt"),
     },
     Badge {
+        src: "/img/badges/robin.gif",
+        alt: "robin",
+        href: Some("https://robinroses.xyz"),
+    },
+    Badge {
         src: "/img/badges/april.png",
         alt: "april",
         href: Some("https://aprl.pet"),
@@ -53,11 +58,6 @@ pub const FRIENDS: &[Badge] = &[
         src: "/img/badges/elissa.png",
         alt: "elissa",
         href: Some("https://elissa.moe"),
-    },
-    Badge {
-        src: "/img/badges/robin.gif",
-        alt: "robin",
-        href: Some("https://robinroses.xyz"),
     },
     Badge {
         src: "/img/badges/kolpix.gif",

@@ -1,5 +1,5 @@
 appledust.gif: https://www.lejlart.com/flist/ad_skullsprinkles.gif
-april.png: https://aprl.pet/badges/april.png
+# april.png: https://aprl.pet/badges/april.png
 ari.png: https://ari.lt/static/badges/badge.png
 elissa.png: https://elissa.moe/88x31.png
 espy.gif: https://espy.world/img/button.gif

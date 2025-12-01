@@ -35,7 +35,7 @@ pub async fn start_handler(
     }
 
     match sqlx::query(
-        "INSERT INTO music (name, album, artist) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name",
+        "INSERT INTO music (name, album, artist) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, album = EXCLUDED.album, artist = EXCLUDED.artist",
     )
     .bind(&data.name)
     .bind(&data.album)

@@ -15,7 +15,7 @@ dotenv = { version = "0.15.0", default-features = false }
 lazy_static = "1.5.0"
 reqwest = { version = "0.12.24", default-features = false, features = ["json"] }
 rust-embed = "8.8.0"
-rustrict = { version = "0.7.36" }
+rustrict = { version = "0.7.37" }
 serde = { version = "1.0.228", default-features = false }
 serde_json = { version = "1.0.145", default-features = false }
 sqlx = { version = "0.8.6", default-features = false, features = ["chrono", "derive", "macros", "migrate", "runtime-tokio", "sqlite"] }

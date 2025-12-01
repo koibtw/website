@@ -1,8 +1,8 @@
 use axum::{
-    http::{self, header, StatusCode},
+    Router,
+    http::{self, StatusCode, header},
     response::{Html, IntoResponse, Response},
     routing::{get, post},
-    Router,
 };
 use tera::Context;
 use tower_http::services::ServeDir;
@@ -29,14 +29,14 @@ async fn main() {
         });
     }));
 
-    let pool = sqlx::SqlitePool::connect(&constants::DATABASE_URL)
+    let pool = sqlx::SqlitePool::connect(constants::DATABASE_URL)
         .await
         .unwrap();
     sqlx::migrate!().run(&pool).await.unwrap();
 
     dotenv::dotenv().ok();
     for var in constants::ENV_VARS {
-        std::env::var(var).expect(&format!("{} must be set", var));
+        std::env::var(var).unwrap_or_else(|_| panic!("{} must be set", var));
     }
 
     let app = build_routes(pool);

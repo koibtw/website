@@ -1,5 +1,6 @@
 use rustrict::{Censor, Type};
 use sqlx::types::chrono::Utc;
+use std::error::Error;
 
 pub mod guestbook;
 pub mod jellyfin;
@@ -52,14 +53,14 @@ pub async fn send_notification(message: String) {
             )
             .send()
             .await
-            .map_err(|e| eprintln!("failed to send notification: {}", e))
+            .map_err(|e| eprintln!("failed to send notification: {}", e.source().unwrap_or(&e)))
             .ok();
 
-        if let Some(r) = res {
-            if !r.status().is_success() {
-                eprintln!("notification request failed: {}", r.status());
-                eprintln!("{}", r.text().await.unwrap_or_default());
-            }
+        if let Some(r) = res
+            && !r.status().is_success()
+        {
+            eprintln!("notification request failed: {}", r.status());
+            eprintln!("{}", r.text().await.unwrap_or_default());
         }
     });
 }

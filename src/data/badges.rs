@@ -47,7 +47,7 @@ pub const FRIENDS: &[Badge] = &[
     Badge {
         src: "/img/badges/robin.gif",
         alt: "robin",
-        href: Some("https://robinroses.xyz"),
+        href: Some("https://robinwobin.dev"),
     },
     Badge {
         src: "/img/badges/april.png",

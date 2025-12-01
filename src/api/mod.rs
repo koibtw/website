@@ -39,7 +39,7 @@ pub async fn send_notification(message: String) {
             return;
         }
 
-        let r = reqwest::Client::new()
+        let res = reqwest::Client::new()
             .put(format!(
                 "{}/{}",
                 std::env::var("MATRIX_URL").unwrap(),
@@ -53,11 +53,13 @@ pub async fn send_notification(message: String) {
             .send()
             .await
             .map_err(|e| eprintln!("failed to send notification: {}", e))
-            .unwrap();
+            .ok();
 
-        if !r.status().is_success() {
-            eprintln!("notification request failed: {}", r.status());
-            eprintln!("{}", r.text().await.unwrap_or_default());
+        if let Some(r) = res {
+            if !r.status().is_success() {
+                eprintln!("notification request failed: {}", r.status());
+                eprintln!("{}", r.text().await.unwrap_or_default());
+            }
         }
     });
 }

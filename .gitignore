@@ -1,7 +1,5 @@
+.env
 target
 result
 
 static/styles.css
-
-.shuttle*
-Secrets*.toml

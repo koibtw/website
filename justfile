@@ -1,9 +1,9 @@
 run:
   @just build-styles
-  cargo shuttle run
+  cargo run
 
 watch:
-  cargo watch -s 'just build-styles; cargo shuttle run --external'
+  cargo watch -s 'just run'
 
 check:
   cargo fmt --all --check
@@ -22,7 +22,12 @@ deploy:
   @just clean
   @just build-styles
   @just test
-  cargo shuttle deploy
+  nix build
+  nix copy --to ssh://seber "$(readlink -f result)"
+  ssh seber "rm -f /var/website/website && ln -sf '$(readlink -f result)' /var/website/website"
+  rsync -avz static/ seber:/var/website/static
+  rsync -avz img/ seber:/var/website/img
+  rsync -avz .env seber:/var/website/.env
 
 clean:
   rm -f static/main.css

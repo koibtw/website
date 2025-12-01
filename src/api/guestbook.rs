@@ -1,8 +1,8 @@
 use super::{censor_input, send_notification, validate_input};
-use crate::constants;
+use crate::{constants, DbPool};
 use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
 use serde::{Deserialize, Serialize};
-use sqlx::{prelude::FromRow, types::chrono, PgPool};
+use sqlx::{prelude::FromRow, types::chrono};
 
 #[derive(Deserialize)]
 pub struct Entry {
@@ -38,7 +38,7 @@ struct GuestbookEntry {
 }
 
 pub async fn add_handler(
-    State(pool): State<PgPool>,
+    State(pool): State<DbPool>,
     Json(data): Json<Entry>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     let name = data.name.trim();
@@ -119,7 +119,7 @@ pub async fn add_handler(
 }
 
 pub async fn get_all_handler(
-    State(pool): State<PgPool>,
+    State(pool): State<DbPool>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     match sqlx::query_as::<_, GuestbookEntry>(
         "SELECT * FROM guestbook WHERE hidden = false ORDER BY id ASC",

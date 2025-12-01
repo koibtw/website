@@ -21,6 +21,12 @@ use metadata::{ChangeFreq, RobotsTXT, Sitemap, Uri};
 
 type DbPool = sqlx::Pool<sqlx::Sqlite>;
 
+#[derive(Clone)]
+struct ServerState {
+    nixdle: nixdle::State,
+    pool: DbPool,
+}
+
 #[tokio::main]
 async fn main() {
     std::panic::set_hook(Box::new(|info| {
@@ -41,7 +47,24 @@ async fn main() {
         std::env::var(var).unwrap_or_else(|_| panic!("{} must be set", var));
     }
 
-    let app = build_routes(pool);
+    let nixdle_builtin_types =
+        nixdle::parse_builtin_types(include_str!("../data/builtin_types.json")).unwrap();
+    let nixdle_functions = nixdle::parse_functions_filtered(
+        &nixdle_builtin_types,
+        include_str!("../data/functions.json"),
+    )
+    .unwrap();
+
+    let mut nixdle_state = nixdle::State::new(nixdle_functions, nixdle_builtin_types);
+    nixdle_state.init_random_game();
+
+    println!("nixdle: {}", nixdle_state.game.clone().unwrap().get_func());
+
+    let app = build_routes(ServerState {
+        nixdle: nixdle_state,
+        pool: pool,
+    });
+
     let listener = tokio::net::TcpListener::bind(&constants::BIND_ADDR)
         .await
         .unwrap();
@@ -50,7 +73,7 @@ async fn main() {
     axum::serve(listener, app).await.unwrap();
 }
 
-fn build_routes(pool: DbPool) -> Router {
+fn build_routes(state: ServerState) -> Router {
     let uris = &[
         Uri::new("/", "home", true, Some(ChangeFreq::Monthly), Some(1.0)),
         Uri::new(
@@ -108,7 +131,9 @@ fn build_routes(pool: DbPool) -> Router {
         .route("/jellyfin/start", post(jellyfin::start_handler))
         .route("/jellyfin/stop", post(jellyfin::stop_handler))
         .route("/jellyfin", get(jellyfin::get_handler))
-        .with_state(pool);
+        .route("/nixdle/start", get(api::nixdle::start_handler))
+        .route("/nixdle/attempt", post(api::nixdle::attempt_handler))
+        .with_state(state);
 
     let mut redirect_router: Router = Router::new();
     for (uri, loc) in constants::INT_REDIRECTS.iter() {

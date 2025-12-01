@@ -18,9 +18,13 @@ format:
 build-styles:
   sass --no-source-map --style=compressed -q styles/main.scss static/styles.css
 
+build-data:
+  cp --no-preserve=mode,ownership -r $(nix build --no-link --print-out-paths github:nixdle/nixdle#data) data
+
 deploy:
   @just clean
   @just build-styles
+  @just build-data
   @just test
   nix build
   nix copy --to ssh://seber "$(readlink -f result)"
@@ -30,4 +34,4 @@ deploy:
   rsync -avz .env seber:/var/website/.env
 
 clean:
-  rm -f static/main.css
+  rm -rf static/main.css data

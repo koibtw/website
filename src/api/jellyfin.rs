@@ -1,4 +1,4 @@
-use crate::DbPool;
+use crate::ServerState;
 use axum::{
     Json,
     extract::State,
@@ -26,7 +26,7 @@ struct MusicEntry {
 }
 
 pub async fn start_handler(
-    State(pool): State<DbPool>,
+    State(state): State<ServerState>,
     headers: HeaderMap,
     Json(data): Json<Webhook>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
@@ -40,7 +40,7 @@ pub async fn start_handler(
     .bind(&data.name)
     .bind(&data.album)
     .bind(&data.artist)
-    .fetch_one(&pool)
+    .fetch_one(&state.pool)
     .await
     {
         Ok(_) => Ok((StatusCode::CREATED, "ok".to_string())),
@@ -49,24 +49,29 @@ pub async fn start_handler(
 }
 
 pub async fn stop_handler(
-    State(pool): State<DbPool>,
+    State(state): State<ServerState>,
     headers: HeaderMap,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     if !verify_headers(&headers) {
         return Err((StatusCode::UNAUTHORIZED, "dont hack me bruh".to_string()));
     }
 
-    match sqlx::query("DELETE FROM music").fetch_one(&pool).await {
+    match sqlx::query("DELETE FROM music")
+        .fetch_one(&state.pool)
+        .await
+    {
         Ok(_) => Ok((StatusCode::OK, "ok".to_string())),
         Err(e) => Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string())),
     }
 }
 
 pub async fn get_handler(
-    State(pool): State<DbPool>,
+    State(state): State<ServerState>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
+    let pool = &state.pool;
+
     match sqlx::query_as::<_, MusicEntry>("SELECT * FROM music")
-        .fetch_all(&pool)
+        .fetch_all(pool)
         .await
     {
         Ok(data) => {
@@ -74,7 +79,7 @@ pub async fn get_handler(
                 && data[0].created_at + Duration::new(30 * 60, 0) < chrono::Utc::now().naive_utc()
             {
                 println!("some weirdness going on, clearing music table");
-                match sqlx::query("DELETE FROM music").fetch_one(&pool).await {
+                match sqlx::query("DELETE FROM music").fetch_one(pool).await {
                     Ok(_) => return Ok((StatusCode::OK, Json(Vec::<MusicEntry>::new()))),
                     Err(e) => {
                         return Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string()));

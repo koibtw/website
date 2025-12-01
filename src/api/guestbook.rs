@@ -1,5 +1,5 @@
 use super::{censor_input, send_notification, validate_input};
-use crate::{DbPool, constants};
+use crate::{ServerState, constants};
 use axum::{Json, extract::State, http::StatusCode, response::IntoResponse};
 use serde::{Deserialize, Serialize};
 use sqlx::{prelude::FromRow, types::chrono};
@@ -15,7 +15,7 @@ fn display_entry(id: Option<i32>, name: &str, website: &str, message: &str) -> S
     let site = if website.is_empty() {
         "".to_string()
     } else {
-        format!(" ({})", website)
+        format!(" {} ", website)
     };
 
     let mut result = format!("{}{}:\n{}", name, site, message);
@@ -38,7 +38,7 @@ struct GuestbookEntry {
 }
 
 pub async fn add_handler(
-    State(pool): State<DbPool>,
+    State(state): State<ServerState>,
     Json(data): Json<Entry>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     let name = data.name.trim();
@@ -100,7 +100,7 @@ pub async fn add_handler(
     .bind(name_censored)
     .bind(website)
     .bind(message_censored)
-    .fetch_one(&pool)
+    .fetch_one(&state.pool)
     .await
     {
         Ok(entry) => {
@@ -119,12 +119,12 @@ pub async fn add_handler(
 }
 
 pub async fn get_all_handler(
-    State(pool): State<DbPool>,
+    State(state): State<ServerState>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     match sqlx::query_as::<_, GuestbookEntry>(
         "SELECT * FROM guestbook WHERE hidden = false ORDER BY id ASC",
     )
-    .fetch_all(&pool)
+    .fetch_all(&state.pool)
     .await
     {
         Ok(entries) => Ok((StatusCode::OK, Json(entries))),

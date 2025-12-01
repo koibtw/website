@@ -1040,6 +1040,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "nixdle"
+version = "0.0.1-alpha.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bb15899077639ef9869e8e4bded67d262a19b5f672c1ea5354a161f65f146016"
+dependencies = [
+ "chrono",
+ "rand 0.9.2",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "num-bigint-dig"
 version = "0.8.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2444,6 +2456,7 @@ dependencies = [
  "chrono",
  "dotenv",
  "lazy_static",
+ "nixdle",
  "reqwest",
  "rust-embed",
  "rustrict",

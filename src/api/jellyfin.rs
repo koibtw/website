@@ -1,11 +1,12 @@
+use crate::DbPool;
 use axum::{
-    Json,
     extract::State,
     http::{HeaderMap, StatusCode},
     response::IntoResponse,
+    Json,
 };
 use serde::{Deserialize, Serialize};
-use sqlx::{PgPool, prelude::FromRow, types::chrono};
+use sqlx::{prelude::FromRow, types::chrono};
 use std::time::Duration;
 
 #[derive(Deserialize)]
@@ -25,7 +26,7 @@ struct MusicEntry {
 }
 
 pub async fn start_handler(
-    State(pool): State<PgPool>,
+    State(pool): State<DbPool>,
     headers: HeaderMap,
     Json(data): Json<Webhook>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
@@ -48,7 +49,7 @@ pub async fn start_handler(
 }
 
 pub async fn stop_handler(
-    State(pool): State<PgPool>,
+    State(pool): State<DbPool>,
     headers: HeaderMap,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     if !verify_headers(&headers) {
@@ -62,7 +63,7 @@ pub async fn stop_handler(
 }
 
 pub async fn get_handler(
-    State(pool): State<PgPool>,
+    State(pool): State<DbPool>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
     match sqlx::query_as::<_, MusicEntry>("SELECT * FROM music")
         .fetch_all(&pool)

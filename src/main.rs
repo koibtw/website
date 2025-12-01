@@ -4,6 +4,7 @@ use axum::{
     routing::{get, post},
     Router,
 };
+use tera::Context;
 use tower_http::services::ServeDir;
 
 mod api;
@@ -13,17 +14,13 @@ mod metadata;
 mod templates;
 
 use api::{guestbook, jellyfin};
-use data::badges::MIMI_BADGE;
+use data::badges::{COOL_SITES, FRIENDS, MIMI_BADGE};
 use metadata::{ChangeFreq, RobotsTXT, Sitemap, Uri};
-use tera::Context;
 
-use crate::data::badges::{COOL_SITES, FRIENDS};
+type DbPool = sqlx::Pool<sqlx::Sqlite>;
 
-#[shuttle_runtime::main]
-async fn axum(
-    #[shuttle_shared_db::Postgres] pool: sqlx::PgPool,
-    #[shuttle_runtime::Secrets] secrets: shuttle_runtime::SecretStore,
-) -> shuttle_axum::ShuttleAxum {
+#[tokio::main]
+async fn main() {
     std::panic::set_hook(Box::new(|info| {
         let msg = format!("server panicked:\n{}", info);
         eprintln!("{}", msg);
@@ -32,22 +29,26 @@ async fn axum(
         });
     }));
 
+    let pool = sqlx::SqlitePool::connect(&constants::DATABASE_URL)
+        .await
+        .unwrap();
     sqlx::migrate!().run(&pool).await.unwrap();
 
+    dotenv::dotenv().ok();
     for var in constants::ENV_VARS {
-        unsafe {
-            std::env::set_var(var, secrets.get(var).unwrap());
-        }
+        std::env::var(var).expect(&format!("{} must be set", var));
     }
 
-    let routes = build_routes(pool);
-
+    let app = build_routes(pool);
+    let listener = tokio::net::TcpListener::bind(&constants::BIND_ADDR)
+        .await
+        .unwrap();
+    println!("listening on {}", constants::BIND_ADDR);
     api::send_notification("server up".to_string()).await;
-
-    Ok(routes.into())
+    axum::serve(listener, app).await.unwrap();
 }
 
-fn build_routes(pool: sqlx::PgPool) -> Router {
+fn build_routes(pool: DbPool) -> Router {
     let uris = &[
         Uri::new("/", "home", true, Some(ChangeFreq::Monthly), Some(1.0)),
         Uri::new(

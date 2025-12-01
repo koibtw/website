@@ -9,7 +9,7 @@ repository = "https://github.com/adamperkowski/website"
 authors = ["Adam Perkowski <me@adamperkowski.dev>"]
 
 [dependencies]
-axum = { version = "0.8.6", default-features = false, features = ["http1", "json", "tokio"] }
+axum = { version = "0.8.7", default-features = false, features = ["http1", "json", "tokio"] }
 chrono = { version = "0.4.42", default-features = false, features = ["serde"] }
 dotenv = { version = "0.15.0", default-features = false }
 lazy_static = "1.5.0"

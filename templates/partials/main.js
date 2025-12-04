@@ -54,9 +54,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
   setDynamicClasses();
 });
-
-window.addEventListener('beforeunload', function () {
-  const oneko = document.getElementById('oneko');
-  sessionStorage.setItem('onekoPosLeft', oneko.style.left.replace('px', ''));
-  sessionStorage.setItem('onekoPosTop', oneko.style.top.replace('px', ''));
-});

@@ -2,4 +2,6 @@
 target
 result
 
+*.db
+
 static/styles.css

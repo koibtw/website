@@ -22,7 +22,7 @@ pub const FRIENDS: &[Badge] = &[
     Badge {
         src: "/img/badges/sebaguardian.gif",
         alt: "sebaguardian's site",
-        href: Some("https://sebaguardian.github.io"),
+        href: Some("https://sebaguardian.nekoweb.org"),
     },
     Badge {
         src: "/img/badges/tasky.webp",

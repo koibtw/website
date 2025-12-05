@@ -10,9 +10,11 @@
   if (isReducedMotion) return;
 
   const nekoEl = document.createElement("div");
+  const nekoFeedEl = document.createElement("button");
 
   let nekoPosX = parseFloat(sessionStorage.getItem("onekoPosLeft")) + 16 || window.innerWidth - 32;
   let nekoPosY = parseFloat(sessionStorage.getItem("onekoPosTop")) + 16 || window.innerHeight - 32;
+  let nekoSpeed = 10;
 
   let mousePosX = 0;
   let mousePosY = 0;
@@ -22,7 +24,6 @@
   let idleAnimation = null;
   let idleAnimationFrame = 0;
 
-  const nekoSpeed = 10;
   const spriteSets = {
     idle: [[-3, -3]],
     alert: [[-7, -3]],
@@ -100,8 +101,12 @@
 
     let nekoFile = "./oneko.gif"
     const curScript = document.currentScript
-    if (curScript && curScript.dataset.cat) {
-      nekoFile = curScript.dataset.cat
+    if (curScript) {
+      if (curScript.dataset.cat) nekoFile = curScript.dataset.cat;
+      if (curScript.dataset.chonky) {
+        nekoEl.style.transform = "scale(2)";
+        nekoSpeed = 20;
+      }
     }
     nekoEl.style.backgroundImage = `url(${nekoFile})`;
 

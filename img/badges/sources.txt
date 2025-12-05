@@ -8,8 +8,8 @@ isabelroses.gif: https://isabelroses.com/badges/me.gif
 kolpix.gif: https://kolpix.nekoweb.org/resources/button.gif
 lilithdev.gif: https://lilithdev.neocities.org/buttons/lilithdevbtn.gif
 oyaswmi.gif: https://oyaswmi.net/legacy/stamps/OyaButton.gif
-robin.gif: https://robinroses.xyz/badges/me.gif
-system72.gif: https://system72.dev/assets/system72.gif
-sebaguardian.gif: https://sebaguardian.github.io/img/ralpali.gif
+robin.gif: https://robinwobin.dev/badges/me.gif
+system72.gif: https://system72.dev/img/system72.gif
+sebaguardian.gif: https://sebaguardian.nekoweb.org/img/ralpali.gif
 tasky.webp: https://tasky.uwu.network/88x31.webp
 tired.moe.gif: https://tired.moe/assets/badges/tired.moe.gif

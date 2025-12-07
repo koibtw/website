@@ -14,6 +14,10 @@
     <br>
     that its source code is available publically in a <a class="target-blank" href="{{ git_url }}/website">github repo</a>
     <span class="inline-img"><img src="/img/gifs/smilies/shocked.gif" alt="shocked smiley"></span>
+    <br>
+    doesn't end there!! try running this:
+    <br>
+    <code>curl -L {{ main_host | split(pat="://") | last }}</code>
   </p>
   <p>
     anyway, i love listening to music. mostly (post)grunge and a lot of different rock/metal flavors

@@ -1,13 +1,14 @@
 use axum::{
-    Router,
-    http::{self, StatusCode, header},
+    http::{self, header, HeaderMap, StatusCode},
     response::{Html, IntoResponse, Response},
     routing::{get, post},
+    Extension, Router,
 };
 use tera::Context;
 use tower_http::services::ServeDir;
 
 mod api;
+mod ascii;
 mod constants;
 mod data;
 mod metadata;
@@ -118,11 +119,11 @@ fn build_routes(pool: DbPool) -> Router {
             "/robots.txt",
             get(([(header::CONTENT_TYPE, "text/plain")], robots)),
         )
+        .route("/healthz", get("alive :3"))
         .merge(redirect_router)
         .nest("/api", api_router)
         .nest_service("/img", ServeDir::new("img"))
         .nest_service("/static", ServeDir::new("static"))
-        .route("/healthz", get("alive :3"))
         .fallback(fallback_handler);
 
     let mut ctx = Context::new();
@@ -143,7 +144,12 @@ fn build_routes(pool: DbPool) -> Router {
             ctx.insert("cool_sites_badges", &COOL_SITES);
         }
 
-        router = router.route(uri.uri, get(render(uri.template, &ctx)));
+        router = router.route(
+            uri.uri,
+            get(serve_page)
+                .route_layer(Extension(uri.template))
+                .route_layer(Extension(ctx.clone())),
+        );
     }
 
     router
@@ -165,6 +171,23 @@ async fn redirect_temp(location: &str) -> Response {
         "redirecting...",
     )
         .into_response()
+}
+
+async fn serve_page(
+    headers: HeaderMap,
+    Extension(name): Extension<&str>,
+    Extension(ctx): Extension<Context>,
+) -> impl IntoResponse {
+    let is_curl = headers
+        .get(header::USER_AGENT)
+        .and_then(|ua| ua.to_str().ok())
+        .map_or(false, |ua| ua.contains("curl"));
+
+    if is_curl {
+        ascii::render().into_response()
+    } else {
+        render(name, &ctx).into_response()
+    }
 }
 
 fn render(page_name: &str, ctx: &Context) -> Html<String> {

@@ -37,3 +37,22 @@ button:disabled {
 *::placeholder {
   color: var(--fg-alt);
 }
+
+.form-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 1rem;
+}
+
+.form-container-left, .form-container-right {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.form-textarea {
+  width: 100%;
+  resize: none;
+  min-height: fit-content;
+}

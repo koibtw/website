@@ -3,16 +3,18 @@
     <a class="sidebar-link" href="/">adam perkowski</a>
 
     {% for uri in uris %}
-      {% if uri.uri == "/" %}
+      {% if uri.uri == "/" or not uri.in_menu %}
         {% continue %}
       {% endif %}
+
+      {% set name = uri.uri | trim_start_matches(pat="/") | replace(from="-", to="_") %}
 
       {# TODO: "│  ├─ " #}
 
       {% if loop.last %}
-        <a class="sidebar-link" href="{{ uri.uri }}">{{ uri.uri | replace(from="/", to="└─ ") }}</a>
+        <a class="sidebar-link" href="{{ uri.uri }}">└─ {{ name }}</a>
       {% else %}
-        <a class="sidebar-link" href="{{ uri.uri }}">{{ uri.uri | replace(from="/", to="├─ ") }}</a>
+        <a class="sidebar-link" href="{{ uri.uri }}">├─ {{ name }}</a>
       {% endif %}
     {% endfor %}
   </div>

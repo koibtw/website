@@ -1,0 +1,81 @@
+{% extends "base.tera" %}
+
+{% block title %}{% set title = "standard galactic alphabet translator" %}{% endblock %}
+{% block description %}{% set description = "ᔑ ℸ ̣ 𝙹𝙹ꖎ ⎓𝙹∷ ᓵ𝙹ᒲᒲ⚍リ╎ᓵᔑℸ ̣ ╎リ⊣ ∴╎ℸ ̣ ⍑ ᔑꖎ╎ᒷリ⨅‼️" %}{% endblock %}
+
+{% block main %}
+<p>
+  this thingy translates between english and the standard galactic alphabet (aka minecraft enchantment table language)
+  <br>
+  you can type in either box and it will translate to the other one automatically!!
+</p>
+
+<div class="form-container">
+  <div class="form-container-left">
+    <label for="sga-english">english</label>
+    <textarea id="sga-english" class="form-textarea" placeholder="gleep glorp! bogos binted?
+zap zap zap zip zip zip" required rows="8"></textarea>
+  </div>
+  <div class="form-container-right">
+    <label for="sga-sga">standard galactic alphabet</label>
+    <textarea id="sga-sga" class="form-textarea" placeholder="⊣ꖎᒷᒷ!¡ ⊣ꖎ𝙹∷!¡‼️ ʖ𝙹⊣𝙹ᓭ ʖ╎リℸ ̣ᒷ↸⁉️
+⨅ᔑ!¡ ⨅ᔑ!¡ ⨅ᔑ!¡ ⨅╎!¡ ⨅╎!¡ ⨅╎!¡" required rows="8"></textarea>
+  </div>
+</div>
+
+<img
+  src="/img/gifs/cool-alien.gif"
+  height="90px"
+  width="82px"
+  alt="cool alien"
+  class="main-absolute mobile-hide"
+  style="right: 0; top: 0;">
+
+<script>
+  var englishInput, sgaInput;
+
+  const alphabetMap = {
+    'a': 'ᔑ', 'b': 'ʖ', 'c': 'ᓵ', 'd': '↸', 'e': 'ᒷ', 'f': '⎓', 'g': '⊣',
+    'h': '⍑', 'i': '╎', 'j': '⋮', 'k': 'ꖌ', 'l': 'ꖎ', 'm': 'ᒲ', 'n': 'リ',
+    'o': '𝙹', 'p': '!¡', 'q': 'ᑑ', 'r': '∷', 's': 'ᓭ', 't': 'ℸ ̣', 'u': '⚍',
+    'v': '⍊', 'w': '∴', 'x': '\̇/', 'y': '||', 'z': '⨅',
+    '.': '•', ',': '`', '?': '⁉️', '!': '‼️'
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    englishInput = document.getElementById('sga-english');
+    sgaInput = document.getElementById('sga-sga');
+
+    englishInput.addEventListener('input', () => {
+      const inputText = englishInput.value.toLowerCase();
+      let translatedText = '';
+      for (const char of inputText) {
+        translatedText += alphabetMap[char] || char;
+      }
+      sgaInput.value = translatedText;
+    });
+
+    sgaInput.addEventListener('input', () => {
+      const inputText = sgaInput.value;
+      let translatedText = '';
+      let i = 0;
+      while (i < inputText.length) {
+        let found = false;
+        for (const [key, value] of Object.entries(alphabetMap)) {
+          if (inputText.startsWith(value, i)) {
+            translatedText += key;
+            i += value.length;
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          translatedText += inputText[i];
+          i++;
+        }
+      }
+      englishInput.value = translatedText;
+    });
+  });
+</script>
+{% endblock %}

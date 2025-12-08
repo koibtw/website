@@ -16,6 +16,7 @@ html, body {
   scroll-behavior: smooth;
 }
 
+/* FIXME: for some reason when a sidebar-link is overflowing this gets bigger */
 #sidebar {
   width: 15%;
   height: 100%;

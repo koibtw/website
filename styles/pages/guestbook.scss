@@ -1,25 +1,6 @@
-.guestbook-form {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  gap: 1rem;
-}
-
-.guestbook-form-name, .guestbook-form-message {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-}
-
 #guestbook-name {
   width: 100%;
   margin-bottom: 1rem;
-}
-
-#guestbook-message {
-  width: 100%;
-  resize: none;
-  min-height: fit-content;
 }
 
 #guestbook-submit {

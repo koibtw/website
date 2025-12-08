@@ -4,16 +4,16 @@
 {% block description %}{% set description = "leave a message on my site!" %}{% endblock %}
 
 {% block main %}
-<div class="guestbook-form">
-  <div class="guestbook-form-name">
+<div class="form-container">
+  <div class="form-container-left">
     <label for="guestbook-name">name <span class="accent">*</span></label>
     <input id="guestbook-name" type="text" placeholder="evil larry" required maxlength="20">
     <label for="guestbook-name">website or social</label>
     <input id="guestbook-website" type="text" placeholder="https://meow.camera" maxlength="100">
   </div>
-  <div class="guestbook-form-message">
+  <div class="form-container-right">
     <label for="guestbook-message">message <span class="accent">*</span></label>
-    <textarea id="guestbook-message" placeholder="zap zap zap zip zip zip gleep glorp" required maxlength="150" rows="5"></textarea>
+    <textarea id="guestbook-message" class="form-textarea" placeholder="zap zap zap zip zip zip gleep glorp" required maxlength="150" rows="5"></textarea>
   </div>
 </div>
 

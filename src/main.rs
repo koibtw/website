@@ -8,6 +8,7 @@ use tera::Context;
 use tower_http::services::ServeDir;
 
 mod api;
+#[allow(dead_code)]
 mod ascii;
 mod constants;
 mod data;
@@ -86,6 +87,13 @@ fn build_routes(pool: DbPool) -> Router {
             true,
             Some(ChangeFreq::Monthly),
             Some(0.6),
+        ),
+        Uri::new(
+            "/sga-translator",
+            "sga-translator",
+            true,
+            Some(ChangeFreq::Yearly),
+            Some(0.7),
         ),
     ];
 
@@ -181,7 +189,7 @@ async fn serve_page(
     let is_curl = headers
         .get(header::USER_AGENT)
         .and_then(|ua| ua.to_str().ok())
-        .map_or(false, |ua| ua.contains("curl"));
+        .is_some_and(|ua| ua.contains("curl"));
 
     if is_curl {
         ascii::render().into_response()

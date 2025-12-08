@@ -4,4 +4,5 @@ result
 
 *.db
 
+/data
 static/styles.css

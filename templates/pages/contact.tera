@@ -32,4 +32,5 @@
   <img src="/img/gifs/cellphone-jumping.gif" height="70px" width="70px" alt="cellphone jumping">
   <img src="/img/gifs/phones-ringing.gif" height="70px" width="70px" alt="phone ringing">
   <img src="/img/gifs/cellphone.gif" height="70px" width="70px" alt="cellphone">
+  <img src="/img/gifs/spooky-email.gif" height="70px" width="160px" alt="spooky email">
 {% endblock %}

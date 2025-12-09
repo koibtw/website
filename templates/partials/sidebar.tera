@@ -32,8 +32,9 @@
     </div>
 
     <select id="select-theme" aria-label="select theme">
-      <option>catppuccin</option>
       <option>mimi</option>
+      <option>catppuccin</option>
+      <option>evergarden</option>
     </select>
   </div>
 </nav>

@@ -14,13 +14,23 @@
   --accent: #b4befe;
 }
 
+.theme-evergarden {
+  --fg: #f8f9e8;
+  --bg: #1d2428;
+  --fg-alt: #96b4aa;
+  --bg-alt: #2d393d;
+  --accent: #addeb9;
+}
+
 @media (min-width: 855px) {
   .bg-mimi {
     background-image: url('/img/backgrounds/mimi.webp');
   }
-
   .bg-catppuccin {
     background-image: url('/img/backgrounds/catppuccin.webp');
+  }
+  .bg-evergarden {
+    background-image: url('/img/backgrounds/evergarden.webp');
   }
 }
 

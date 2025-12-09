@@ -19,6 +19,8 @@ input:focus, textarea:focus {
 
 label {
   line-height: 1.5rem;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 button {

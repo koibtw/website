@@ -11,7 +11,7 @@ pub(crate) const MAIN_HOST: &str = "http://localhost:8000";
 pub(crate) const MAIN_HOST: &str = "https://adamperkowski.dev";
 
 pub(crate) const DATABASE_URL: &str = "./website.db";
-pub(crate) const GIT_URL: &str = "https://github.com/adamperkowski";
+pub(crate) const GIT_URL: &str = "https://codeberg.org/adamperkowski";
 
 pub(crate) const ENV_VARS: &[&str] = &["JELLYFIN_SECRET", "MATRIX_URL", "MATRIX_TOKEN"];
 

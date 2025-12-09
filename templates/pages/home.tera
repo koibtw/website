@@ -12,7 +12,7 @@
     <br>
     you know what's even cooler though?
     <br>
-    that its source code is available publically in a <a class="target-blank" href="{{ git_url }}/website">github repo</a>
+    that its source code is available publically in a <a class="target-blank" href="{{ git_url }}/website">git repo</a>
     <span class="inline-img"><img src="/img/gifs/smilies/shocked.gif" alt="shocked smiley"></span>
     <br>
     doesn't end there!! try running this:

@@ -1,8 +1,8 @@
 use axum::{
-    http::{self, header, HeaderMap, StatusCode},
+    Extension, Router,
+    http::{self, HeaderMap, StatusCode, header},
     response::{Html, IntoResponse, Response},
     routing::{get, post},
-    Extension, Router,
 };
 use tera::Context;
 use tower_http::services::ServeDir;
@@ -140,6 +140,34 @@ fn build_routes(pool: DbPool) -> Router {
     ctx.insert("git_url", constants::GIT_URL);
     ctx.insert("mimi_badge", &MIMI_BADGE);
     ctx.insert("uris", uris);
+
+    let stop_hacking_me = [
+        "/.git",
+        "/config.php",
+        "/wp-login.php",
+        "/wp-admin",
+        "/wp-content",
+        "/wp-includes",
+    ];
+
+    for uri in stop_hacking_me {
+        router = router.route(
+            uri,
+            get((
+                StatusCode::from_u16(420).unwrap_or(StatusCode::IM_A_TEAPOT),
+                "420 enhance your calm :3",
+            )),
+        );
+        if !uri.trim_start_matches("/.").contains('.') {
+            router = router.route(
+                &(uri.to_string() + "/{*wildcard}"),
+                get((
+                    StatusCode::from_u16(420).unwrap_or(StatusCode::IM_A_TEAPOT),
+                    "420 enhance your calm :3",
+                )),
+            );
+        }
+    }
 
     for uri in uris {
         ctx.insert(

@@ -98,6 +98,15 @@ pre::selection {
   color: var(--fg);
 }
 
+blockquote {
+  border-left: solid 4px var(--bg-alt);
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0.5rem;
+  color: var(--fg-alt);
+  font-style: italic;
+}
+
 .fg-alt {
   color: var(--fg-alt);
 }

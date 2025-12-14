@@ -20,6 +20,7 @@
 <button id="guestbook-submit" class="button accent" disabled hidden onclick="submitGuestbookEntry()">submit</button>
 
 <div id="guestbook-entries">
+  <p>loading...</p>
 </div>
 
 <script>
@@ -31,6 +32,7 @@
     messageInput = document.getElementById('guestbook-message');
     submitButton = document.getElementById('guestbook-submit');
     guestbookEntriesDiv = document.getElementById('guestbook-entries');
+    guestbookEntriesP = guestbookEntriesDiv.querySelector('p');
 
     nameInput.addEventListener('input', validateForm);
     messageInput.addEventListener('input', validateForm);
@@ -41,9 +43,11 @@
           return response.json();
         } else {
           if (response.status === 429) {
-            alert('too many requests, refresh after 10 seconds');
+            guestbookEntriesP.textContent = 'too many requests, refresh after 10 seconds';
           } else {
-            response.text().then(text => alert(text));
+            response.text().then(text => {
+              guestbookEntriesP.textContent = text;
+            });
           }
         }
       })
@@ -51,6 +55,7 @@
         data.forEach(entry => {
           createGuestbookEntryElement(entry.id, entry.name, entry.website, entry.message, entry.created_at, false);
         });
+        guestbookEntriesP.remove();
       });
   });
 
@@ -94,6 +99,9 @@
   function createGuestbookEntryElement(id, name, website, message, createdAt, isNew) {
     const entryDiv = document.createElement('div');
     entryDiv.className = 'guestbook-entry';
+    if (guestbookEntriesDiv.children.length === 0) {
+      entryDiv.className += ' no-margin-bottom';
+    }
 
     const anchor = document.createElement('anchor');
     anchor.id = `entry-${id}`;
@@ -129,7 +137,7 @@
     nameDiv.appendChild(dateP);
 
     const messageP = document.createElement('p');
-    messageP.className = 'guestbook-entry-message';
+    messageP.className = 'no-margin-bottom';
     if (isNew) messageP.className += ' fg-alt';
     messageP.textContent = message;
     entryDiv.appendChild(messageP);

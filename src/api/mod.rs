@@ -32,6 +32,7 @@ fn censor_input(input: &str) -> Result<String, String> {
     Ok(censored)
 }
 
+#[allow(unreachable_code)]
 pub async fn send_notification(message: String) {
     tokio::spawn(async move {
         #[cfg(debug_assertions)]

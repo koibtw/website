@@ -140,6 +140,13 @@ fn build_routes(pool: DbPool) -> Router {
     ctx.insert("git_url", constants::GIT_URL);
     ctx.insert("mimi_badge", &MIMI_BADGE);
     ctx.insert("uris", uris);
+    ctx.insert("links", data::links::LINKS);
+
+    let max_link_title = data::links::LINKS
+        .iter()
+        .map(|link| link.title.unwrap_or_default().len())
+        .max()
+        .unwrap_or(10);
 
     let stop_hacking_me = [
         "/.git",
@@ -178,6 +185,8 @@ fn build_routes(pool: DbPool) -> Router {
         if uri.template == "badges" {
             ctx.insert("friend_badges", &FRIENDS);
             ctx.insert("cool_sites_badges", &COOL_SITES);
+        } else if uri.template == "contact" {
+            ctx.insert("max_link_title", &max_link_title);
         }
 
         router = router.route(

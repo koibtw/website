@@ -7,19 +7,12 @@
   <p>contact stuffs</p>
 
   <p>
-    github:&nbsp;&nbsp;&nbsp;<a class="target-blank" href="https://github.com/adamperkowski" rel="me">@adamperkowski</a>
-    <br>
-    codeberg:&nbsp;<a class="target-blank" href="{{ git_url }}" rel="me">@adamperkowski</a>
-    <br>
-    email:&nbsp;&nbsp;&nbsp;&nbsp;<a class="target-blank" href="mailto:me@adamperkowski.dev" rel="me">me@adamperkowski.dev</a>
-    <br>
-    matrix:&nbsp;&nbsp;&nbsp;<a class="target-blank" href="https://matrix.to/#/@adam:matrix.system72.dev" rel="me">@adam:matrix.system72.dev</a>
-    <br>
-    discord:&nbsp;&nbsp;<a class="target-blank" href="https://discord.com/users/1400922134355644458" rel="me">@catpotatoburger</a>
-    <br>
-    bluesky:&nbsp;&nbsp;<a class="target-blank" href="https://bsky.app/profile/did:plc:b26ewgkrnx3yvsp2cdao3ntu" rel="me atproto">@adamperkowski.dev</a>
-    <br>
-    last.fm:&nbsp;&nbsp;<a class="target-blank" href="https://last.fm/user/adamperkowski" rel="me">adamperkowski</a>
+    {% for link in links %}
+      {% if link.rel is not containing("me") %}{% continue %}{% endif %}
+      {% set title_length = link.title | length %}
+      {{ link.title }}:{% for i in range(end=max_link_title - title_length + 1) %}&nbsp;{% endfor %}<a class="target-blank" href="{{ link.href }}" rel="{{ link.rel }}">{{ link.name }}</a>
+      <br>
+    {% endfor %}
   </p>
 
   <p>

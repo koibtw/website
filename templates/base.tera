@@ -28,8 +28,15 @@
     {# <meta name="theme-color" content="#b4befe"> #}
 
     <link rel="canonical" href="{{ canonical }}">
-    <link rel="stylesheet" href="/static/styles.css">
-    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" sizes="32x32 64x64 96x96 128x128 256x256">
+    {% for link in links %}
+      <link
+        rel="{{ link.rel }}"
+        href="{{ link.href }}"
+        {% if link.title %} title="{{ link.title }}"{% endif %}
+        {% if link.ltype %} type="{{ link.ltype }}"{% endif %}
+        {% if link.sizes %} sizes="{{ link.sizes }}"{% endif %}
+      >
+    {% endfor %}
 
     <meta property="og:title" content="{{ title }}">
     <meta property="og:description" content="{{ description }}">

@@ -1,4 +1,4 @@
-{% extends "base.tera" %}
+{% extends "base.html" %}
 
 {% block main %}
   <p>
@@ -34,9 +34,9 @@
     and umm have a great day? or something
   </p>
   <p>
-    now listening to {% include "partials/music.tera" %}
+    now listening to {% include "partials/music.html" %}
   </p>
 
   {% set badge = mimi_badge %}
-  {% include "partials/badge.tera" %}
+  {% include "partials/badge.html" %}
 {% endblock %}

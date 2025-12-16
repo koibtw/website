@@ -1,4 +1,4 @@
-{% extends "base.tera" %}
+{% extends "base.html" %}
 
 {% block title %}{% set title = "badges" %}{% endblock %}
 {% block description %}{% set description = "cute 88x31 buttons" %}{% endblock %}
@@ -14,7 +14,7 @@
   <p style="margin-bottom: 0.5rem;">friends :3</p>
   <div class="badge-grid">
     {% for badge in friend_badges %}
-      {% include "partials/badge.tera" %}
+      {% include "partials/badge.html" %}
     {% endfor %}
   </div>
 
@@ -23,7 +23,7 @@
   <p style="margin-bottom: 0.5rem;">cool sites</p>
   <div class="badge-grid">
     {% for badge in cool_sites_badges %}
-      {% include "partials/badge.tera" %}
+      {% include "partials/badge.html" %}
     {% endfor %}
   </div>
 
@@ -31,7 +31,7 @@
 
   <p style="margin-bottom: 0.5rem;">my badge</p>
   {% set badge = mimi_badge %}
-  {% include "partials/badge.tera" %}
+  {% include "partials/badge.html" %}
 
   <pre><code>&lt;a href="{{ main_host }}"&gt;</code>
 <code>  &lt;img</code>

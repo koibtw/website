@@ -236,7 +236,7 @@ async fn serve_page(
 }
 
 fn render(page_name: &str, ctx: &Context) -> Html<String> {
-    let path = format!("pages/{page_name}.tera");
+    let path = format!("pages/{page_name}.html");
 
     match templates::TEMPLATES.render(&path, ctx) {
         Ok(html) => Html(html),

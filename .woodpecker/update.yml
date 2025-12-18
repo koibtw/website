@@ -1,0 +1,49 @@
+when:
+  event: cron
+  cron: update
+
+variables:
+  - &branch 'chore/update-badges'
+  - &message 'chore: update badges'
+
+steps:
+  - name: badges
+    image: alpine/curl
+    commands:
+      - bash ./update-badges.sh
+  - name: commit
+    image: alpine/git
+    depends_on: [badges]
+    environment:
+      BRANCH: *branch
+      MESSAGE: *message
+      TOKEN:
+        from_secret: TOKEN
+    commands:
+      - |
+        if git diff --quiet; then
+          echo "no changes"
+          exit 0
+        fi
+      - git config --global user.name "woodpecker-bot"
+      - git config --global user.email "woodpecker-bot@obermui.de"
+      - git remote set-url origin "https://${CI_REPO_OWNER}:$${TOKEN}@codeberg.org/${CI_REPO}.git"
+      - git checkout -b "$${BRANCH}"
+      - git add -A
+      - git commit -m "$${MESSAGE}"
+      - git push -u origin "$${BRANCH}" --force
+  - name: open pull request
+    image: woodpeckercommunity/gitea-pull-request-create-plugin
+    depends_on: [commit]
+    settings:
+      gitea_address: https://codeberg.org
+      gitea_token:
+        from_secret: TOKEN
+      owner: ${CI_REPO_OWNER}
+      repo: ${CI_REPO_NAME}
+      base_branch: ${CI_REPO_DEFAULT_BRANCH}
+      branch: *branch
+      pr_title: *message
+      pr_body: "[beep boop](${CI_PIPELINE_URL}) :3"
+      skip_on_missing_branch: true
+      delete_branch_after_merge: true

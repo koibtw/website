@@ -1,9 +1,19 @@
 @font-face {
   font-display: swap;
-  font-family: 'Fira Code';
-  src: url('/static/fonts/FiraCode-Regular.woff') format('woff');
+  font-family: 'Maple Mono';
+  src: url('/static/fonts/MapleMono-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
+  font-feature-settings: 'liga', 'tnum';
+  font-variant-ligatures: contextual;
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Maple Mono';
+  src: url('/static/fonts/MapleMono-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
   font-feature-settings: 'liga', 'tnum';
   font-variant-ligatures: contextual;
 }

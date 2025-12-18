@@ -15,6 +15,7 @@
   border-top: var(--border-dashed);
   grid-template-columns: 1fr 1fr;
   display: grid;
+  gap: 1rem;
 }
 
 @media (max-width: 1310px) {
@@ -32,12 +33,11 @@
 .guestbook-entry {
   border: 2px solid var(--bg-alt);
   padding: 0.5rem;
-  margin-bottom: 1rem;
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
 
 .guestbook-entry-name {
   margin-bottom: 0.25rem;
-  font-weight: bold;
+  font-style: italic;
 }

@@ -1,0 +1,19 @@
+<div id="snow-container"></div>
+<!-- stolen from https://alyxia.dev -->
+<script>
+  const snowContainer = document.getElementById('snow-container');
+  for (const _i of Array.from({ length: 150 })) {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snow-container-flake');
+    snowflake.style.left = `${Math.random() * 100}%`;
+    const size = `${Math.random() * 5 + 2}px`;
+    snowflake.style.width = size;
+    snowflake.style.height = size;
+    snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`;
+    snowflake.style.animationDelay = `${Math.random() * 5}s`;
+    snowflake.style.setProperty('--random-x', `${Math.random()}`);
+    const opacity = Math.random() * 0.5 + 0.5;
+    snowflake.style.opacity = `${opacity}`;
+    snowContainer.appendChild(snowflake);
+  }
+</script>

@@ -1,10 +1,10 @@
-<span id="music">(loading...)</span>
+<span id="music" data-api="{{ host }}/api/jellyfin">(loading...)</span>
 <script>
   function fetchMusic() {
-    fetch('{{ host }}/api/jellyfin')
+    const musicElement = document.getElementById('music');
+    fetch(musicElement.dataset.api)
       .then(response => response.json())
       .then(data => {
-        const musicElement = document.getElementById('music');
         if (data.length === 0) {
           musicElement.innerHTML = 'nothing :despair:';
           return;

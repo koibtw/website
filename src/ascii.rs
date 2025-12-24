@@ -23,6 +23,9 @@ i play video games from time to time.
 my favs are OneShot, Dead Cells, The Witcher 3 and Elden Ring!
 i also play some guitar and draw, pretty bad at both though :c
 
+oh and btw, i run this site hosting thingy called ebil.club >:3
+you should definitely check it out!!
+
 so uhh have a great day? or something";
 
 pub fn render() -> String {

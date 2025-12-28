@@ -22,7 +22,7 @@ pub const FRIENDS: &[Badge] = &[
     Badge {
         src: "/img/badges/sebaguardian.gif",
         alt: "sebaguardian's site",
-        href: Some("https://sebaguardian.nekoweb.org"),
+        href: Some("https://seba.ebil.club"),
     },
     Badge {
         src: "/img/badges/tasky.webp",
@@ -62,7 +62,7 @@ pub const FRIENDS: &[Badge] = &[
     Badge {
         src: "/img/badges/kolpix.gif",
         alt: "kolpix' bakery",
-        href: Some("https://kolpix.nekoweb.org"),
+        href: Some("https://kolpix.ebil.club"),
     },
 ];
 

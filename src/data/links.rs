@@ -54,8 +54,8 @@ pub const LINKS: &[Link] = &[
     },
     Link {
         rel: "me",
-        href: "https://matrix.to/#/@adam:matrix.system72.dev",
-        name: Some("@adam:matrix.system72.dev"),
+        href: "https://matrix.to/#/@adam:system72.dev",
+        name: Some("@adam:system72.dev"),
         title: Some("matrix"),
         ltype: None,
         sizes: None,

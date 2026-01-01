@@ -8,8 +8,9 @@ variables:
 
 steps:
   - name: badges
-    image: alpine/curl
+    image: alpine
     commands:
+      - apk add --no-cache bash curl
       - bash ./update-badges.sh
   - name: commit
     image: alpine/git

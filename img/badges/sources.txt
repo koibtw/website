@@ -10,6 +10,6 @@ lilithdev.gif: https://lilithdev.neocities.org/buttons/lilithdevbtn.gif
 oyaswmi.gif: https://oyaswmi.net/legacy/stamps/OyaButton.gif
 robin.gif: https://robinwobin.dev/badges/me.gif
 system72.gif: https://system72.dev/img/system72.gif
-sebaguardian.gif: https://seba.ebil.club/img/ralpali.gif
+sebaguardian.gif: https://seba.ebil.club/static/mybadge.gif
 tasky.webp: https://tasky.uwu.network/88x31.webp
 tired.moe.gif: https://tired.moe/assets/badges/tired.moe.gif

@@ -22,7 +22,7 @@ for src in "${SOURCES[@]}"; do
   fi
 
   echo "updating $filename from $url"
-  curl -sL "$url" -o "img/badges/$filename" || echo "failed to download $url"
+  curl -fsL "$url" -o "img/badges/$filename" || echo "failed to download $url"
 done
 
 echo "badges updated"

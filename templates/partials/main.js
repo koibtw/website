@@ -1,7 +1,7 @@
 setTheme(getTheme());
 
-function setTheme(theme) {
-  localStorage.setItem('theme', theme);
+function setTheme(theme, save = true) {
+  if (save) localStorage.setItem('theme', theme);
   document.documentElement.className = 'theme-' + theme;
 
   const selectTheme = document.getElementById('select-theme');

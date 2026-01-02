@@ -22,6 +22,14 @@
   --accent: #addeb9;
 }
 
+.theme-rip-skelly {
+  --fg: #fff;
+  --bg: #000;
+  --fg-alt: #aaa;
+  --bg-alt: #333;
+  --accent: #00ff00;
+}
+
 @media (min-width: 855px) {
   .bg-mimi {
     background-image: url('/img/backgrounds/mimi.webp');
@@ -31,6 +39,12 @@
   }
   .bg-evergarden {
     background-image: url('/img/backgrounds/evergarden.webp');
+  }
+  .bg-rip-skelly {
+    background-repeat: repeat;
+    background-position: center;
+    background-size: auto !important;
+    background-image: url('/img/gifs/rip-skelly.gif');
   }
 }
 

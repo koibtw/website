@@ -9,7 +9,7 @@ pub struct Badge {
 
 pub const MIMI_BADGE: Badge = Badge {
     src: "/img/badges/mimi-the-car.gif",
-    alt: "mimi the car (adam's site)",
+    alt: "mimi the car (koi's site)",
     href: Some(crate::constants::HOST),
 };
 

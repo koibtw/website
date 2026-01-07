@@ -136,7 +136,6 @@ fn build_routes(pool: DbPool) -> Router {
 
     let mut ctx = Context::new();
     ctx.insert("host", constants::HOST);
-    ctx.insert("main_host", constants::MAIN_HOST);
     ctx.insert("git_url", constants::GIT_URL);
     ctx.insert("mimi_badge", &MIMI_BADGE);
     ctx.insert("uris", uris);

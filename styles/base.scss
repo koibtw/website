@@ -59,16 +59,6 @@ html, body {
   margin: 1rem;
 }
 
-#footer {
-  position: absolute;
-  bottom: 0;
-  margin: 1rem;
-}
-
-#footer p {
-  margin: 0;
-}
-
 @media (max-width: 1310px) {
   #sidebar {
     width: 20%;
@@ -105,10 +95,6 @@ html, body {
 
     border: none;
     border-bottom: var(--border-dashed);
-  }
-
-  #footer {
-    position: static;
   }
 }
 

@@ -6,7 +6,7 @@ edition = "2024"
 license = "LicenseRef-HappyBunny OR MIT"
 homepage = "https://koi.rip"
 repository = "https://codeberg.org/adamperkowski/website"
-authors = ["koi <me@adamperkowski.dev>"]
+authors = ["koi <me@koi.rip>"]
 
 [dependencies]
 axum = { version = "0.8.7", default-features = false, features = ["http1", "json", "tokio"] }

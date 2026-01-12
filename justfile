@@ -1,5 +1,6 @@
 run:
   @just build-styles
+  touch website.db
   cargo run
 
 watch:

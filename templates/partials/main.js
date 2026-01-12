@@ -1,18 +1,18 @@
-setTheme(getTheme());
+setTheme(getTheme(), false);
 
 function setTheme(theme, save = true) {
   if (save) localStorage.setItem('theme', theme);
   document.documentElement.className = 'theme-' + theme;
 
-  const selectTheme = document.getElementById('select-theme');
-  if (selectTheme) {
-    selectTheme.value = theme;
-  }
-
   const content = document.getElementById('content');
-  if (content) {
-    content.className = 'bg-' + theme;
-  };
+  if (content) content.className = 'bg-' + theme;
+
+  const selectTheme = document.getElementById('select-theme');
+  if (selectTheme) selectTheme.value = theme;
+
+  const accentColor = window.getComputedStyle(document.documentElement).getPropertyValue('--accent');
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  if (themeColor) themeColor.setAttribute("content", accentColor);
 }
 
 function getTheme() {
@@ -40,7 +40,7 @@ function setDynamicClasses() {
 document.addEventListener('DOMContentLoaded', function () {
   const selectTheme = document.getElementById('select-theme');
 
-  setTheme(getTheme());
+  setTheme(getTheme(), false);
 
   selectTheme.addEventListener('change', (e) => {
     setTheme(e.target.value);

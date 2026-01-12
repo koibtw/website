@@ -8,7 +8,7 @@
 {% block noindex %}{% endblock %}
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="theme-catppuccin">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +25,10 @@
     <meta name="title" content="{{ title }}">
     <meta name="description" content="{{ description }}">
     <meta name="author" content="koi">
-    {# <meta name="theme-color" content="#b4befe"> #}
+
+    <script>{% include "partials/main.js" %}</script>
+
+    <meta name="theme-color" content="#b4befe">
 
     <link rel="canonical" href="{{ canonical }}">
     {% for link in links %}
@@ -49,8 +52,6 @@
     <meta property="og:image:width" content="496">
     <meta property="og:image:height" content="32">
     <meta property="og:image:alt" content="mimi the car running around">
-
-    <script>{% include "partials/main.js" %}</script>
   </head>
 
   <body>

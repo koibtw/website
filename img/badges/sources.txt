@@ -1,9 +1,9 @@
 appledust.gif: https://www.lejlart.com/flist/ad_skullsprinkles.gif
-# april.png: https://aprl.pet/badges/april.png
 ari.png: https://ari.lt/static/badges/badge.png
-elissa.png: https://elissa.moe/88x31.png
+dvdznf.gif: https://dvdznf.xyz/badge.gif
 espy.gif: https://espy.world/img/button.gif
 fulvern.gif: https://fulvern.neocities.org/Images/FulvernButton.gif
+garfunkles.webp: https://garfunkles.space/88x31.webp
 isabelroses.gif: https://isabelroses.com/badges/me.gif
 kolpix.gif: https://kolpix.ebil.club/resources/button.gif
 lilithdev.gif: https://lilithdev.neocities.org/buttons/lilithdevbtn.gif

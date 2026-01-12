@@ -15,14 +15,44 @@ pub const MIMI_BADGE: Badge = Badge {
 
 pub const FRIENDS: &[Badge] = &[
     Badge {
-        src: "/img/badges/system72.gif",
-        alt: "system72",
-        href: Some("https://system72.dev"),
+        src: "/img/badges/robin.gif",
+        alt: "robin",
+        href: Some("https://robinwobin.dev"),
     },
     Badge {
         src: "/img/badges/sebaguardian.gif",
         alt: "sebaguardian's site",
         href: Some("https://seba.ebil.club"),
+    },
+    Badge {
+        src: "/img/badges/system72.gif",
+        alt: "system72",
+        href: Some("https://system72.dev"),
+    },
+    Badge {
+        src: "/img/badges/isabelroses.gif",
+        alt: "i am nix gf (isabel's site)",
+        href: Some("https://isabelroses.com"),
+    },
+    Badge {
+        src: "/img/badges/kolpix.gif",
+        alt: "kolpix' bakery",
+        href: Some("https://kolpix.ebil.club"),
+    },
+    Badge {
+        src: "/img/badges/ari.png",
+        alt: "ari-web",
+        href: Some("https://ari.lt"),
+    },
+    Badge {
+        src: "/img/badges/garfunkles.webp",
+        alt: "garfunkles.space",
+        href: Some("https://garfunkles.space"),
+    },
+    Badge {
+        src: "/img/badges/dvdznf.gif",
+        alt: "dvdznf",
+        href: Some("https://dvdznf.xyz"),
     },
     Badge {
         src: "/img/badges/tasky.webp",
@@ -33,36 +63,6 @@ pub const FRIENDS: &[Badge] = &[
         src: "/img/badges/tired.moe.gif",
         alt: "tired.moe",
         href: Some("https://tired.moe"),
-    },
-    Badge {
-        src: "/img/badges/isabelroses.gif",
-        alt: "i am nix gf (isabel's site)",
-        href: Some("https://isabelroses.com"),
-    },
-    Badge {
-        src: "/img/badges/ari.png",
-        alt: "ari-web",
-        href: Some("https://ari.lt"),
-    },
-    Badge {
-        src: "/img/badges/robin.gif",
-        alt: "robin",
-        href: Some("https://robinwobin.dev"),
-    },
-    Badge {
-        src: "/img/badges/april.png",
-        alt: "april",
-        href: Some("https://aprl.pet"),
-    },
-    Badge {
-        src: "/img/badges/elissa.png",
-        alt: "elissa",
-        href: Some("https://elissa.moe"),
-    },
-    Badge {
-        src: "/img/badges/kolpix.gif",
-        alt: "kolpix' bakery",
-        href: Some("https://kolpix.ebil.club"),
     },
 ];
 

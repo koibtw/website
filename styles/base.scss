@@ -57,6 +57,7 @@ html, body {
 .main-absolute {
   position: absolute;
   margin: 1rem;
+  pointer-events: none;
 }
 
 @media (max-width: 1310px) {

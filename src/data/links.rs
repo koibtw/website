@@ -39,7 +39,7 @@ pub const LINKS: &[Link] = &[
     Link {
         rel: "me",
         href: constants::GIT_URL,
-        name: Some("@adamperkowski"),
+        name: Some("@koibtw"),
         title: Some("codeberg"),
         ltype: None,
         sizes: None,
@@ -73,14 +73,6 @@ pub const LINKS: &[Link] = &[
         href: "https://bsky.app/profile/did:plc:b26ewgkrnx3yvsp2cdao3ntu",
         name: Some("@koi.rip"),
         title: Some("bluesky"),
-        ltype: None,
-        sizes: None,
-    },
-    Link {
-        rel: "me",
-        href: "https://last.fm/user/adamperkowski",
-        name: Some("adamperkowski"),
-        title: Some("last.fm"),
         ltype: None,
         sizes: None,
     },

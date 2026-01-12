@@ -5,7 +5,7 @@ version = "0.1.0"
 edition = "2024"
 license = "LicenseRef-HappyBunny OR MIT"
 homepage = "https://koi.rip"
-repository = "https://codeberg.org/adamperkowski/website"
+repository = "https://codeberg.org/koibtw/website"
 authors = ["koi <me@koi.rip>"]
 
 [dependencies]

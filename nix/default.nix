@@ -37,7 +37,7 @@ rustPlatform.buildRustPackage {
       "The Happy Bunny License"
       lib.licenses.mit
     ];
-    maintainers = with lib.maintainers; [ adamperkowski ];
+    maintainers = with lib.maintainers; [ koi ];
     mainProgram = "kitget";
   };
 }

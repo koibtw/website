@@ -17,7 +17,7 @@ function setTheme(theme, save = true) {
 
 function getTheme() {
   const theme = localStorage.getItem('theme');
-  if (!theme) { return 'catppuccin' };
+  if (!theme) { return 'evergarden' };
 
   const selectTheme = document.getElementById('select-theme');
   if (selectTheme && selectTheme.options) {
@@ -28,7 +28,7 @@ function getTheme() {
     return theme;
   }
 
-  return 'catppuccin';
+  return 'evergarden';
 }
 
 function setDynamicClasses() {

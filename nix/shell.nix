@@ -17,6 +17,8 @@ let
       sqlite
       shellcheck
       shfmt
+      imagemagick
+      lutgen
     ]
     ++ (mainPkg.nativeBuildInputs or [ ])
     ++ (mainPkg.buildInputs or [ ]);

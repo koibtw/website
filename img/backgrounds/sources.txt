@@ -1,1 +1,1 @@
-catppuccin.webp: https://github.com/orangci/walls-catppuccin-mocha
+original.png: https://reddit.com/r/PixelArt/comments/kq42rx/fluffy_galaxies

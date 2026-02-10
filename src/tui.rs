@@ -15,12 +15,11 @@ const RESET: &str = "\x1b[0m";
 const BODY: &str = "hello!! welcome to my website :3
 this is cool, huh?
 
-i'm an indie software dev from Poland doing cool stuffs on the internet :>
+my name is june and i write like code and stuff i think?
 
-i love listening to music.
-mostly (post)grunge and a lot of different rock/metal flavors
-i play video games from time to time.
-my favs are OneShot, Dead Cells, The Witcher 3 and Elden Ring!
+anyway, i love my amazing girlfriend and also listening to music and stuff
+i play cool video games like Deep Rock Galactic,
+OneShot, Dead Cells, and Elden Ring!
 i also play some guitar and draw, pretty bad at both though :c
 
 oh and btw, i run this site hosting thingy called ebil.club >:3

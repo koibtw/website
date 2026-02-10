@@ -9,7 +9,7 @@ use tower_http::services::ServeDir;
 
 mod api;
 #[allow(dead_code)]
-mod ascii;
+mod tui;
 mod constants;
 mod data;
 mod metadata;
@@ -228,7 +228,7 @@ async fn serve_page(
         .is_some_and(|ua| ua.contains("curl"));
 
     if is_curl {
-        ascii::render().into_response()
+        tui::render().into_response()
     } else {
         render(name, &ctx).into_response()
     }

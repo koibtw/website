@@ -5,7 +5,6 @@ espy.gif: https://espy.world/img/button.gif
 evelyn.webp: https://evelyn.willalways.top/88x31.webp
 fulvern.gif: https://fulvern.neocities.org/Images/FulvernButton.gif
 isabelroses.gif: https://isabelroses.com/badges/me.gif
-kolpix.gif: https://kolpix.ebil.club/resources/button.gif
 lilithdev.gif: https://lilithdev.neocities.org/buttons/lilithdevbtn.gif
 oyaswmi.gif: https://oyaswmi.net/legacy/stamps/OyaButton.gif
 robin.gif: https://robinwobin.dev/badges/me.gif

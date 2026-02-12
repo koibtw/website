@@ -35,11 +35,6 @@ pub const FRIENDS: &[Badge] = &[
         href: Some("https://isabelroses.com"),
     },
     Badge {
-        src: "/img/badges/kolpix.gif",
-        alt: "kolpix' bakery",
-        href: Some("https://kolpix.ebil.club"),
-    },
-    Badge {
         src: "/img/badges/ari.png",
         alt: "ari-web",
         href: Some("https://ari.lt"),

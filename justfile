@@ -1,5 +1,4 @@
 run:
-  @just build-styles
   touch website.db
   cargo run
 
@@ -16,12 +15,8 @@ test:
 format:
   cargo fmt --all
 
-build-styles:
-  sass --no-source-map --style=compressed -q styles/main.scss static/styles.css
-
 deploy:
   @just clean
-  @just build-styles
   @just test
   nix build
   nix copy --to ssh://seber "$(readlink -f result)"

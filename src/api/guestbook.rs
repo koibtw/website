@@ -6,128 +6,128 @@ use sqlx::{prelude::FromRow, types::chrono};
 
 #[derive(Deserialize)]
 pub struct Entry {
-    name: String,
-    website: Option<String>,
-    message: String,
+  name: String,
+  website: Option<String>,
+  message: String,
 }
 
 fn display_entry(id: Option<i32>, name: &str, website: &str, message: &str) -> String {
-    let site = if website.is_empty() {
-        "".to_string()
-    } else {
-        format!(" ({})", website)
-    };
+  let site = if website.is_empty() {
+    "".to_string()
+  } else {
+    format!(" ({})", website)
+  };
 
-    let mut result = format!("{}{}:\n{}", name, site, message);
+  let mut result = format!("{}{}:\n{}", name, site, message);
 
-    if let Some(id) = id {
-        result.push_str(&format!("\n{}/guestbook#entry-{}", constants::HOST, id));
-    }
+  if let Some(id) = id {
+    result.push_str(&format!("\n{}/guestbook#entry-{}", constants::HOST, id));
+  }
 
-    result
+  result
 }
 
 #[derive(Serialize, FromRow)]
 struct GuestbookEntry {
-    id: i32,
-    name: String,
-    website: Option<String>,
-    message: String,
-    hidden: bool,
-    created_at: chrono::NaiveDateTime,
+  id: i32,
+  name: String,
+  website: Option<String>,
+  message: String,
+  hidden: bool,
+  created_at: chrono::NaiveDateTime,
 }
 
 pub async fn add_handler(
-    State(pool): State<DbPool>,
-    Json(data): Json<Entry>,
+  State(pool): State<DbPool>,
+  Json(data): Json<Entry>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
-    let name = data.name.trim();
-    let mut website = data.website.unwrap_or_default().trim().to_string();
-    let message = data.message.trim();
+  let name = data.name.trim();
+  let mut website = data.website.unwrap_or_default().trim().to_string();
+  let message = data.message.trim();
 
-    println!(
-        "got new guestbook entry from {}",
-        display_entry(None, name, &website, message)
-    );
+  println!(
+    "got new guestbook entry from {}",
+    display_entry(None, name, &website, message)
+  );
 
-    validate_input(name).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
-    validate_input(&website).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
-    validate_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
+  validate_input(name).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
+  validate_input(&website).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
+  validate_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
 
-    if !website.is_empty() {
-        if !website.contains('.') || website.contains(' ') {
-            return Err((
-                StatusCode::BAD_REQUEST,
-                "website has to be a valid URL".to_string(),
-            ));
-        }
-
-        if !website.contains("://") {
-            website = format!("https://{}", website);
-        } else if !website.starts_with("http://") && !website.starts_with("https://") {
-            return Err((
-                StatusCode::BAD_REQUEST,
-                "website has to start with http:// or https://".to_string(),
-            ));
-        }
+  if !website.is_empty() {
+    if !website.contains('.') || website.contains(' ') {
+      return Err((
+        StatusCode::BAD_REQUEST,
+        "website has to be a valid URL".to_string(),
+      ));
     }
 
-    if name.is_empty() || name.len() > 20 {
-        return Err((
-            StatusCode::BAD_REQUEST,
-            "name has to be between 1 and 50 chars".to_string(),
-        ));
+    if !website.contains("://") {
+      website = format!("https://{}", website);
+    } else if !website.starts_with("http://") && !website.starts_with("https://") {
+      return Err((
+        StatusCode::BAD_REQUEST,
+        "website has to start with http:// or https://".to_string(),
+      ));
     }
-    if !website.is_empty() && website.len() > 100 {
-        return Err((
-            StatusCode::BAD_REQUEST,
-            "website has to be between 0 and 100 chars".to_string(),
-        ));
-    }
-    if message.is_empty() || message.len() > 150 {
-        return Err((
-            StatusCode::BAD_REQUEST,
-            "message has to be between 1 and 150 chars".to_string(),
-        ));
-    }
+  }
 
-    let name_censored = censor_input(name).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
-    let message_censored = censor_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
+  if name.is_empty() || name.len() > 20 {
+    return Err((
+      StatusCode::BAD_REQUEST,
+      "name has to be between 1 and 50 chars".to_string(),
+    ));
+  }
+  if !website.is_empty() && website.len() > 100 {
+    return Err((
+      StatusCode::BAD_REQUEST,
+      "website has to be between 0 and 100 chars".to_string(),
+    ));
+  }
+  if message.is_empty() || message.len() > 150 {
+    return Err((
+      StatusCode::BAD_REQUEST,
+      "message has to be between 1 and 150 chars".to_string(),
+    ));
+  }
 
-    match sqlx::query_as::<_, GuestbookEntry>(
-        "INSERT INTO guestbook (name, website, message, hidden) VALUES ($1, $2, $3, true) RETURNING *",
-    )
-    .bind(name_censored)
-    .bind(website)
-    .bind(message_censored)
-    .fetch_one(&pool)
-    .await
-    {
-        Ok(entry) => {
-            send_notification(display_entry(
-                Some(entry.id),
-                &entry.name,
-                entry.website.as_deref().unwrap_or(""),
-                &entry.message,
-            ))
-            .await;
+  let name_censored = censor_input(name).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
+  let message_censored = censor_input(message).map_err(|e| (StatusCode::BAD_REQUEST, e))?;
 
-            Ok((StatusCode::CREATED, Json(entry)))
-        }
-        Err(e) => Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string())),
+  match sqlx::query_as::<_, GuestbookEntry>(
+    "INSERT INTO guestbook (name, website, message, hidden) VALUES ($1, $2, $3, true) RETURNING *",
+  )
+  .bind(name_censored)
+  .bind(website)
+  .bind(message_censored)
+  .fetch_one(&pool)
+  .await
+  {
+    Ok(entry) => {
+      send_notification(display_entry(
+        Some(entry.id),
+        &entry.name,
+        entry.website.as_deref().unwrap_or(""),
+        &entry.message,
+      ))
+      .await;
+
+      Ok((StatusCode::CREATED, Json(entry)))
     }
+    Err(e) => Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string())),
+  }
 }
 
 pub async fn get_all_handler(
-    State(pool): State<DbPool>,
+  State(pool): State<DbPool>,
 ) -> Result<impl IntoResponse, impl IntoResponse> {
-    match sqlx::query_as::<_, GuestbookEntry>(
-        "SELECT * FROM guestbook WHERE hidden = false ORDER BY id ASC",
-    )
-    .fetch_all(&pool)
-    .await
-    {
-        Ok(entries) => Ok((StatusCode::OK, Json(entries))),
-        Err(e) => Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string())),
-    }
+  match sqlx::query_as::<_, GuestbookEntry>(
+    "SELECT * FROM guestbook WHERE hidden = false ORDER BY id ASC",
+  )
+  .fetch_all(&pool)
+  .await
+  {
+    Ok(entries) => Ok((StatusCode::OK, Json(entries))),
+    Err(e) => Err((StatusCode::INTERNAL_SERVER_ERROR, e.to_string())),
+  }
 }

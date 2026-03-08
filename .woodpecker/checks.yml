@@ -1,6 +1,6 @@
 when:
   - event: [push, pull_request]
-    branch: allnew
+    branch: main
 
 steps:
   - name: commit message

@@ -18,17 +18,17 @@ steps:
     environment:
       BRANCH: *branch
       MESSAGE: *message
-      TOKEN:
-        from_secret: TOKEN
+      MIMI_TOKEN:
+        from_secret: MIMI_TOKEN
     commands:
       - |
         if git diff --quiet; then
           echo "no changes"
           exit 0
         fi
-      - git config --global user.name "woodpecker-bot"
-      - git config --global user.email "woodpecker-bot@obermui.de"
-      - git remote set-url origin "https://${CI_REPO_OWNER}:$${TOKEN}@codeberg.org/${CI_REPO}.git"
+      - git config --global user.name "mimi"
+      - git config --global user.email "mimi@koi.rip"
+      - git remote set-url origin "https://mimi:$${MIMI_TOKEN}@git.koi.rip/koi/${CI_REPO_NAME}.git"
       - git checkout -b "$${BRANCH}"
       - git add -A
       - git commit -m "$${MESSAGE}"
@@ -37,10 +37,10 @@ steps:
     image: woodpeckercommunity/gitea-pull-request-create-plugin
     depends_on: [commit]
     settings:
-      gitea_address: https://codeberg.org
+      gitea_address: https://git.koi.rip
       gitea_token:
-        from_secret: TOKEN
-      owner: ${CI_REPO_OWNER}
+        from_secret: MIMI_TOKEN
+      owner: koi
       repo: ${CI_REPO_NAME}
       base_branch: ${CI_REPO_DEFAULT_BRANCH}
       branch: *branch

@@ -11,7 +11,7 @@
   shfmt,
   imagemagick,
   lutgen,
-  mkShellNoCC,
+  mkShell,
   callPackage,
 }:
 let
@@ -33,7 +33,7 @@ let
   ++ (mainPkg.nativeBuildInputs or [ ])
   ++ (mainPkg.buildInputs or [ ]);
 in
-mkShellNoCC {
+mkShell {
   inherit packages;
   shellHook = ''
     echo -ne "-----------------------------------\n "

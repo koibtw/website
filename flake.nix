@@ -24,6 +24,6 @@
         default = pkgs.callPackage ./nix/shell.nix { };
       });
 
-      formatter = forAllSystems (pkgs: pkgs.nixfmt-tree);
+      formatter = forAllSystems (pkgs: pkgs.callPackage ./nix/formatter.nix { });
     };
 }

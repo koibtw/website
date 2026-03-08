@@ -8,7 +8,7 @@ match=${1:-'*'}
 readarray -t SOURCES <img/badges/sources.txt
 
 for src in "${SOURCES[@]}"; do
-  if [[ "$src" =~ ^#.* ]]  || [[ -z "$src" ]]; then
+  if [[ "$src" =~ ^#.* ]] || [[ -z "$src" ]]; then
     echo "skipping $src"
     continue
   fi

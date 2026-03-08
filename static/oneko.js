@@ -99,8 +99,8 @@
     nekoEl.style.top = `${nekoPosY - 16}px`;
     nekoEl.style.zIndex = 2147483646;
 
-    let nekoFile = "./oneko.gif"
-    const curScript = document.currentScript
+    let nekoFile = "./oneko.gif";
+    const curScript = document.currentScript;
     if (curScript) {
       if (curScript.dataset.cat) nekoFile = curScript.dataset.cat;
       if (curScript.dataset.chonky) {
@@ -131,8 +131,8 @@
       lastFrameTimestamp = timestamp;
     }
     if (timestamp - lastFrameTimestamp > 100) {
-      lastFrameTimestamp = timestamp
-      frame()
+      lastFrameTimestamp = timestamp;
+      frame();
     }
     window.requestAnimationFrame(onAnimationFrame);
   }
@@ -151,11 +151,7 @@
     idleTime += 1;
 
     // every ~ 20 seconds
-    if (
-      idleTime > 10 &&
-      Math.floor(Math.random() * 200) == 0 &&
-      idleAnimation == null
-    ) {
+    if (idleTime > 10 && Math.floor(Math.random() * 200) == 0 && idleAnimation == null) {
       let avalibleIdleAnimations = ["sleeping", "scratchSelf"];
       if (nekoPosX < 32) {
         avalibleIdleAnimations.push("scratchWallW");
@@ -170,9 +166,7 @@
         avalibleIdleAnimations.push("scratchWallS");
       }
       idleAnimation =
-        avalibleIdleAnimations[
-          Math.floor(Math.random() * avalibleIdleAnimations.length)
-        ];
+        avalibleIdleAnimations[Math.floor(Math.random() * avalibleIdleAnimations.length)];
     }
 
     switch (idleAnimation) {
@@ -245,8 +239,8 @@
   init();
 })();
 
-window.addEventListener('beforeunload', function () {
-  const oneko = document.getElementById('oneko');
-  sessionStorage.setItem('onekoPosLeft', oneko.style.left.replace('px', ''));
-  sessionStorage.setItem('onekoPosTop', oneko.style.top.replace('px', ''));
+window.addEventListener("beforeunload", function () {
+  const oneko = document.getElementById("oneko");
+  sessionStorage.setItem("onekoPosLeft", oneko.style.left.replace("px", ""));
+  sessionStorage.setItem("onekoPosTop", oneko.style.top.replace("px", ""));
 });

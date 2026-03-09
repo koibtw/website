@@ -28,109 +28,109 @@ you should definitely check it out!!
 so uhh have a great day? or something";
 
 pub fn render() -> String {
-    let header = render_header();
-    let footer = render_footer();
+  let header = render_header();
+  let footer = render_footer();
 
-    let content = render_body(BODY, MAX_WIDTH, PADDING);
+  let content = render_body(BODY, MAX_WIDTH, PADDING);
 
-    format!("\n{header}\n{content}\n{footer}\n\n")
+  format!("\n{header}\n{content}\n{footer}\n\n")
 }
 
 fn render_header() -> String {
-    let mut s = String::new();
+  let mut s = String::new();
 
-    s.push_str(FG);
-    s.push_str(BOLD);
-    s.push_str(CAT_LEFT);
+  s.push_str(FG);
+  s.push_str(BOLD);
+  s.push_str(CAT_LEFT);
 
-    for i in 0..HEADER_LEN {
-        if i == HEADER_LEN / 2 {
-            s.push_str(CAT_MID);
-        } else {
-            s.push(' ');
-        }
+  for i in 0..HEADER_LEN {
+    if i == HEADER_LEN / 2 {
+      s.push_str(CAT_MID);
+    } else {
+      s.push(' ');
     }
+  }
 
-    s.push_str(CAT_RIGHT);
-    s.push_str(RESET);
-    s.push('\n');
+  s.push_str(CAT_RIGHT);
+  s.push_str(RESET);
+  s.push('\n');
 
-    s.push_str(FG_ALT);
-    s.push_str(BOLD);
-    s.push('╭');
-    for _ in 0..MAX_WIDTH {
-        s.push('─');
-    }
-    s.push('╮');
-    s.push_str(RESET);
+  s.push_str(FG_ALT);
+  s.push_str(BOLD);
+  s.push('╭');
+  for _ in 0..MAX_WIDTH {
+    s.push('─');
+  }
+  s.push('╮');
+  s.push_str(RESET);
 
-    s
+  s
 }
 
 fn render_footer() -> String {
-    let mut s = String::new();
-    s.push_str(FG_ALT);
-    s.push_str(BOLD);
-    s.push('╰');
-    for _ in 0..MAX_WIDTH {
-        s.push('─');
-    }
-    s.push('╯');
-    s.push_str(RESET);
-    s
+  let mut s = String::new();
+  s.push_str(FG_ALT);
+  s.push_str(BOLD);
+  s.push('╰');
+  for _ in 0..MAX_WIDTH {
+    s.push('─');
+  }
+  s.push('╯');
+  s.push_str(RESET);
+  s
 }
 
 fn render_body(text: &str, max_width: usize, padding: usize) -> String {
-    let inner_width = max_width.saturating_sub(padding);
-    let mut out = String::new();
+  let inner_width = max_width.saturating_sub(padding);
+  let mut out = String::new();
 
-    for raw_line in text.lines() {
-        let mut line = raw_line.trim();
+  for raw_line in text.lines() {
+    let mut line = raw_line.trim();
 
-        if line.is_empty() {
-            push_body_line(&mut out, "", padding);
-            continue;
-        }
-
-        while line.len() > inner_width {
-            let (head, tail) = split_at_wrap_boundary(line, inner_width);
-            push_body_line(&mut out, head.trim_end(), padding);
-            line = tail.trim_start();
-        }
-
-        push_body_line(&mut out, line, padding);
+    if line.is_empty() {
+      push_body_line(&mut out, "", padding);
+      continue;
     }
 
-    if out.ends_with('\n') {
-        out.pop();
+    while line.len() > inner_width {
+      let (head, tail) = split_at_wrap_boundary(line, inner_width);
+      push_body_line(&mut out, head.trim_end(), padding);
+      line = tail.trim_start();
     }
 
-    out
+    push_body_line(&mut out, line, padding);
+  }
+
+  if out.ends_with('\n') {
+    out.pop();
+  }
+
+  out
 }
 
 fn push_body_line(out: &mut String, content: &str, padding: usize) {
-    for _ in 0..padding {
-        out.push(' ');
-    }
-    out.push_str(FG);
-    out.push_str(content);
-    out.push_str(RESET);
-    out.push('\n');
+  for _ in 0..padding {
+    out.push(' ');
+  }
+  out.push_str(FG);
+  out.push_str(content);
+  out.push_str(RESET);
+  out.push('\n');
 }
 
 fn split_at_wrap_boundary(s: &str, limit: usize) -> (&str, &str) {
-    if s.len() <= limit {
-        return (s, "");
-    }
+  if s.len() <= limit {
+    return (s, "");
+  }
 
-    let head = &s[..limit];
-    if let Some(space_idx) = head.rfind(' ') {
-        let left = &s[..space_idx];
-        let right = &s[space_idx + 1..];
-        (left, right)
-    } else {
-        let left = &s[..limit];
-        let right = &s[limit..];
-        (left, right)
-    }
+  let head = &s[..limit];
+  if let Some(space_idx) = head.rfind(' ') {
+    let left = &s[..space_idx];
+    let right = &s[space_idx + 1..];
+    (left, right)
+  } else {
+    let left = &s[..limit];
+    let right = &s[limit..];
+    (left, right)
+  }
 }

@@ -11,9 +11,8 @@ pub(crate) const GIT_URL: &str = "https://git.koi.rip/koi";
 pub(crate) const ENV_VARS: &[&str] = &["JELLYFIN_SECRET", "MATRIX_URL", "MATRIX_TOKEN"];
 
 pub(crate) const INT_REDIRECTS: &[(&str, &str)] = &[
-    ("/favicon.ico", "/img/favicon.ico"),
-    ("/styles.css", "/static/styles.css"),
+  ("/favicon.ico", "/img/favicon.ico"),
+  ("/styles.css", "/static/styles.css"),
 ];
-pub(crate) const EXT_REDIRECTS: &[(&str, &str)] = &[
-    ("/api/nixdle", "https://github.com/nixdle/nixdle"),
-];
+pub(crate) const EXT_REDIRECTS: &[(&str, &str)] =
+  &[("/api/nixdle", "https://github.com/nixdle/nixdle")];

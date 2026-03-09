@@ -17,13 +17,13 @@
     in
     {
       packages = forAllSystems (pkgs: {
-        default = pkgs.callPackage ./nix/default.nix { };
+        default = pkgs.callPackage ./nix/package.nix { };
       });
 
       devShells = forAllSystems (pkgs: {
-        default = pkgs.callPackage ./nix/shell.nix { inherit pkgs; };
+        default = pkgs.callPackage ./nix/shell.nix { };
       });
 
-      formatter = forAllSystems (pkgs: pkgs.nixfmt-tree);
+      formatter = forAllSystems (pkgs: pkgs.callPackage ./nix/formatter.nix { });
     };
 }

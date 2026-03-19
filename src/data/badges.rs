@@ -25,11 +25,6 @@ pub const FRIENDS: &[Badge] = &[
     href: Some("https://seba.ebil.club"),
   },
   Badge {
-    src: "/img/badges/system72.gif",
-    alt: "system72",
-    href: Some("https://system72.dev"),
-  },
-  Badge {
     src: "/img/badges/isabelroses.gif",
     alt: "i am nix gf (isabel's site)",
     href: Some("https://isabelroses.com"),

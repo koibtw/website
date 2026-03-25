@@ -19,6 +19,12 @@ format:
 build-styles:
   sass --no-source-map --style=compressed -q styles/main.scss static/styles.css
 
+sync:
+  rsync -avz static/ seber:/var/website/static
+  rsync -avz img/ seber:/var/website/img
+  rsync -avz keys/ seber:/var/website/keys
+  rsync -avz .env seber:/var/website/.env
+
 deploy:
   @just clean
   @just build-styles
@@ -26,9 +32,7 @@ deploy:
   nix build
   nix copy --to ssh://seber "$(readlink -f result)"
   ssh seber "rm -f /var/website/website && ln -sf '$(readlink -f result)' /var/website/website"
-  rsync -avz static/ seber:/var/website/static
-  rsync -avz img/ seber:/var/website/img
-  rsync -avz .env seber:/var/website/.env
+  @just sync
 
 clean:
   rm -f static/main.css

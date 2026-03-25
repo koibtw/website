@@ -132,6 +132,7 @@ fn build_routes(pool: DbPool) -> Router {
     .nest("/api", api_router)
     .nest_service("/img", ServeDir::new("img"))
     .nest_service("/static", ServeDir::new("static"))
+    .nest_service("/keys", ServeDir::new("keys"))
     .fallback(fallback_handler);
 
   let mut ctx = Context::new();

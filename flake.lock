@@ -2,23 +2,43 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1772773019,
-        "narHash": "sha256-E1bxHxNKfDoQUuvriG71+f+s/NT0qWkImXsYZNFFfCs=",
-        "owner": "nixos",
+        "lastModified": 1774106199,
+        "narHash": "sha256-US5Tda2sKmjrg2lNHQL3jRQ6p96cgfWh3J1QBliQ8Ws=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "aca4d95fce4914b3892661bcb80b8087293536c6",
+        "rev": "6c9a78c09ff4d6c21d0319114873508a6ec01655",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
+        "id": "nixpkgs",
         "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
+        "type": "indirect"
       }
     },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "whiskers": "whiskers"
+      }
+    },
+    "whiskers": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1773418203,
+        "narHash": "sha256-hQ9JqgkRPTYybdC65v1/1OMc8+7N/u9LaAcxL9uQ3fU=",
+        "ref": "refs/heads/main",
+        "rev": "073c5a6504a6aa9814ee33247b2dc6c81b722264",
+        "revCount": 184,
+        "type": "git",
+        "url": "https://codeberg.org/evergarden/whiskers.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/evergarden/whiskers.git"
       }
     }
   },

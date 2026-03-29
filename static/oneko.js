@@ -12,8 +12,10 @@
   const nekoEl = document.createElement("div");
   const nekoFeedEl = document.createElement("button");
 
-  let nekoPosX = parseFloat(sessionStorage.getItem("onekoPosLeft")) + 16 || window.innerWidth - 32;
-  let nekoPosY = parseFloat(sessionStorage.getItem("onekoPosTop")) + 16 || window.innerHeight - 32;
+  let nekoPosX =
+    parseFloat(sessionStorage.getItem("onekoPosLeft")) + 16 || window.innerWidth - 32;
+  let nekoPosY =
+    parseFloat(sessionStorage.getItem("onekoPosTop")) + 16 || window.innerHeight - 32;
   let nekoSpeed = 10;
 
   let mousePosX = 0;

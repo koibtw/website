@@ -1,10 +1,13 @@
 run:
-  @just build-styles
+  @just styles
   touch website.db
   cargo run
 
 watch:
   cargo watch -s 'just run'
+
+styles:
+  whiskers theme.css.tera -f fall
 
 check:
   cargo fmt --all --check
@@ -16,8 +19,12 @@ test:
 format:
   cargo fmt --all
 
-build-styles:
-  sass --no-source-map --style=compressed -q styles/main.scss static/styles.css
+sync:
+  rsync -rltzv --delete img/ seber:/var/website/img
+  rsync -rltzv --delete static/ seber:/var/website/static
+  rsync -rltzv --delete styles/ seber:/var/website/styles
+  rsync -rltzv --delete keys/ seber:/var/website/keys
+  rsync -rltzv --delete .env seber:/var/website/.env
 
 sync:
   rsync -avz static/ seber:/var/website/static
@@ -27,7 +34,7 @@ sync:
 
 deploy:
   @just clean
-  @just build-styles
+  @just styles
   @just test
   nix build
   nix copy --to ssh://seber "$(readlink -f result)"
@@ -35,4 +42,4 @@ deploy:
   @just sync
 
 clean:
-  rm -f static/main.css
+  rm -rf styles/theme.css

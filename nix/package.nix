@@ -2,7 +2,7 @@
   lib,
   rustPlatform,
   just,
-  dart-sass,
+  whiskers,
 }:
 
 let
@@ -18,7 +18,7 @@ rustPlatform.buildRustPackage {
 
   nativeBuildInputs = [
     just
-    dart-sass
+    whiskers
   ];
 
   dontUseJustInstall = true;
@@ -26,7 +26,7 @@ rustPlatform.buildRustPackage {
   dontUseJustCheck = true;
 
   preBuild = ''
-    just build-styles
+    just styles
   '';
 
   doCheck = false;

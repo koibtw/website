@@ -1,0 +1,18 @@
+---
+whiskers:
+  version: ^2.0.0
+  filename: "styles/theme.css"
+  hex_format: "#{{r}}{{g}}{{b}}{{z}}"
+---
+html {
+  --accent: {{green.hex}};
+  --mantle: {{mantle.hex}};
+  --base: {{base.hex}};
+  --text: {{text.hex}};
+  --surface0: {{surface0.hex}};
+  --surface1: {{surface1.hex}};
+  --overlay0: {{overlay0.hex}};
+  --overlay1: {{overlay1.hex}};
+  --overlay2: {{overlay2.hex}};
+  --subtext1: {{subtext1.hex}};
+}

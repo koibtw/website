@@ -1,0 +1,16 @@
+.content {
+  ul {
+    list-style: none;
+    padding: 0 1rem;
+    margin: var(--text-margin);
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+  }
+
+  code {
+    word-break: break-all;
+  }
+}

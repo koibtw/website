@@ -1,0 +1,58 @@
+main {
+  label > span {
+    color: var(--accent);
+  }
+  input,
+  textarea {
+    background: unset;
+    font: inherit;
+
+    border: 2px solid var(--mantle);
+    color: var(--text);
+    padding: 0.5rem;
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+  }
+
+  button {
+    color: var(--accent);
+    background-color: var(--surface0);
+    border: 2px solid var(--mantle);
+
+    margin: 0 0 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  ::placeholder {
+    color: var(--overlay1);
+  }
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  > div {
+    width: 50%;
+    > textarea {
+      width: 100%;
+      resize: none;
+    }
+  }
+}

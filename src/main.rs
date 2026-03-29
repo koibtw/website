@@ -2,7 +2,7 @@ use axum::{
   Extension, Router,
   http::{self, HeaderMap, StatusCode, header},
   response::{Html, IntoResponse, Response},
-  routing::{get, post},
+  routing::get,
 };
 use tera::Context;
 use tower_http::services::ServeDir;
@@ -12,10 +12,8 @@ mod constants;
 mod data;
 mod metadata;
 mod templates;
-#[allow(dead_code)]
-mod tui;
 
-use api::{guestbook, jellyfin};
+use api::guestbook;
 use data::badges::{COOL_SITES, FRIENDS, MIMI_BADGE};
 use metadata::{ChangeFreq, RobotsTXT, Sitemap, Uri};
 
@@ -75,11 +73,11 @@ fn build_routes(pool: DbPool) -> Router {
       Some(0.6),
     ),
     Uri::new(
-      "/projects",
-      "construction",
+      "/sga-translator",
+      "sga-translator",
       true,
-      Some(ChangeFreq::Monthly),
-      Some(0.8),
+      Some(ChangeFreq::Yearly),
+      Some(0.7),
     ),
     Uri::new(
       "/badges",
@@ -88,13 +86,7 @@ fn build_routes(pool: DbPool) -> Router {
       Some(ChangeFreq::Monthly),
       Some(0.6),
     ),
-    Uri::new(
-      "/sga-translator",
-      "sga-translator",
-      true,
-      Some(ChangeFreq::Yearly),
-      Some(0.7),
-    ),
+    Uri::new("/blog", "blog", true, Some(ChangeFreq::Weekly), Some(0.9)),
   ];
 
   let sitemap = Sitemap::from_uris(uris).to_string();
@@ -105,9 +97,6 @@ fn build_routes(pool: DbPool) -> Router {
       "/guestbook",
       get(guestbook::get_all_handler).post(guestbook::add_handler),
     )
-    .route("/jellyfin/start", post(jellyfin::start_handler))
-    .route("/jellyfin/stop", post(jellyfin::stop_handler))
-    .route("/jellyfin", get(jellyfin::get_handler))
     .with_state(pool);
 
   let mut redirect_router: Router = Router::new();
@@ -132,49 +121,15 @@ fn build_routes(pool: DbPool) -> Router {
     .nest("/api", api_router)
     .nest_service("/img", ServeDir::new("img"))
     .nest_service("/static", ServeDir::new("static"))
+    .nest_service("/styles", ServeDir::new("styles"))
     .nest_service("/keys", ServeDir::new("keys"))
     .fallback(fallback_handler);
 
   let mut ctx = Context::new();
   ctx.insert("host", constants::HOST);
   ctx.insert("git_url", constants::GIT_URL);
-  ctx.insert("mimi_badge", &MIMI_BADGE);
   ctx.insert("uris", uris);
   ctx.insert("links", data::links::LINKS);
-
-  let max_link_title = data::links::LINKS
-    .iter()
-    .map(|link| link.title.unwrap_or_default().len())
-    .max()
-    .unwrap_or(10);
-
-  let stop_hacking_me = [
-    "/.git",
-    "/config.php",
-    "/wp-login.php",
-    "/wp-admin",
-    "/wp-content",
-    "/wp-includes",
-  ];
-
-  for uri in stop_hacking_me {
-    router = router.route(
-      uri,
-      get((
-        StatusCode::from_u16(420).unwrap_or(StatusCode::IM_A_TEAPOT),
-        "420 enhance your calm :3",
-      )),
-    );
-    if !uri.trim_start_matches("/.").contains('.') {
-      router = router.route(
-        &(uri.to_string() + "/{*wildcard}"),
-        get((
-          StatusCode::from_u16(420).unwrap_or(StatusCode::IM_A_TEAPOT),
-          "420 enhance your calm :3",
-        )),
-      );
-    }
-  }
 
   for uri in uris {
     ctx.insert(
@@ -183,10 +138,9 @@ fn build_routes(pool: DbPool) -> Router {
     );
 
     if uri.template == "badges" {
+      ctx.insert("mimi_badge", &MIMI_BADGE);
       ctx.insert("friend_badges", &FRIENDS);
       ctx.insert("cool_sites_badges", &COOL_SITES);
-    } else if uri.template == "contact" {
-      ctx.insert("max_link_title", &max_link_title);
     }
 
     router = router.route(
@@ -219,20 +173,10 @@ async fn redirect_temp(location: &str) -> Response {
 }
 
 async fn serve_page(
-  headers: HeaderMap,
   Extension(name): Extension<&str>,
   Extension(ctx): Extension<Context>,
 ) -> impl IntoResponse {
-  let is_curl = headers
-    .get(header::USER_AGENT)
-    .and_then(|ua| ua.to_str().ok())
-    .is_some_and(|ua| ua.contains("curl"));
-
-  if is_curl {
-    tui::render().into_response()
-  } else {
-    render(name, &ctx).into_response()
-  }
+  render(name, &ctx).into_response()
 }
 
 fn render(page_name: &str, ctx: &Context) -> Html<String> {
@@ -241,8 +185,9 @@ fn render(page_name: &str, ctx: &Context) -> Html<String> {
   match templates::TEMPLATES.render(&path, ctx) {
     Ok(html) => Html(html),
     Err(err) => {
-      eprintln!("failed to render template {page_name}: {err}");
-      Html(format!("template error: {err} :c"))
+      let msg = format!("failed to render template {page_name}: {err}");
+      eprintln!("{msg}");
+      Html(msg)
     }
   }
 }

@@ -1,10 +1,20 @@
 {
   description = "my personal website :3";
 
-  inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+  inputs = {
+    nixpkgs.url = "nixpkgs/nixos-unstable";
+    whiskers = {
+      url = "git+https://codeberg.org/evergarden/whiskers.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
   outputs =
-    { self, nixpkgs }:
+    {
+      self,
+      nixpkgs,
+      whiskers,
+    }:
     let
       systems = [
         "x86_64-linux"
@@ -13,7 +23,18 @@
         "aarch64-darwin"
       ];
 
-      forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
+      forAllSystems =
+        f:
+        nixpkgs.lib.genAttrs systems (
+          system:
+          let
+            pkgs = import nixpkgs {
+              inherit system;
+              overlays = [ whiskers.overlays.default ];
+            };
+          in
+          f pkgs
+        );
     in
     {
       packages = forAllSystems (pkgs: {

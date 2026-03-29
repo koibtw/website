@@ -1,37 +1,40 @@
 {% extends "base.html" %}
-
-{% block title %}{% set title = "contact" %}{% endblock %}
-{% block description %}{% set description = "get in touch with me :3" %}{% endblock %}
-
-{% block main %}
-  <p>contact stuffs</p>
-
-  <p>
-    join my
-    <a class="target-blank" href="https://ebil.club/discord">discord server</a>
-    !!
-  </p>
-
-  <p>
-    {% for link in links %}
-      {% if link.rel is not containing("me") %}{% continue %}{% endif %}
-      {% set title_length = link.title | length %}
-      {{ link.title }}:{% for i in range(end=max_link_title - title_length + 1) %}&nbsp;{% endfor %}<a class="target-blank" href="{{ link.href }}" rel="{{ link.rel }}">{{ link.name }}</a>
-      <br>
-    {% endfor %}
-  </p>
-
-  <p>
-    <a class="target-blank" href="/keys/00F61623FB56BC5BB7094E634CE6C1172DF6BE79.asc">ECC</a>:
-      <code>00F61623FB56BC5BB7094E634CE6C1172DF6BE79</code>
-    <br>
-    <a class="target-blank" href="/keys/5A530832DA9120B0CA57DDB67CBDB58ECF1D3478.asc">RSA</a>:
-      <code>5A530832DA9120B0CA57DDB67CBDB58ECF1D3478</code>
-    (sign-only)
-  </p>
-
-  <img src="/img/gifs/cellphone-jumping.gif" height="70px" width="70px" alt="cellphone jumping">
-  <img src="/img/gifs/phones-ringing.gif" height="70px" width="70px" alt="phone ringing">
-  <img src="/img/gifs/cellphone.gif" height="70px" width="70px" alt="cellphone">
-  <img src="/img/gifs/spooky-email.gif" height="70px" width="160px" alt="spooky email">
-{% endblock %}
+{% block meta %}{% set title = "contact" %}{% set extra_styles = ["contact"] %}{% endblock %}
+{% block content -%}
+<p>
+  things !
+  <br>
+  if you want to reach out, feel absolutely free to do so!
+  <br>
+  i'm fairly active on everything below, ordered by preference
+</p>
+<ul>
+  {% for link in links %}
+  {% if not link.title %}{% continue %}{% endif -%}
+  <li>
+    <span>{{link.title}}:</span>
+    <a href="{{link.href}}" rel="{{link.rel}}" target="_blank">{{link.name}}</a>
+  </li>
+  {% endfor %}
+</ul>
+<p>
+  join my
+  <a href="https://ebil.club/discord" target="_blank">discord server</a>
+  !!
+</p>
+<hr>
+<p>
+  GPG
+  <a href="/keys/00F61623FB56BC5BB7094E634CE6C1172DF6BE79.asc">ED25519</a>
+  <code>00F61623FB56BC5BB7094E634CE6C1172DF6BE79</code>
+  <br>
+  GPG
+  <a href="/keys/5A530832DA9120B0CA57DDB67CBDB58ECF1D3478.asc">RSA4096</a>
+  <code>5A530832DA9120B0CA57DDB67CBDB58ECF1D3478</code>
+  (sign-only)
+  <br>
+  SSH
+  <a href="/keys/id_ed25519.pub">ED25519</a>
+  <code>SHA256:IU0gwfP+FHk9wiMX1iGS5CUznWUsZaudVCqljHOS0QI</code>
+</p>
+{%- endblock %}

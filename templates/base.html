@@ -1,70 +1,62 @@
-{% block title %}{% endblock %}
-{% if title %}
-  {% set title = title ~ " - koi" %}
-{% else %}
-  {% set title = "koi" %}
-{% endif %}
-{% block description %}{% set description = "welcome to my website :3 i'm an indie software developer from Poland doing some cool stuffs on the internet :>" %}{% endblock %}
-{% block noindex %}{% endblock %}
-
+{%- block meta %}{% endblock %}
+{%- if not extra_styles %}
+  {%- set extra_styles = [] %}
+{%- endif %}
+{%- if title %}
+  {%- set title_meta = title ~ " - june" %}
+{%- else %}
+  {%- set title = "june" %}
+  {%- set title_meta = "june" %}
+{%- endif -%}
+{%- if not description %}
+  {%- set description = "webbed site with mimi cat running around !" %}
+{%- endif -%}
 <!doctype html>
-<html lang="en" class="theme-evergarden">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="dark">
     <meta name="darkreader-lock">
-
-    {% if noindex %}
-      <meta name="robots" content="noindex, follow">
-    {% else %}
-      <meta name="robots" content="index, follow">
-    {% endif %}
-
-    <title>{{ title }}</title>
-    <meta name="title" content="{{ title }}">
+    {% if noindex -%}
+    <meta name="robots" content="noindex, follow">
+    {% else -%}
+    <meta name="robots" content="index, follow">
+    {% endif -%}
+    <title>{{ title_meta }}</title>
+    <meta name="title" content="{{ title_meta }}">
     <meta name="description" content="{{ description }}">
-    <meta name="author" content="koi">
-
-    <script>{% include "partials/main.js" %}</script>
-
-    <meta name="theme-color" content="#b4befe">
-
+    <meta name="author" content="june">
+    <meta name="theme-color" content="#cbe3b3">
     <link rel="canonical" href="{{ canonical }}">
-    {% for link in links %}
-      <link
-        rel="{{ link.rel }}"
-        href="{{ link.href }}"
-        {% if link.title %} title="{{ link.title }}"{% endif %}
-        {% if link.ltype %} type="{{ link.ltype }}"{% endif %}
-        {% if link.sizes %} sizes="{{ link.sizes }}"{% endif %}
-      >
-    {% endfor %}
-
-    <meta property="og:title" content="{{ title }}">
+    {% for link in links -%}
+    {% if link.title %}{% continue %}{% endif -%}
+    <link rel="{{ link.rel }}" href="{{ link.href }}"
+      {%- if link.ltype %} type="{{ link.ltype }}"{% endif -%}
+      {%- if link.sizes %} sizes="{{ link.sizes }}"{% endif -%}>
+    {% endfor -%}
+    {% for style in extra_styles -%}
+    <link rel="stylesheet" href="/styles/extra/{{style}}.css">
+    {% endfor -%}
+    <meta property="og:title" content="{{ title_meta }}">
     <meta property="og:description" content="{{ description }}">
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ canonical }}">
-    <meta property="og:site_name" content="koi">
-    <meta property="og:image" content="{{ host }}/img/mimi-banner.gif">
-    <meta property="og:image:type" content="image/gif">
-    <meta property="og:image:width" content="496">
-    <meta property="og:image:height" content="32">
-    <meta property="og:image:alt" content="mimi the car running around">
   </head>
-
   <body>
-    <script src="/static/oneko.js" data-cat="img/mimi-oneko.gif" async></script>
-
-    <div id="sidebar">
-      {% include "partials/sidebar.html" %}
-    </div>
-
-    <div id="content">
-      <div id="main">
-        {% block main %}{% endblock %}
+    <main>
+      <h1>{{ title }}</h1>
+      <div class="content">
+        {% block content %}{% endblock %}
+        <hr>
       </div>
-    </div>
+      {% block main %}{% endblock %}
+    </main>
+    <div class="background"></div>
+    <nav>
+      {% include "partials/nav.html" -%}
+    </nav>
+    <script src="/static/oneko.js" data-cat="img/mimi-oneko.gif" async></script>
   </body>
 </html>

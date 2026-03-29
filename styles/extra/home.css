@@ -1,0 +1,14 @@
+main > iframe {
+  border: none;
+  margin: var(--text-margin);
+  max-width: 100%;
+}
+
+main > div {
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: 50rem) {
+    flex-direction: column;
+    align-items: center;
+  }
+}

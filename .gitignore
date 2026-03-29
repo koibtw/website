@@ -5,4 +5,4 @@ result
 *.db
 
 /data
-static/styles.css
+styles/theme.css

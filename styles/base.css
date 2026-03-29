@@ -1,0 +1,186 @@
+@import "theme.css";
+@import "fonts.css";
+
+html {
+  font-size: 16px;
+  --text-margin: 0 0 1rem;
+  --header-height: 2.5rem;
+  --section-border: 4px dashed var(--surface1);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: space-between;
+
+  font-family: "Maple Mono", monospace;
+  font-feature-settings: "liga", "tnum";
+  font-variant-ligatures: contextual;
+
+  color: var(--text);
+  background-color: var(--base);
+  image-rendering: pixelated;
+  line-height: 1.5;
+
+  min-height: 25rem;
+
+  > .background {
+    background-image: url("/img/backgrounds/evergarden.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    width: 100%;
+  }
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: var(--section-border);
+  background-color: var(--mantle);
+  padding: 2rem;
+  width: 15rem;
+  flex-shrink: 0;
+}
+
+main {
+  width: 50rem;
+  height: 100%;
+  min-height: 0;
+  border-right: var(--section-border);
+  padding: 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+
+  > h1 {
+    z-index: 9;
+    user-select: none;
+    pointer-events: none;
+  }
+  > .content {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 auto 0;
+  }
+}
+
+p {
+  margin: var(--text-margin);
+}
+i {
+  color: var(--subtext1);
+}
+
+a {
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: unset;
+  &:not(:has(img)):hover,
+  &.active {
+    text-decoration: underline;
+    text-decoration-color: var(--overlay2);
+  }
+  &.active {
+    text-decoration-color: var(--overlay0);
+  }
+}
+
+h1 {
+  margin: var(--text-margin);
+  font-family: "Monsieur La Doulaise", serif;
+  font-size: 4rem;
+  font-weight: 600;
+  line-height: var(--header-height);
+}
+
+img {
+  vertical-align: middle;
+  user-select: none;
+}
+
+code {
+  background-color: var(--mantle);
+  padding: 0.15rem;
+}
+
+pre {
+  width: 90%;
+  margin: var(--text-margin);
+  background-color: var(--mantle);
+  overflow-x: auto;
+  flex-shrink: 0;
+  padding: 0.5rem;
+}
+
+hr {
+  width: 80%;
+  margin: var(--text-margin);
+  color: var(--surface1);
+}
+
+/* WHY CANT I USE VARS WITH MEDIA OMFG */
+
+@media (max-width: 50rem) {
+  body {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 2.5rem;
+    > .background {
+      display: none;
+    }
+  }
+
+  nav {
+    border-right: unset;
+    background-color: unset;
+    width: 100%;
+    padding: 0;
+    margin: 0 0 1rem;
+    overflow-x: auto;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  pre {
+    width: 100%;
+  }
+}
+
+main {
+  @media (max-width: 70rem) {
+    width: 35rem;
+  }
+  @media (max-width: 50rem) {
+    width: 100%;
+    border-left: none !important;
+    padding: 0;
+  }
+
+  @media (min-width: 50rem) {
+    > :has(p),
+    > p {
+      width: 100%;
+      padding: 0 1rem 0 0;
+    }
+  }
+}
+
+::selection {
+  background-color: var(--surface1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

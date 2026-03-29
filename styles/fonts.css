@@ -1,0 +1,15 @@
+@font-face {
+  font-family: "Maple Mono";
+  src: url("/static/fonts/MapleMono-Regular.woff2") format("woff2");
+  font-style: normal;
+}
+@font-face {
+  font-family: "Maple Mono";
+  src: url("/static/fonts/MapleMono-Italic.woff2") format("woff2");
+  font-style: italic;
+}
+@font-face {
+  font-family: "Monsieur La Doulaise";
+  src: url("../static/fonts/MonsieurLaDoulaise-Regular.ttf") format("truetype");
+  font-style: normal;
+}

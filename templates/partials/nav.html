@@ -1,0 +1,13 @@
+<a href="/">{{ host | split(pat="://") | last }}</a>
+{%- for uri in uris %}
+{%- if uri.uri == "/" or not uri.in_menu %}
+{%- continue %}
+{%- endif %}
+{%- set name = uri.uri | trim_start_matches(pat="/") | replace(from="-", to="_") -%}
+<a href="{{uri.uri}}">{{ name }}</a>
+{%- endfor -%}
+<script>
+  document.querySelectorAll("nav>a").forEach((link) => {
+    if (link.href === window.location.href) link.classList.add("active");
+  });
+</script>

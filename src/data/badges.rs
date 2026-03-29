@@ -8,77 +8,82 @@ pub struct Badge {
 }
 
 pub const MIMI_BADGE: Badge = Badge {
-  src: "/img/badges/mimi-the-car.gif",
+  src: "mimi-the-car.gif",
   alt: "mimi the car (koi's site)",
   href: Some(crate::constants::HOST),
 };
 
 pub const FRIENDS: &[Badge] = &[
   Badge {
-    src: "/img/badges/robin.gif",
+    src: "robin.gif",
     alt: "robin",
     href: Some("https://robinwobin.dev"),
   },
   Badge {
-    src: "/img/badges/sebaguardian.gif",
+    src: "sebaguardian.gif",
     alt: "sebaguardian's site",
     href: Some("https://seba.ebil.club"),
   },
   Badge {
-    src: "/img/badges/isabelroses.gif",
-    alt: "i am nix gf (isabel's site)",
-    href: Some("https://isabelroses.com"),
-  },
-  Badge {
-    src: "/img/badges/ari.png",
-    alt: "ari-web",
-    href: Some("https://ari.lt"),
-  },
-  Badge {
-    src: "/img/badges/evelyn.webp",
+    src: "evelyn.webp",
     alt: "garfunkles.space",
     href: Some("https://evelyn.willalways.top"),
   },
   Badge {
-    src: "/img/badges/dvdznf.gif",
+    src: "ari.png",
+    alt: "ari-web",
+    href: Some("https://ari.lt"),
+  },
+  Badge {
+    src: "dvdznf.gif",
     alt: "dvdznf",
     href: Some("https://dvdznf.xyz"),
   },
   Badge {
-    src: "/img/badges/tasky.webp",
-    alt: "tasky",
-    href: Some("https://tasky.uwu.network"),
-  },
-  Badge {
-    src: "/img/badges/tired.moe.gif",
+    src: "tired.moe.gif",
     alt: "tired.moe",
     href: Some("https://tired.moe"),
+  },
+  Badge {
+    src: "thegail.gif",
+    alt: "the gail",
+    href: Some("https://thegail.site"),
+  },
+  Badge {
+    src: "isabelroses.gif",
+    alt: "the gail",
+    href: Some("https://thegail.site"),
   },
 ];
 
 pub const COOL_SITES: &[Badge] = &[
   Badge {
-    src: "/img/badges/espy.gif",
+    src: "espy.gif",
     alt: "espy.world",
     href: Some("https://espy.world"),
   },
   Badge {
-    src: "/img/badges/lilithdev.gif",
-    alt: "lilith",
-    href: Some("https://lilithdev.neocities.org"),
-  },
-  Badge {
-    src: "/img/badges/oyaswmi.gif",
-    alt: "oyaswmi",
-    href: Some("https://oyaswmi.net"),
-  },
-  Badge {
-    src: "/img/badges/appledust.gif",
+    src: "appledust.gif",
     alt: "appledust (lejla's site)",
     href: Some("https://lejlart.com/apple.html"),
   },
   Badge {
-    src: "/img/badges/fulvern.gif",
+    src: "lilithdev.gif",
+    alt: "lilith",
+    href: Some("https://lilithdev.neocities.org"),
+  },
+  Badge {
+    src: "dinpixels.gif",
+    alt: "dinpixels",
+    href: Some("https://dinpixels.neocities.org"),
+  },
+  Badge {
+    src: "oyaswmi.gif",
+    alt: "oyaswmi",
+    href: Some("https://oyaswmi.net"),
+  },
+  Badge {
+    src: "fulvern.gif",
     alt: "fulvern",
     href: Some("https://fulvern.neocities.org"),
   },

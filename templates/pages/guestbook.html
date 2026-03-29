@@ -1,153 +1,124 @@
-{% extends "base.html" %}
-
-{% block title %}{% set title = "guestbook" %}{% endblock %}
-{% block description %}{% set description = "leave a message on my site!" %}{% endblock %}
-
-{% block main %}
-<div class="form-container">
-  <div class="form-container-left">
-    <label for="guestbook-name">name <span class="accent">*</span></label>
-    <input id="guestbook-name" type="text" placeholder="evil larry" required maxlength="20">
-    <label for="guestbook-name">website or social</label>
-    <input id="guestbook-website" type="text" placeholder="https://meow.camera" maxlength="100">
-  </div>
-  <div class="form-container-right">
-    <label for="guestbook-message">message <span class="accent">*</span></label>
-    <textarea id="guestbook-message" class="form-textarea" placeholder="zap zap zap zip zip zip gleep glorp" required maxlength="150" rows="5"></textarea>
-  </div>
-</div>
-
-<button id="guestbook-submit" class="button accent" disabled hidden onclick="submitGuestbookEntry()">submit</button>
-
+{%- extends "base.html" %}
+{%- block meta %}
+{%- set title = "guestbook" %}
+{%- set extra_styles = ["forms", "guestbook"] %}
+{%- endblock %}
+{%- block content -%}
 <div id="guestbook-entries">
-  <p>loading...</p>
+  <p>
+    loading...
+    <br>
+    (js required sadly)
+  </p>
 </div>
-
+{% endblock -%}
+{% block main -%}
+<button id="guestbook-submit" disabled hidden onclick="submitEntry()">submit</button>
+<div class="form">
+  <div>
+    <div>
+      <label>
+        name
+        <span>*</span>
+      </label>
+      <input id="guestbook-name" type="text" placeholder="evil larry" required maxlength="20">
+    </div>
+    <div>
+    <label>website or social</label>
+      <input
+        id="guestbook-site"
+        type="text"
+        placeholder="https://meow.camera"
+        required
+        maxlength="100">
+    </div>
+  </div>
+  <div>
+    <label>
+      message
+      <span>*</span>
+    </label>
+    <textarea
+      id="guestbook-message"
+      required=""
+      rows="4"
+      maxlength="150"
+      placeholder="zap zap zap zip zip zip gleep glorp"></textarea>
+  </div>
+</div>
 <script>
-  var nameInput, messageInput, submitButton, guestbookEntriesDiv;
+  const name = document.getElementById("guestbook-name");
+  const site = document.getElementById("guestbook-site");
+  const message = document.getElementById("guestbook-message");
+  const submit = document.getElementById("guestbook-submit");
+  const entries = document.getElementById("guestbook-entries");
+  const loading = entries.querySelector("p");
 
-  document.addEventListener('DOMContentLoaded', () => {
-    nameInput = document.getElementById('guestbook-name');
-    websiteInput = document.getElementById('guestbook-website');
-    messageInput = document.getElementById('guestbook-message');
-    submitButton = document.getElementById('guestbook-submit');
-    guestbookEntriesDiv = document.getElementById('guestbook-entries');
-    guestbookEntriesP = guestbookEntriesDiv.querySelector('p');
+  name.addEventListener("input", validate);
+  message.addEventListener("input", validate);
 
-    nameInput.addEventListener('input', validateForm);
-    messageInput.addEventListener('input', validateForm);
+  fetch("/api/guestbook")
+    .then(res => {
+      if (res.ok) return res.json();
+      else if (res.status === 429) loading.textContent = "too many requests :c";
+      else (res.text().then(text => loading.textContent = text));
+    })
+    .then(data => {
+      data.forEach(e => createEntry(e.id, e.name, e.website, e.message, e.created_at, false));
+      loading.remove();
+    });
 
-    fetch('/api/guestbook')
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          if (response.status === 429) {
-            guestbookEntriesP.textContent = 'too many requests, refresh after 10 seconds';
-          } else {
-            response.text().then(text => {
-              guestbookEntriesP.textContent = text;
-            });
-          }
-        }
-      })
-      .then(data => {
-        data.forEach(entry => {
-          createGuestbookEntryElement(entry.id, entry.name, entry.website, entry.message, entry.created_at, false);
-        });
-        guestbookEntriesP.remove();
-      });
-  });
-
-  function validateForm() {
-    const isNameValid = nameInput.value.trim().length > 0;
-    const isMessageValid = messageInput.value.trim().length > 0;
-    submitButton.hidden = !(isNameValid || isMessageValid);
-    submitButton.disabled = !(isNameValid && isMessageValid);
+  function validate() {
+    const nameV = name.value.trim().length > 0;
+    const messageV = message.value.trim().length > 0;
+    submit.hidden = !(nameV || messageV);
+    submit.disabled = !(nameV && messageV);
   }
 
-  function submitGuestbookEntry() {
-    const name = nameInput.value.trim();
-    const website = websiteInput.value.trim();
-    const message = messageInput.value.trim().replace(/\n/g, ' ');
-
-    if (name && message) {
-      fetch('/api/guestbook', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name, website, message })
-      }).then(response => {
-        if (response.ok) {
-          response.json().then(data => {
-            createGuestbookEntryElement(data.id, data.name, data.website, data.message, data.created_at, true);
-          });
-        } else {
-          if (response.status === 429) {
-            alert('too many requests, refresh after 10 seconds');
-          } else {
-            response.text().then(text => alert(text));
-          }
-        }
-      }).catch(error => {
-        alert(error);
-      });
-    }
+  function submitEntry() {
+    const n = name.value.trim();
+    const s = site.value.trim();
+    const m = message.value.trim().replace(/\n/g, " ");
+    fetch("/api/guestbook", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: n, website: s, message: m })
+    }).then(res => {
+      if (res.ok) res.json().then(
+        e => createEntry(e.id, e.name, e.website, e.message, e.created_at, true)
+      );
+      else if (res.status === 429) alert("stop spamming wtf");
+      else res.text().then(text => alert(text));
+    }).catch(error => alert(error));
   }
 
-  function createGuestbookEntryElement(id, name, website, message, createdAt, isNew) {
-    const entryDiv = document.createElement('div');
-    entryDiv.className = 'guestbook-entry';
-    if (guestbookEntriesDiv.children.length === 0) {
-      entryDiv.className += ' no-margin-bottom';
-    }
-
-    const anchor = document.createElement('anchor');
-    anchor.id = `entry-${id}`;
-    entryDiv.appendChild(anchor);
-
-    const nameDiv = document.createElement('div');
-    nameDiv.style.display = 'flex';
-    nameDiv.style.flexDirection = 'row';
-    nameDiv.style.justifyContent = 'space-between';
-    nameDiv.style.width = '100%';
-    entryDiv.appendChild(nameDiv);
-
-    const nameP = document.createElement('p');
-    nameP.className = 'guestbook-entry-name';
-    if (isNew) nameP.className += ' fg-alt';
-
-    if (website) {
-      const nameLink = document.createElement('a');
-      nameLink.href = website;
-      nameLink.target = '_blank';
-      nameLink.textContent = name;
-      nameP.appendChild(nameLink);
-    } else {
-      nameP.textContent = name;
-    }
-
-    nameDiv.appendChild(nameP);
-
-    const dateP = document.createElement('p');
-    dateP.className = 'fg-alt no-margin-bottom';
-    if (isNew) dateP.textContent = 'under review';
-    else dateP.textContent = createdAt.split('T')[0];
-    nameDiv.appendChild(dateP);
-
-    const messageP = document.createElement('p');
-    messageP.className = 'no-margin-bottom';
-    if (isNew) messageP.className += ' fg-alt';
-    messageP.textContent = message;
-    entryDiv.appendChild(messageP);
-
-    guestbookEntriesDiv.prepend(entryDiv);
-
-    nameInput.value = '';
-    websiteInput.value = '';
-    messageInput.value = '';
-    validateForm();
+  function createEntry(id, n, s, m, createdAt, isNew) {
+    const entry = document.createElement("div");
+    const header = document.createElement("div");
+    entry.appendChild(header);
+    const nameText = document.createElement("i");
+    if (s) {
+      const nameLink = document.createElement("a");
+      nameLink.href = s;
+      nameLink.target = "_blank";
+      nameLink.textContent = n;
+      nameText.appendChild(nameLink);
+    } else nameText.textContent = n;
+    header.appendChild(nameText);
+    const dateText = document.createElement("span");
+    dateText.id = `entry-${id}`;
+    if (isNew) dateText.textContent = "under review";
+    else dateText.textContent = createdAt.split("T")[0];
+    header.appendChild(dateText);
+    const messageText = document.createElement("span");
+    if (isNew) messageText.className = "new";
+    messageText.textContent = m;
+    entry.appendChild(messageText);
+    entries.prepend(entry);
+    name.value = "";
+    site.value = "";
+    message.value = "";
+    validate();
   }
 </script>
-{% endblock %}
+{%- endblock %}

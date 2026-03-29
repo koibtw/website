@@ -1,50 +1,42 @@
 {% extends "base.html" %}
-
-{% block main %}
-  <p>
-    <img src="/img/gifs/smilies/welcome.gif" alt="smiley with a welcome sign" width="60px" height="45px" class="main-absolute" style="right: 0; top: 0;">
-    <i>hello!! welcome to my website :3</i>
-  </p>
-  <p>
-    my name is june and i write like code and stuff i think?
-    <br>
-    this super duper amazing site has a tui version!
-    <span class="inline-img"><img src="/img/gifs/smilies/shocked.gif" alt="shocked smiley"></span>
-    <br>
-    try running this:
-    <br>
-    <code>curl -L {{ host | split(pat="://") | last }}</code>
-  </p>
-  <p>
-    anyway, i love my amazing girlfriend and also listening to music and stuff
-    <span class="inline-img"><img src="/img/gifs/smilies/rock-on.gif" alt="rock on smiley"></span>
-    <br>
-    i play cool video games like Deep Rock Galactic, OneShot, Dead Cells, and Elden Ring!
-    <br>
-    i also play some guitar and draw, pretty bad at both though :c
-  </p>
-  <p>
-    oh and btw, i run this site hosting thingy called
-    <a href="https://ebil.club" class="target-blank">ebil.club</a>.
-    you should definitely check it out!!
-  </p>
-  <p>
-    yeah so have fun looking at this amazing webbed site
-    <br>
-    don't forget to leave a message in the <a href="/guestbook">guestbook</a>!!
-    <br>
-    and umm have a great day? or something
-  </p>
-  <p>
-    now listening to {% include "partials/music.html" %}
-  </p>
-
-  <iframe
+{% block meta %}{% set extra_styles = ["home"] %}{% endblock %}
+{% block content -%}
+<p>
+  meow meow meow meow meo wmeow meow mweO WMEO WME WOmewo meow meow
+  <br>
+  mewo mweo mweom weowmeowmeomweo mweomw eomw eoweo weomw eow :3
+</p>
+<p>
+  meow !
+</p>
+<p>
+  uh idk its really late when im writing this ill put something here eventually probably trust
+  the process :3
+</p>
+{%- endblock %}
+{% block main -%}
+<iframe
     src="https://ad.ari.lt/ads/embed?from=koi.rip"
     referrerpolicy="no-referrer"
     title="An advertisement showing a silly image and author information."
-    style="border: none; max-width: 100%;"
     width="722"
     height="98"
     loading="lazy"></iframe>
-{% endblock %}
+<div>
+  <div>
+    <a href="https://ebil.club/webring/koi/prev/">&lt;-</a>
+    <a href="https://ebil.club/webring/">ebil.club</a>
+    <a href="https://ebil.club/webring/koi/next/">-&gt;</a>
+  </div>
+  <div>
+    <a href="https://nixwebr.ing/prev/koi">&lt;-</a>
+    <a href="https://nixwebr.ing">nix</a>
+    <a href="https://nixwebr.ing/next/koi">-&gt;</a>
+  </div>
+  <div>
+    <a href="https://ctp-webr.ing/koi/previous">&lt;-</a>
+    <a href="https://ctp-webr.ing">catppuccin</a>
+    <a href="https://ctp-webr.ing/koi/next">-&gt;</a>
+  </div>
+</div>
+{%- endblock %}

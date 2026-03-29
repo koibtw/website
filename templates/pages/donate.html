@@ -1,26 +1,18 @@
 {% extends "base.html" %}
-
-{% block title %}{% set title = "donate" %}{% endblock %}
-{% block description %}{% set description = "giv me moneyz pls :3" %}{% endblock %}
-
-{% block main %}
-  <p>
-    monieeees
-    <span class="inline-img"><img src="/img/gifs/smilies/begging.gif" alt="shocked smiley"></span>
-    <br>
-    gib me monyz
-    <br>
-    i'm a bit broke and if you like my work, feel free to tip :3
-    <br>
-    you can do it via either <a class="target-blank" href="https://ko-fi.com/koibtw">ko-fi</a> or <a class="target-blank" href="https://github.com/sponsors/koibtw">github sponsors</a>
-  </p>
-  <p>
-    cool perks like a badge on both my and your github profiles and a notification on this site are included!!
-    <br>
-    (not guaranteed to always work though)
-  </p>
-
-  {% for i in range(end=3) %}
-    <img src="/img/gifs/spinning-dollar-bill.gif" width="100px" height="40px" alt="spinning dollar bill">
-  {% endfor %}
-{% endblock %}
+{% block meta %}{% set title = "donate" %}{% endblock %}
+{% block content -%}
+<p>
+  monieeees !!
+  <br>
+  gib me !
+  <br>
+  you can tip me some kofis on
+  <a href="https://ko-fi.com/koibtw" target="_blank">ko-fi</a>
+  !
+  <br>
+  <i>nomnomnom</i>
+  or
+  <i>slurp slurp</i>
+  idk what sound coffee makes sorry
+</p>
+{%- endblock %}

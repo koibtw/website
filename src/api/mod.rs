@@ -3,7 +3,6 @@ use sqlx::types::chrono::Utc;
 use std::error::Error;
 
 pub mod guestbook;
-pub mod jellyfin;
 
 fn validate_input(input: &str) -> Result<(), String> {
   for c in input.chars() {

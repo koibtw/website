@@ -1,11 +1,11 @@
-{% if badge.href %}
-<a class="target-blank" href="{{ badge.href }}">
-{% endif %}
+{%- if badge.href %}
+<a href="{{ badge.href }}" target="_blank">
+{%- endif %}
 <img
   width="88"
   height="31"
-  src="{{ badge.src }}"
-  alt="{{ badge.alt }}"/>
-{% if badge.href %}
+  src="/img/badges/{{ badge.src }}"
+  alt="{{ badge.alt }}">
+{%- if badge.href %}
 </a>
-{% endif %}
+{%- endif -%}

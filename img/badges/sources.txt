@@ -1,6 +1,7 @@
 appledust.gif: https://www.lejlart.com/flist/ad_skullsprinkles.gif
 ari.png: https://ari.lt/static/badges/badge.png
 dvdznf.gif: https://dvdznf.xyz/badge.gif
+dinpixels.gif: https://dinpixels.neocities.org/src/img/buttons/dinbtn0.gif
 espy.gif: https://espy.world/img/button.gif
 evelyn.webp: https://evelyn.willalways.top/88x31.webp
 fulvern.gif: https://fulvern.neocities.org/Images/FulvernButton.gif
@@ -9,5 +10,5 @@ lilithdev.gif: https://lilithdev.neocities.org/buttons/lilithdevbtn.gif
 oyaswmi.gif: https://oyaswmi.net/legacy/stamps/OyaButton.gif
 robin.gif: https://robinwobin.dev/badges/me.gif
 sebaguardian.gif: https://seba.ebil.club/static/mybadge.gif
-tasky.webp: https://tasky.uwu.network/88x31.webp
+thegail.gif: https://thegail.site/images/bunny%2088x31.gif
 tired.moe.gif: https://tired.moe/assets/badges/tired.moe.gif

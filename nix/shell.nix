@@ -11,6 +11,7 @@
   shfmt,
   imagemagick,
   lutgen,
+  whiskers,
   mkShell,
   callPackage,
 }:
@@ -29,6 +30,7 @@ let
     shfmt
     imagemagick
     lutgen
+    whiskers
   ]
   ++ (mainPkg.nativeBuildInputs or [ ])
   ++ (mainPkg.buildInputs or [ ]);

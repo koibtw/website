@@ -132,8 +132,7 @@ hr {
 
 @media (max-width: 50rem) {
   body {
-    flex-direction: column;
-    justify-content: flex-start;
+    flex-direction: column-reverse;
     padding: 2.5rem;
     > .background {
       display: none;
@@ -141,11 +140,10 @@ hr {
   }
 
   nav {
-    border-right: unset;
+    border-left: unset;
     background-color: unset;
     width: 100%;
     padding: 0;
-    margin: 0 0 1rem;
     overflow-x: auto;
     flex-direction: row;
     gap: 1rem;
@@ -162,8 +160,9 @@ main {
   }
   @media (max-width: 50rem) {
     width: 100%;
-    border-left: none !important;
+    border-right: unset;
     padding: 0;
+    flex-shrink: unset;
   }
 
   @media (min-width: 50rem) {

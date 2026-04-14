@@ -5,8 +5,8 @@ dinpixels.gif: https://dinpixels.neocities.org/src/img/buttons/dinbtn0.gif
 espy.gif: https://espy.world/img/button.gif
 evelyn.webp: https://evelyn.willalways.top/88x31.webp
 fulvern.gif: https://fulvern.neocities.org/Images/FulvernButton.gif
-isabelroses.gif: https://isabelroses.com/badges/me.gif
 lilithdev.gif: https://lilithdev.neocities.org/buttons/lilithdevbtn.gif
+nunikii.gif: https://nunikii.ebil.club/assets/gifs/88x31.gif
 oyaswmi.gif: https://oyaswmi.net/legacy/stamps/OyaButton.gif
 robin.gif: https://robinwobin.dev/badges/me.gif
 sebaguardian.gif: https://seba.ebil.club/static/mybadge.gif

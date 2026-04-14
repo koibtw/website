@@ -40,9 +40,9 @@ pub const FRIENDS: &[Badge] = &[
     href: Some("https://dvdznf.xyz"),
   },
   Badge {
-    src: "tired.moe.gif",
-    alt: "tired.moe",
-    href: Some("https://tired.moe"),
+    src: "nunikii.gif",
+    alt: "nunikii",
+    href: Some("https://nunikii.ebil.club"),
   },
   Badge {
     src: "thegail.gif",
@@ -50,9 +50,9 @@ pub const FRIENDS: &[Badge] = &[
     href: Some("https://thegail.site"),
   },
   Badge {
-    src: "isabelroses.gif",
-    alt: "the gail",
-    href: Some("https://thegail.site"),
+    src: "tired.moe.gif",
+    alt: "tired.moe",
+    href: Some("https://tired.moe"),
   },
 ];
 

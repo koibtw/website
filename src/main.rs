@@ -1,6 +1,6 @@
 use axum::{
   Extension, Router,
-  http::{self, HeaderMap, StatusCode, header},
+  http::{self, StatusCode, header},
   response::{Html, IntoResponse, Response},
   routing::get,
 };

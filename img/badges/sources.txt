@@ -6,6 +6,7 @@ espy.gif: https://espy.world/img/button.gif
 evelyn.webp: https://evelyn.willalways.top/88x31.webp
 fulvern.gif: https://fulvern.neocities.org/Images/FulvernButton.gif
 lilithdev.gif: https://lilithdev.neocities.org/buttons/lilithdevbtn.gif
+nelliel.gif: https://nelliel.cv/img/nel.gif
 nunikii.gif: https://nunikii.ebil.club/assets/gifs/88x31.gif
 oyaswmi.gif: https://oyaswmi.net/legacy/stamps/OyaButton.gif
 robin.gif: https://robinwobin.dev/badges/me.gif

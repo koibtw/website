@@ -10,12 +10,12 @@ use tower_http::services::ServeDir;
 mod api;
 mod constants;
 mod data;
-mod metadata;
 mod templates;
+mod uri;
 
 use api::guestbook;
 use data::badges::{COOL_SITES, FRIENDS, MIMI_BADGE};
-use metadata::{ChangeFreq, RobotsTXT, Sitemap, Uri};
+use uri::Uri;
 
 type DbPool = sqlx::Pool<sqlx::Sqlite>;
 
@@ -48,50 +48,17 @@ async fn main() {
   axum::serve(listener, app).await.unwrap();
 }
 
+const URIS: &[Uri] = &[
+  Uri::new("/", "home"),
+  Uri::new("/donate", "donate"),
+  Uri::new("/contact", "contact"),
+  Uri::new("/guestbook", "guestbook"),
+  Uri::new("/sga-translator", "sga-translator"),
+  Uri::new("/badges", "badges"),
+  Uri::new("/blog", "blog"),
+];
+
 fn build_routes(pool: DbPool) -> Router {
-  let uris = &[
-    Uri::new("/", "home", true, Some(ChangeFreq::Monthly), Some(1.0)),
-    Uri::new(
-      "/donate",
-      "donate",
-      true,
-      Some(ChangeFreq::Yearly),
-      Some(0.6),
-    ),
-    Uri::new(
-      "/contact",
-      "contact",
-      true,
-      Some(ChangeFreq::Yearly),
-      Some(0.8),
-    ),
-    Uri::new(
-      "/guestbook",
-      "guestbook",
-      true,
-      Some(ChangeFreq::Weekly),
-      Some(0.6),
-    ),
-    Uri::new(
-      "/sga-translator",
-      "sga-translator",
-      true,
-      Some(ChangeFreq::Yearly),
-      Some(0.7),
-    ),
-    Uri::new(
-      "/badges",
-      "badges",
-      true,
-      Some(ChangeFreq::Monthly),
-      Some(0.6),
-    ),
-    Uri::new("/blog", "blog", true, Some(ChangeFreq::Weekly), Some(0.9)),
-  ];
-
-  let sitemap = Sitemap::from_uris(uris).to_string();
-  let robots = RobotsTXT::from_uris(uris).to_string();
-
   let api_router: Router = Router::new()
     .route(
       "/guestbook",
@@ -108,14 +75,7 @@ fn build_routes(pool: DbPool) -> Router {
   }
 
   let mut router = Router::new()
-    .route(
-      "/sitemap.xml",
-      get(([(header::CONTENT_TYPE, "application/xml")], sitemap)),
-    )
-    .route(
-      "/robots.txt",
-      get(([(header::CONTENT_TYPE, "text/plain")], robots)),
-    )
+    .route("/robots.txt", get("User-agent: *\nDisallow: /\n"))
     .route("/healthz", get("alive :3"))
     .merge(redirect_router)
     .nest("/api", api_router)
@@ -127,15 +87,11 @@ fn build_routes(pool: DbPool) -> Router {
 
   let mut ctx = Context::new();
   ctx.insert("host", constants::HOST);
-  ctx.insert("git_url", constants::GIT_URL);
-  ctx.insert("uris", uris);
   ctx.insert("links", data::links::LINKS);
+  ctx.insert("uris", URIS);
 
-  for uri in uris {
-    ctx.insert(
-      "canonical",
-      format!("{}{}", constants::HOST, uri.uri).trim_end_matches('/'),
-    );
+  for uri in URIS {
+    ctx.insert("canonical", &format!("{}{}", constants::HOST, uri.uri));
 
     if uri.template == "badges" {
       ctx.insert("mimi_badge", &MIMI_BADGE);
@@ -149,6 +105,14 @@ fn build_routes(pool: DbPool) -> Router {
         .route_layer(Extension(uri.template))
         .route_layer(Extension(ctx.clone())),
     );
+
+    ctx.remove("canonical");
+
+    if uri.template == "badges" {
+      ctx.remove("mimi_badge");
+      ctx.remove("friend_badges");
+      ctx.remove("cool_sites_badges");
+    }
   }
 
   router

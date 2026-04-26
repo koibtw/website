@@ -58,6 +58,9 @@ const URIS: &[Uri] = &[
   Uri::new("/blog", "blog"),
 ];
 
+const INT_REDIRECTS: &[(&str, &str)] = &[("/favicon.ico", "/img/favicon.ico")];
+const EXT_REDIRECTS: &[(&str, &str)] = &[("/api/nixdle", "https://github.com/nixdle/nixdle")];
+
 fn build_routes(pool: DbPool) -> Router {
   let api_router: Router = Router::new()
     .route(
@@ -67,10 +70,10 @@ fn build_routes(pool: DbPool) -> Router {
     .with_state(pool);
 
   let mut redirect_router: Router = Router::new();
-  for (uri, loc) in constants::INT_REDIRECTS.iter() {
+  for (uri, loc) in INT_REDIRECTS.iter() {
     redirect_router = redirect_router.route(uri, get(|| redirect(loc)));
   }
-  for (uri, loc) in constants::EXT_REDIRECTS.iter() {
+  for (uri, loc) in EXT_REDIRECTS.iter() {
     redirect_router = redirect_router.route(uri, get(|| redirect_temp(loc)));
   }
 

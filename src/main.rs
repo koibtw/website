@@ -29,15 +29,15 @@ async fn main() {
     });
   }));
 
-  let pool = sqlx::SqlitePool::connect(constants::DATABASE_URL)
-    .await
-    .unwrap();
-  sqlx::migrate!().run(&pool).await.unwrap();
-
   dotenv::dotenv().ok();
   for var in constants::ENV_VARS {
     std::env::var(var).unwrap_or_else(|_| panic!("{} must be set", var));
   }
+
+  let pool = sqlx::SqlitePool::connect(constants::DATABASE_URL)
+    .await
+    .unwrap();
+  sqlx::migrate!().run(&pool).await.unwrap();
 
   let app = build_routes(pool);
   let listener = tokio::net::TcpListener::bind(&constants::BIND_ADDR)
@@ -146,15 +146,15 @@ async fn serve_page(
   render(name, &ctx).into_response()
 }
 
-fn render(page_name: &str, ctx: &Context) -> Html<String> {
+fn render(page_name: &str, ctx: &Context) -> Response {
   let path = format!("pages/{page_name}.html");
 
   match templates::TEMPLATES.render(&path, ctx) {
-    Ok(html) => Html(html),
+    Ok(html) => Html(html).into_response(),
     Err(err) => {
       let msg = format!("failed to render template {page_name}: {err}");
       eprintln!("{msg}");
-      Html(msg)
+      (StatusCode::INTERNAL_SERVER_ERROR, msg).into_response()
     }
   }
 }

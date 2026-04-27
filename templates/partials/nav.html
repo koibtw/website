@@ -1,6 +1,6 @@
 <a href="/">{{ host | split(pat="://") | last }}</a>
 {%- for uri in uris %}
-{%- if uri.uri == "/" or not uri.in_menu %}
+{%- if uri.uri == "/" %}
 {%- continue %}
 {%- endif %}
 {%- set name = uri.uri | trim_start_matches(pat="/") | replace(from="-", to="_") -%}

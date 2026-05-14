@@ -5,6 +5,8 @@
   cargo-watch,
   rust-analyzer,
   rustfmt,
+  vscode-langservers-extracted,
+  typescript-language-server,
   libwebp,
   sqlite,
   shellcheck,
@@ -24,6 +26,8 @@ let
     cargo-watch
     rust-analyzer
     rustfmt
+    vscode-langservers-extracted
+    typescript-language-server
     libwebp
     sqlite
     shellcheck

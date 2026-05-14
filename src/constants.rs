@@ -1,0 +1,12 @@
+pub const BIND_ADDR: &str = "127.0.0.1:8000";
+
+#[cfg(debug_assertions)]
+pub(crate) const HOST: &str = "https://dev.koi.rip";
+#[cfg(not(debug_assertions))]
+pub(crate) const HOST: &str = "https://koi.rip";
+
+pub(crate) const DATABASE_URL: &str = "./website.db";
+
+pub(crate) const GIT_URL: &str = "https://git.koi.rip/koi";
+
+pub(crate) const ENV_VARS: &[&str] = &["JELLYFIN_SECRET", "MATRIX_URL", "MATRIX_TOKEN"];

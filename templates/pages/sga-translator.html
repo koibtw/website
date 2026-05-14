@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block meta -%}
+  {% set title = "sga translator" -%}
+  {% set description = "amazing standard galactic alphabet translation device" -%}
+  {% set extra_styles = ["forms"] -%}
+{% endblock -%}
+{% block content -%}
+<p>
+  wanna communicate with alien ?! :O you come into right place!
+  <br>
+  right here see this amazing standard galactic alphabet translation device
+  <br>
+  (js required sadly)
+</p>
+{% endblock -%}
+{% block main -%}
+<div class="form">
+  <div>
+    <label>english</label>
+    <textarea id="sga-english" placeholder="gleep glorp! bogos binted?
+zap zap zap zip zip zip" required rows="7"></textarea>
+  </div>
+  <div>
+    <label>sga</label>
+    <textarea id="sga-sga" placeholder="⊣ꖎᒷᒷ!¡ ⊣ꖎ𝙹∷!¡‼️ ʖ𝙹⊣𝙹ᓭ ʖ╎リℸ ̣ᒷ↸⁉️
+⨅ᔑ!¡ ⨅ᔑ!¡ ⨅ᔑ!¡ ⨅╎!¡ ⨅╎!¡ ⨅╎!¡" required rows="7"></textarea>
+  </div>
+</div>
+<script type="module">
+  import map from "/static/sga.json" with { type: "json" };
+
+  const english = document.getElementById("sga-english");
+  const sga = document.getElementById("sga-sga");
+
+  english.addEventListener("input", () => {
+    const input = english.value.toLowerCase();
+    let translated = "";
+    for (const char of input) translated += map[char] || char;
+    sga.value = translated;
+  });
+
+  sga.addEventListener("input", () => {
+    const input = sga.value;
+    let translated = "";
+    let i = 0;
+    while (i < input.length) {
+      let found = false;
+      for (const [key, value] of Object.entries(map)) {
+        if (input.startsWith(value, i)) {
+          translated += key;
+          i += value.length;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        translated += input[i];
+        i++;
+      }
+    }
+    english.value = translated;
+  });
+</script>
+{%- endblock %}

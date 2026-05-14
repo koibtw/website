@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block meta %}{% set title = "badges" %}{% set extra_styles = ["badges"] %}{% endblock %}
+{% block content -%}
+<p>
+  if you want me to add your badge here, just
+  <a href="{{ host }}/contact">let me know</a>
+  :3
+  <br>
+  also also also you can put mine on your site that would be pretty cool
+</p>
+<span>friends :3</span>
+<div>
+  {%- for badge in friend_badges %}
+  {%- include "partials/badge.html" %}
+  {%- endfor %}
+</div>
+<span>cool sites</span>
+<div>
+  {%- for badge in cool_sites_badges %}
+  {%- include "partials/badge.html" %}
+  {%- endfor %}
+</div>
+<span>my badge</span>
+<div>
+  {%- set badge = mimi_badge %}
+  {%- include "partials/badge.html" %}
+</div>
+<pre><code>&lt;a href="{{ host }}"&gt;</code>
+<code>  &lt;img</code>
+<code>    src="{{ host }}/img/badges/mimi-the-car.gif"</code>
+<code>    alt="mimi the cat (june's site)"</code>
+<code>    width="88"</code>
+<code>    height="31"&gt;</code>
+<code>&lt;/a&gt;</code></pre>
+{%- endblock %}

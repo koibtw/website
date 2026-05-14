@@ -1,0 +1,10 @@
+.content > div {
+  --gap: 0.5rem;
+  --width: 88px;
+
+  margin: 0.5rem 0 1rem;
+  gap: var(--gap);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--width), 1fr));
+  max-width: calc(calc(var(--width) * 6) + calc(var(--gap) * 5));
+}

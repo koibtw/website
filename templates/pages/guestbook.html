@@ -1,0 +1,124 @@
+{%- extends "base.html" %}
+{%- block meta %}
+{%- set title = "guestbook" %}
+{%- set extra_styles = ["forms", "guestbook"] %}
+{%- endblock %}
+{%- block content -%}
+<div id="guestbook-entries">
+  <p>
+    loading...
+    <br>
+    (js required sadly)
+  </p>
+</div>
+{% endblock -%}
+{% block main -%}
+<button id="guestbook-submit" disabled hidden onclick="submitEntry()">submit</button>
+<div class="form">
+  <div>
+    <div>
+      <label>
+        name
+        <span>*</span>
+      </label>
+      <input id="guestbook-name" type="text" placeholder="evil larry" required maxlength="20">
+    </div>
+    <div>
+    <label>website or social</label>
+      <input
+        id="guestbook-site"
+        type="text"
+        placeholder="https://meow.camera"
+        required
+        maxlength="100">
+    </div>
+  </div>
+  <div>
+    <label>
+      message
+      <span>*</span>
+    </label>
+    <textarea
+      id="guestbook-message"
+      required=""
+      rows="4"
+      maxlength="150"
+      placeholder="zap zap zap zip zip zip gleep glorp"></textarea>
+  </div>
+</div>
+<script>
+  const name = document.getElementById("guestbook-name");
+  const site = document.getElementById("guestbook-site");
+  const message = document.getElementById("guestbook-message");
+  const submit = document.getElementById("guestbook-submit");
+  const entries = document.getElementById("guestbook-entries");
+  const loading = entries.querySelector("p");
+
+  name.addEventListener("input", validate);
+  message.addEventListener("input", validate);
+
+  fetch("/api/guestbook")
+    .then(res => {
+      if (res.ok) return res.json();
+      else if (res.status === 429) loading.textContent = "too many requests :c";
+      else (res.text().then(text => loading.textContent = text));
+    })
+    .then(data => {
+      data.forEach(e => createEntry(e.id, e.name, e.website, e.message, e.created_at, false));
+      loading.remove();
+    });
+
+  function validate() {
+    const nameV = name.value.trim().length > 0;
+    const messageV = message.value.trim().length > 0;
+    submit.hidden = !(nameV || messageV);
+    submit.disabled = !(nameV && messageV);
+  }
+
+  function submitEntry() {
+    const n = name.value.trim();
+    const s = site.value.trim();
+    const m = message.value.trim().replace(/\n/g, " ");
+    fetch("/api/guestbook", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: n, website: s, message: m })
+    }).then(res => {
+      if (res.ok) res.json().then(
+        e => createEntry(e.id, e.name, e.website, e.message, e.created_at, true)
+      );
+      else if (res.status === 429) alert("stop spamming wtf");
+      else res.text().then(text => alert(text));
+    }).catch(error => alert(error));
+  }
+
+  function createEntry(id, n, s, m, createdAt, isNew) {
+    const entry = document.createElement("div");
+    const header = document.createElement("div");
+    entry.appendChild(header);
+    const nameText = document.createElement("i");
+    if (s) {
+      const nameLink = document.createElement("a");
+      nameLink.href = s;
+      nameLink.target = "_blank";
+      nameLink.textContent = n;
+      nameText.appendChild(nameLink);
+    } else nameText.textContent = n;
+    header.appendChild(nameText);
+    const dateText = document.createElement("span");
+    dateText.id = `entry-${id}`;
+    if (isNew) dateText.textContent = "under review";
+    else dateText.textContent = createdAt.split("T")[0];
+    header.appendChild(dateText);
+    const messageText = document.createElement("span");
+    if (isNew) messageText.className = "new";
+    messageText.textContent = m;
+    entry.appendChild(messageText);
+    entries.prepend(entry);
+    name.value = "";
+    site.value = "";
+    message.value = "";
+    validate();
+  }
+</script>
+{%- endblock %}

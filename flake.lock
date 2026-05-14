@@ -1,0 +1,47 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1774106199,
+        "narHash": "sha256-US5Tda2sKmjrg2lNHQL3jRQ6p96cgfWh3J1QBliQ8Ws=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "6c9a78c09ff4d6c21d0319114873508a6ec01655",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-unstable",
+        "type": "indirect"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "whiskers": "whiskers"
+      }
+    },
+    "whiskers": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1773418203,
+        "narHash": "sha256-hQ9JqgkRPTYybdC65v1/1OMc8+7N/u9LaAcxL9uQ3fU=",
+        "ref": "refs/heads/main",
+        "rev": "073c5a6504a6aa9814ee33247b2dc6c81b722264",
+        "revCount": 184,
+        "type": "git",
+        "url": "https://codeberg.org/evergarden/whiskers.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/evergarden/whiskers.git"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

@@ -1,0 +1,8 @@
+.env
+target
+result
+
+*.db
+
+/data
+styles/theme.css

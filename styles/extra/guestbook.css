@@ -1,0 +1,17 @@
+#guestbook-entries {
+  > div {
+    padding: 0.5rem;
+    overflow-wrap: anywhere;
+    > div {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      > span:last-child {
+        color: var(--overlay1);
+      }
+    }
+    .new {
+      color: var(--overlay1);
+    }
+  }
+}

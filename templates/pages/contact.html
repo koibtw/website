@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block meta %}{% set title = "contact" %}{% set extra_styles = ["contact"] %}{% endblock %}
+{% block content -%}
+<p>
+  things !
+  <br>
+  if you want to reach out, feel absolutely free to do so!
+  <br>
+  i'm fairly active on everything below, ordered by preference
+</p>
+<ul>
+  {% for link in links %}
+  {% if not link.title %}{% continue %}{% endif -%}
+  <li>
+    <span>{{link.title}}:</span>
+    <span>
+      <a href="{{link.href}}" rel="{{link.rel}}" target="_blank">{{link.name}}</a>
+    </span>
+  </li>
+  {% endfor %}
+</ul>
+<p>
+  please don't add me on discord if i don't already know you, thanks :3
+  <br>
+  feel absolutely free to join my
+  <a href="https://ebil.club/discord" target="_blank">discord server</a>
+  though !!
+</p>
+<hr>
+<p>
+  GPG
+  <a href="/keys/00F61623FB56BC5BB7094E634CE6C1172DF6BE79.asc">ED25519</a>
+  <code>00F61623FB56BC5BB7094E634CE6C1172DF6BE79</code>
+  <br>
+  GPG
+  <a href="/keys/5A530832DA9120B0CA57DDB67CBDB58ECF1D3478.asc">RSA4096</a>
+  <code>5A530832DA9120B0CA57DDB67CBDB58ECF1D3478</code>
+  (sign-only)
+  <br>
+  SSH
+  <a href="/keys/id_ed25519.pub">ED25519</a>
+  <code>SHA256:IU0gwfP+FHk9wiMX1iGS5CUznWUsZaudVCqljHOS0QI</code>
+</p>
+{%- endblock %}
